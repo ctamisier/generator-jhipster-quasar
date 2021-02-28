@@ -1,0 +1,10 @@
+{
+  "generator-jhipster-blueprint": {
+    "promptValues": {
+      "githubName": "ctamisier",
+      "authorName": "Clément Tamisier",
+      "authorEmail": "clement.tamisier@gmail.com",
+      "authorUrl": ""
+    }
+  }
+}
