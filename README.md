@@ -1,5 +1,7 @@
 # generator-jhipster-quasar
 
+> Quasar for JHipster
+
 <img src="https://cdn.quasar.dev/logo/svg/quasar-logo-full-inline.svg" width="300">
 <br />
 <img src="https://raw.githubusercontent.com/jhipster/jhipster-artwork/main/logos/JHipster%20RGB-small100x25px.png" width="300">
