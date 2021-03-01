@@ -182,8 +182,9 @@ export default defineComponent({
           message: t('userManagement.delete.question', { login: login }),
           cancel: true
         }).onOk(() => {
-          api.delete(`/api/users/${login}`)
-          onRequest({ pagination: pagination.value })
+          api.delete(`/api/users/${login}`).then(() => {
+            onRequest({ pagination: pagination.value })
+          })
         })
       },
       handleActivation: (row) => {
