@@ -38,7 +38,7 @@ import { defineComponent, ref } from 'vue'
 import { api } from 'boot/axios'
 
 export default defineComponent({
-  name: 'PageConfiguration',
+  name: 'PageMetrics',
 
   setup () {
     const metrics = ref({})
