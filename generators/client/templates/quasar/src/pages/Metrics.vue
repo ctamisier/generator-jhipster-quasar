@@ -13,11 +13,12 @@
           <q-circular-progress
             show-value
             class="text-light-blue q-ma-md"
-            :value="metric['max'] / metric['committed']"
+            :value="percent(metric)"
             size="50px"
             color="light-blue"
+            v-if="metric.max !== -1"
           >
-            {{ Math.floor(metric['max'] / metric['committed']) }}%
+            {{ Math.floor(percent(metric)) }}%
           </q-circular-progress>
           <div
             v-bind:key="detail"
@@ -42,15 +43,14 @@ export default defineComponent({
   setup () {
     const metrics = ref({})
 
-    const kbToMb = (kb) => `${Math.floor(kb / 1_000_000)} Mb`
-
     api.get('/management/jhimetrics').then(response => {
       metrics.value = response.data
     })
 
     return {
       metrics,
-      kbToMb
+      kbToMb: kb => `${Math.floor(kb / 1_000_000)} Mb`,
+      percent: metric => (metric.committed / metric.max) * 100
     }
   }
 })
