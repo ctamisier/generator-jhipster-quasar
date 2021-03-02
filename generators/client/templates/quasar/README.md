@@ -1,4 +1,4 @@
-# Quasar App (clement)
+# Quasar App (quasar)
 
 A Quasar Framework app
 

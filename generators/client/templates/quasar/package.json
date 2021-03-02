@@ -1,9 +1,8 @@
 {
-  "name": "clement",
+  "name": "quasar",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
   "productName": "Quasar App",
-  "author": "Clément Tamisier <clement.tamisier@gmail.com>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
