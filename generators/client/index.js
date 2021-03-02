@@ -2,6 +2,7 @@
 const chalk = require('chalk');
 const ClientGenerator = require('generator-jhipster/generators/client');
 const writeFiles = require('./files').writeFiles;
+const renamePackageJsonNameField = require('./files').renamePackageJsonNameField;
 const addLangKeys = require('./files').addLangKeys;
 const addLanguagesInQuasarConf = require('./files').addLanguagesInQuasarConf;
 const addForwardOnRoot = require('./files').addForwardOnRoot;
@@ -51,6 +52,7 @@ module.exports = class extends ClientGenerator {
         return {
             write() {
                 writeFiles.call(this);
+                renamePackageJsonNameField.call(this);
                 addLangKeys.call(this);
                 addLanguagesInQuasarConf.call(this);
                 addForwardOnRoot.call(this);

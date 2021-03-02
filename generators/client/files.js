@@ -1,7 +1,10 @@
 const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
 
+const QUASAR_PATH = 'quasar';
+
 module.exports = {
     writeFiles,
+    renamePackageJsonNameField,
     addLangKeys,
     addLanguagesInQuasarConf,
     addForwardOnRoot,
@@ -11,16 +14,20 @@ module.exports = {
 };
 
 function writeFiles() {
-    this.copy('quasar', 'quasar');
-    this.copy('quasar/.*', 'quasar');
-    this.copy('quasar/.vscode', 'quasar/.vscode');
+    this.copy(`${QUASAR_PATH}`, `${QUASAR_PATH}`);
+    this.copy(`${QUASAR_PATH}/.*`, `${QUASAR_PATH}`);
+    this.copy(`${QUASAR_PATH}/.vscode`, `${QUASAR_PATH}/.vscode`);
+}
+
+function renamePackageJsonNameField() {
+    this.replaceContent(`${QUASAR_PATH}/package.json`, /"name":[\s\S]+?"[\s\S]+?"/, `"name": "${this.lowercaseBaseName}"`);
 }
 
 function addLangKeys() {
     this.replaceContent(
-        'quasar/src/constants/langKeys.js',
-        /export const langKeys = [\s\S]+?\]/,
-        `export const langKeys = [${this.languages.map(l => `'${l}'`).join(', ')}]`
+        `${QUASAR_PATH}/src/constants/langKeys.js`,
+        /export const langKeys =[\s\S]+?\]/,
+        `export const langKeys = [${this.languages.map(language => `'${language}'`).join(', ')}]`
     );
 }
 
@@ -29,7 +36,7 @@ function addLanguagesInQuasarConf() {
         .map(language => `                { pattern: '../src/main/webapp/i18n/${language}/*.json', fileName: '../i18n/${language}.json' }`)
         .join(',\n');
 
-    this.replaceContent('quasar/quasar.conf.js', /groupBy: \[[\s\S]+?\]/, `groupBy: [\n${i18nMergeEntries}\n              ]`);
+    this.replaceContent(`${QUASAR_PATH}/quasar.conf.js`, /groupBy: \[[\s\S]+?\]/, `groupBy: [\n${i18nMergeEntries}\n              ]`);
 }
 
 function addForwardOnRoot() {
@@ -42,7 +49,7 @@ public class ClientForwardController {
 
     @GetMapping(value = "/")
     public String forwardRoot() {
-        return "forward:/quasar/index.html";
+        return "forward:/${QUASAR_PATH}/index.html";
     }`
     );
 }

@@ -1,8 +1,6 @@
 {
   "name": "quasar",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar App",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
