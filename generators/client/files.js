@@ -4,6 +4,7 @@ const QUASAR_PATH = 'quasar';
 
 module.exports = {
     writeFiles,
+    renameToolbarTitle,
     renamePackageJsonNameField,
     addLangKeys,
     addLanguagesInQuasarConf,
@@ -17,6 +18,14 @@ function writeFiles() {
     this.copy(`${QUASAR_PATH}`, `${QUASAR_PATH}`);
     this.copy(`${QUASAR_PATH}/.*`, `${QUASAR_PATH}`);
     this.copy(`${QUASAR_PATH}/.vscode`, `${QUASAR_PATH}/.vscode`);
+}
+
+function renameToolbarTitle() {
+    this.replaceContent(
+        `${QUASAR_PATH}/src/layouts/MainLayout.vue`,
+        /<q-toolbar-title>[\s\S]*<\/q-toolbar-title>/,
+        `<q-toolbar-title>\n          ${this.lowercaseBaseName}\n        </q-toolbar-title>`
+    );
 }
 
 function renamePackageJsonNameField() {
