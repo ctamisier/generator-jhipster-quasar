@@ -191,13 +191,14 @@ export default defineComponent({
         })
       },
       handleActivation: (row) => {
-        if (row.login === 'admin') return
-        loadingActivation.value[row.login] = true
-        api.put('/api/users', row).then(() => {
-          onRequest({ pagination: pagination.value })
-        }).finally(() => {
-          loadingActivation.value[row.login] = false
-        })
+        if (row.login !== currentLogin) {
+          loadingActivation.value[row.login] = true
+          api.put('/api/users', row).then(() => {
+            onRequest({ pagination: pagination.value })
+          }).finally(() => {
+            loadingActivation.value[row.login] = false
+          })
+        }
       }
     }
   }
