@@ -62,7 +62,7 @@
           </q-td>
           <q-td>
             <q-toggle
-              v-bind:disable="isMyself(props.row)"
+              v-bind:disable="currentLogin === props.row.login"
               v-model="props.row.activated"
               checked-icon="check"
               color="green"
@@ -72,13 +72,13 @@
           </q-td>
           <q-td>
             <router-link
-              :to="modifyPath(props.row)"
+              :to="`/users/${props.row.login}`"
               style="text-decoration: none; color: inherit;"
             >
               <q-btn icon="edit" />
             </router-link>
             <q-btn
-              v-bind:disable="isMyself(props.row)"
+              v-bind:disable="currentLogin === props.row.login"
               icon="delete_forever"
               @click="deleteUser(props.row.login)"
             />
@@ -124,6 +124,8 @@ export default defineComponent({
       rowsNumber: 10
     })
     const loadingActivation = ref([])
+
+    const currentLogin = store.state.auth.account.login
 
     const columns = [
       toSortableColumn('login', t('userManagement.login')),
@@ -173,6 +175,7 @@ export default defineComponent({
       pagination,
       columns,
       rows,
+      currentLogin,
       parseISO,
       format,
       loadingActivation,
@@ -195,9 +198,7 @@ export default defineComponent({
         }).finally(() => {
           loadingActivation.value[row.login] = false
         })
-      },
-      modifyPath: (row) => `/users/${row.login}`,
-      isMyself: (row) => store.state.auth.account.login === row.login
+      }
     }
   }
 })
