@@ -153,7 +153,7 @@ export default defineComponent({
     const link = reactive({})
 
     store.watch(
-      (state, getters) => isAuthenticatedGetter(),
+      () => isAuthenticatedGetter(),
       (newValue) => { data.leftDrawerOpen = newValue })
 
     return {
