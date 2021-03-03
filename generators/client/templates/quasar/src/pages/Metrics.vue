@@ -13,12 +13,11 @@
           <q-circular-progress
             show-value
             class="text-light-blue q-ma-md"
-            :value="percent(metric)"
+            :value="metric.max !== -1 ? percent(metric) : 0"
             size="50px"
             color="light-blue"
-            v-if="metric.max !== -1"
           >
-            {{ Math.floor(percent(metric)) }}%
+            {{ metric.max !== -1 ? `${Math.floor(percent(metric))}%` : '' }}
           </q-circular-progress>
           <div
             v-bind:key="detail"
@@ -38,7 +37,7 @@ import { defineComponent, ref } from 'vue'
 import { api } from 'boot/axios'
 
 export default defineComponent({
-  name: 'PageMetrics',
+  name: 'PageConfiguration',
 
   setup () {
     const metrics = ref({})
