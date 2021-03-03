@@ -122,7 +122,3 @@ Apache-2.0 © [Clément Tamisier]()
 
 [npm-image]: https://img.shields.io/npm/v/generator-jhipster-quasar.svg
 [npm-url]: https://npmjs.org/package/generator-jhipster-quasar
-[travis-image]: https://travis-ci.org/ctamisier/generator-jhipster-quasar.svg?branch=master
-[travis-url]: https://travis-ci.org/ctamisier/generator-jhipster-quasar
-[daviddm-image]: https://david-dm.org/ctamisier/generator-jhipster-quasar.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/ctamisier/generator-jhipster-quasar
