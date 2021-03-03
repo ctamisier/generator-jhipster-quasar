@@ -23,8 +23,6 @@ module.exports = class extends ClientGenerator {
         }
 
         this.configOptions = jhContext.configOptions || {};
-
-        jhContext.setupClientOptions(this, jhContext);
     }
 
     get initializing() {
@@ -43,6 +41,18 @@ module.exports = class extends ClientGenerator {
 
     get configuring() {
         return super._configuring();
+    }
+
+    get composing() {
+        return super._composing();
+    }
+
+    get loading() {
+        return super._loading();
+    }
+
+    get preparing() {
+        return super._preparing();
     }
 
     get default() {

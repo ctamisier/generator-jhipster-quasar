@@ -7,9 +7,9 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
 /* eslint-env node */
-const ESLintPlugin = require('eslint-webpack-plugin')
-const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin')
-const { configure } = require('quasar/wrappers')
+const ESLintPlugin = require('eslint-webpack-plugin');
+const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
+const { configure } = require('quasar/wrappers');
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -22,15 +22,10 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
-    boot: [
-      'i18n',
-      'axios'
-    ],
+    boot: ['i18n', 'axios'],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: [
-      'app.scss'
-    ],
+    css: ['app.scss'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -43,7 +38,7 @@ module.exports = configure(function (/* ctx */) {
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'material-icons', // optional, you are not bound to it
     ],
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
@@ -68,29 +63,31 @@ module.exports = configure(function (/* ctx */) {
 
       // https://quasar.dev/quasar-cli/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpack (chain) {
-        chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{
+      chainWebpack(chain) {
+        chain.plugin('eslint-webpack-plugin').use(ESLintPlugin, [
+          {
             extensions: ['js', 'vue'],
-            exclude: 'node_modules'
-          }])
-        chain.plugin('merge-jsons-webpack-plugin')
-          .use(MergeJsonWebpackPlugin, [{
+            exclude: 'node_modules',
+          },
+        ]);
+        chain.plugin('merge-jsons-webpack-plugin').use(MergeJsonWebpackPlugin, [
+          {
             output: {
               groupBy: [
                 { pattern: '../src/main/webapp/i18n/en/*.json', fileName: '../i18n/en.json' },
-              ]
-            }
-          }])
+              ],
+            },
+          },
+        ]);
       },
-      publicPath: '/quasar'
+      publicPath: '/quasar',
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
-      port: 8081,
-      open: true // opens browser window automatically
+      port: 8100,
+      open: true, // opens browser window automatically
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
@@ -108,7 +105,7 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Notify', 'Loading', 'Dialog']
+      plugins: ['Notify', 'Loading', 'Dialog'],
     },
 
     // animations: 'all', // --- includes all animations
@@ -117,17 +114,24 @@ module.exports = configure(function (/* ctx */) {
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
-      pwa: false
+      pwa: false,
     },
 
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
+
+      // for the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
+      // if using workbox in InjectManifest mode
+      chainWebpackCustomSW(chain) {
+        chain.plugin('eslint-webpack-plugin').use(ESLintPlugin, [{ extensions: ['js'] }]);
+      },
+
       manifest: {
-        name: 'Quasar App',
-        short_name: 'Quasar App',
-        description: 'A Quasar Framework app',
+        name: `Quasar App`,
+        short_name: `Quasar App`,
+        description: `A Quasar Framework app`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -136,30 +140,30 @@ module.exports = configure(function (/* ctx */) {
           {
             src: 'icons/icon-128x128.png',
             sizes: '128x128',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-256x256.png',
             sizes: '256x256',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-384x384.png',
             sizes: '384x384',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
+            type: 'image/png',
+          },
+        ],
+      },
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
@@ -169,7 +173,7 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
     capacitor: {
-      hideSplashscreen: true
+      hideSplashscreen: true,
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
@@ -178,13 +182,11 @@ module.exports = configure(function (/* ctx */) {
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
-
         // OS X / Mac App Store
         // appBundleId: '',
         // appCategoryType: '',
         // osxSign: '',
         // protocol: 'myapp://path',
-
         // Windows only
         // win32metadata: { ... }
       },
@@ -192,27 +194,18 @@ module.exports = configure(function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'quasar'
+        appId: 'quasar',
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpackMain (chain) {
-        chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{
-            extensions: ['js'],
-            exclude: 'node_modules'
-          }])
+      chainWebpackMain(chain) {
+        chain.plugin('eslint-webpack-plugin').use(ESLintPlugin, [{ extensions: ['js'] }]);
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpackPreload (chain) {
-        chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{
-            extensions: ['js'],
-            exclude: 'node_modules'
-          }])
-      }
-
-    }
-  }
-})
+      chainWebpackPreload(chain) {
+        chain.plugin('eslint-webpack-plugin').use(ESLintPlugin, [{ extensions: ['js'] }]);
+      },
+    },
+  };
+});

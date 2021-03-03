@@ -98,7 +98,7 @@ export default defineComponent({
     })
 
     if (route.params.login) {
-      api.get(`/api/users/${route.params.login}`).then(response => {
+      api.get(`/api/admin/users/${route.params.login}`).then(response => {
         account.data = response.data
       })
     }
@@ -118,7 +118,7 @@ export default defineComponent({
       onSubmit () {
         api({
           method: account.data.id ? 'put' : 'post',
-          url: '/api/users',
+          url: '/api/admin/users',
           data: account.data
         }).then(() => {
           router.push('/users')

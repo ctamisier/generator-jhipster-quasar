@@ -146,7 +146,7 @@ export default defineComponent({
 
       loading.value = true
 
-      api.get('/api/users', {
+      api.get('/api/admin/users', {
         params: {
           page: page - 1,
           size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
@@ -185,7 +185,7 @@ export default defineComponent({
           message: t('userManagement.delete.question', { login: login }),
           cancel: true
         }).onOk(() => {
-          api.delete(`/api/users/${login}`).then(() => {
+          api.delete(`/api/admin/users/${login}`).then(() => {
             onRequest({ pagination: pagination.value })
           })
         })
@@ -193,7 +193,7 @@ export default defineComponent({
       handleActivation: (row) => {
         if (row.login !== currentLogin) {
           loadingActivation.value[row.login] = true
-          api.put('/api/users', row).then(() => {
+          api.put('/api/admin/users', row).then(() => {
             onRequest({ pagination: pagination.value })
           }).finally(() => {
             loadingActivation.value[row.login] = false

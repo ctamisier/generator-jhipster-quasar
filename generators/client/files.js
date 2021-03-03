@@ -51,9 +51,8 @@ function addLanguagesInQuasarConf() {
 }
 
 function addForwardOnRoot() {
-    const packagePath = this.configOptions.packageName.replace(/\./g, '/');
     this.replaceContent(
-        `${jhipsterConstants.SERVER_MAIN_SRC_DIR}${packagePath}/web/rest/ClientForwardController.java`,
+        `${jhipsterConstants.SERVER_MAIN_SRC_DIR}${this.jhipsterConfig.packageFolder}/web/rest/ClientForwardController.java`,
         'public class ClientForwardController {',
         `
 public class ClientForwardController {
@@ -66,9 +65,8 @@ public class ClientForwardController {
 }
 
 function addCorsI18N() {
-    const packagePath = this.configOptions.packageName.replace(/\./g, '/');
     this.replaceContent(
-        `${jhipsterConstants.SERVER_MAIN_SRC_DIR}${packagePath}/config/WebConfigurer.java`,
+        `${jhipsterConstants.SERVER_MAIN_SRC_DIR}${this.jhipsterConfig.packageFolder}/config/WebConfigurer.java`,
         'source.registerCorsConfiguration("/api/**", config)',
         `source.registerCorsConfiguration("/i18n/**", config);
             source.registerCorsConfiguration("/api/**", config);`

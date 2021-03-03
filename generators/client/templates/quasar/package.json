@@ -1,5 +1,5 @@
 {
-  "name": "quasar",
+  "name": "jhipsterquasar",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,6 +9,17 @@
     "build": "npx quasar build",
     "postbuild": "shx cp -r dist/spa/* ../target/classes/public/quasar && shx cp -r dist/i18n ../target/classes/static"
   },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
@@ -22,25 +33,11 @@
     "@quasar/app": "^3.0.0-beta.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.14.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-promise": "^4.2.1",
+    "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-vue": "^7.0.0",
     "eslint-webpack-plugin": "^2.4.0",
     "shx": "^0.3.3"
   },
-  "browserslist": [
-    "last 10 Chrome versions",
-    "last 10 Firefox versions",
-    "last 4 Edge versions",
-    "last 7 Safari versions",
-    "last 8 Android versions",
-    "last 8 ChromeAndroid versions",
-    "last 8 FirefoxAndroid versions",
-    "last 10 iOS versions",
-    "last 5 Opera versions"
-  ],
   "engines": {
     "node": ">= 10.18.1",
     "npm": ">= 6.13.4",
