@@ -46,9 +46,9 @@
     "lint-fix": "npm run lint -- --fix",
     "jsdoc": "jsdoc --configure jsdoc-conf.json",
     "release": "git push && git push --tags && npm publish",
-    "release:patch": "npm version patch -a -m \"Update to %s\" && npm run release",
-    "release:minor": "npm version minor -a -m \"Update to %s\" && npm run release",
-    "release:major": "npm version major -a -m \"Update to %s\" && npm run release"
+    "release:patch": "npm version patch -a -m \"release %s\" && npm run release",
+    "release:minor": "npm version minor -a -m \"release %s\" && npm run release",
+    "release:major": "npm version major -a -m \"release %s\" && npm run release"
   },
   "license": "Apache-2.0",
   "bugs": {
