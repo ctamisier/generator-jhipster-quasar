@@ -76,11 +76,11 @@ export default defineComponent({
           .then(authenticateResponse => {
             sessionStorage.setItem('id_token', authenticateResponse.data.id_token)
             api.defaults.headers.common.Authorization = `Bearer ${authenticateResponse.data.id_token}`
-            api.get('/api/account').then(accountResponse => {
-              store.dispatch('auth/login', accountResponse.data)
-              const langKey = accountResponse.data.langKey
-              loadLanguage(langKey)
-            })
+            return api.get('/api/account')
+          }).then(accountResponse => {
+            store.dispatch('auth/login', accountResponse.data)
+            const langKey = accountResponse.data.langKey
+            loadLanguage(langKey)
           }).catch(() => {
             store.dispatch('auth/logout')
           })
