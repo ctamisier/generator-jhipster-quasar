@@ -57,15 +57,15 @@
       </q-select>
       <div class="flex justify-between">
         <q-btn
+          type="submit"
+          color="primary"
+          :label="$t('entity.action.save')"
+        />
+        <q-btn
           to="/users"
           flat
           color="primary"
           :label="$t('entity.action.back')"
-        />
-        <q-btn
-          type="submit"
-          color="primary"
-          :label="$t('entity.action.save')"
         />
       </div>
     </q-form>
