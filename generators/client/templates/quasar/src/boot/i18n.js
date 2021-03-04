@@ -1,7 +1,7 @@
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
 import { api } from 'boot/axios';
-import { langKeys } from '../constants/langKeys';
+import { langKeys, datefnsMapping } from '../constants/i18nConstants';
 
 const i18n = createI18n();
 
@@ -9,23 +9,20 @@ export default boot(({ app }) => {
   app.use(i18n);
 });
 
-const defaultLanguage = langKeys[0];
+const defaultLangKey = langKeys[0];
 
-const localeMapping = { en: 'enUS' /* non exhaustive mapping for now */ };
+const loadTranslation = langKey => {
+  api.get(`/i18n/${langKey}.json?cache=${new Date().getTime()}`).then(response => {
+    const mapping = datefnsMapping[langKey];
+    window.__localeId__ = mapping || langKey;
+    i18n.global.locale = langKey;
 
-const loadLanguage = language => {
-  api.get(`/i18n/${language}.json?cache=${new Date().getTime()}`).then(response => {
-
-    const mapping = localeMapping[language];
-    window.__localeId__ = mapping || language;
-    i18n.global.locale = language;
-
-    // TODO maybe use a custom vue-i18n formatter
+    // TODO maybe use a custom vue-i18n parser
     const messages = JSON.parse(JSON.stringify(response.data).replaceAll('{{ ', '{').replaceAll(' }}', '}'));
-    i18n.global.setLocaleMessage(language, messages);
+    i18n.global.setLocaleMessage(langKey, messages);
   });
 };
 
-loadLanguage(defaultLanguage);
+loadTranslation(defaultLangKey);
 
-export { i18n, loadLanguage };
+export { i18n, loadTranslation };

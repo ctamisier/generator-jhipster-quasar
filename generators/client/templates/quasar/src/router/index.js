@@ -1,7 +1,7 @@
 import { route } from 'quasar/wrappers';
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router';
 import { api } from 'boot/axios';
-import { loadLanguage } from 'boot/i18n';
+import { loadTranslation } from 'boot/i18n';
 
 /*
  * If not building with SSR mode, you can
@@ -79,7 +79,7 @@ export default route(function ({ store /*, ssrContext */ }) {
       api.defaults.headers.common.Authorization = `Bearer ${idToken}`;
       api.get('/api/account').then(accountResponse => {
         store.dispatch('auth/login', accountResponse.data);
-        loadLanguage(accountResponse.data.langKey);
+        loadTranslation(accountResponse.data.langKey);
         next();
       });
     } else if (!idToken && !['/', '/register'].includes(to.path)) {

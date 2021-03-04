@@ -35,8 +35,37 @@ function renamePackageJsonNameField() {
 }
 
 function addLangKeys() {
+    const i18nMapping = {
+        en: { localeId: 'enUS', localeImport: 'en-US' },
+        'zh-tw': { localeId: 'zhTW', localeImport: 'zh-TW' }
+    };
+
+    const datefnsMapping = Object.keys(i18nMapping)
+        .filter(key => this.languages.includes(key))
+        .map(key => `'${key}': '${i18nMapping[key].localeId}'`)
+        .join(', ');
+
     this.replaceContent(
-        `${QUASAR_PATH}/src/constants/langKeys.js`,
+        `${QUASAR_PATH}/src/constants/i18nConstants.js`,
+        /export const datefnsMapping =[\s\S]+?};/,
+        `export const datefnsMapping = { ${datefnsMapping} };`
+    );
+
+    const imports = this.languages
+        .map(language => {
+            const mapping = i18nMapping[language] || { localeId: language, localeImport: language };
+            return `case '${mapping.localeId}':\nreturn require('date-fns/locale/${mapping.localeImport}');`;
+        })
+        .join('\n');
+
+    this.replaceContent(
+        `${QUASAR_PATH}/src/constants/i18nConstants.js`,
+        /export const importLocale =[\s\S]+?};/,
+        `export const importLocale = () => {\nswitch (window.__localeId__) { ${imports} }};`
+    );
+
+    this.replaceContent(
+        `${QUASAR_PATH}/src/constants/i18nConstants.js`,
         /export const langKeys =[\s\S]+?\]/,
         `export const langKeys = [${this.languages.map(language => `'${language}'`).join(', ')}]`
     );
@@ -52,24 +81,22 @@ function addLanguagesInQuasarConf() {
 
 function addForwardOnRoot() {
     this.replaceContent(
-        `${jhipsterConstants.SERVER_MAIN_SRC_DIR}${this.jhipsterConfig.packageFolder}/web/rest/ClientForwardController.java`,
+        `${jhipsterConstants.SERVER_MAIN_SRC_DIR}${this.packageFolder}/web/rest/ClientForwardController.java`,
         'public class ClientForwardController {',
-        `
-public class ClientForwardController {
-
-    @GetMapping(value = "/")
-    public String forwardRoot() {
-        return "forward:/${QUASAR_PATH}/index.html";
-    }`
+        `public class ClientForwardController {
+         @GetMapping(value = "/")
+         public String forwardRoot() {
+              return "forward:/${QUASAR_PATH}/index.html";
+         }`
     );
 }
 
 function addCorsI18N() {
     this.replaceContent(
-        `${jhipsterConstants.SERVER_MAIN_SRC_DIR}${this.jhipsterConfig.packageFolder}/config/WebConfigurer.java`,
+        `${jhipsterConstants.SERVER_MAIN_SRC_DIR}${this.packageFolder}/config/WebConfigurer.java`,
         'source.registerCorsConfiguration("/api/**", config)',
         `source.registerCorsConfiguration("/i18n/**", config);
-            source.registerCorsConfiguration("/api/**", config);`
+         source.registerCorsConfiguration("/api/**", config);`
     );
 }
 

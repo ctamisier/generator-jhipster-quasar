@@ -58,8 +58,8 @@
 import { defineComponent, reactive } from 'vue'
 import { api } from 'boot/axios'
 import { useRouter } from 'vue-router'
-import { loadLanguage } from 'boot/i18n'
-import { langKeys } from '../constants/langKeys'
+import { loadTranslation } from 'boot/i18n'
+import { langKeys } from '../constants/i18nConstants'
 
 export default defineComponent({
   name: 'PageAccount',
@@ -86,7 +86,7 @@ export default defineComponent({
       onSubmit () {
         api.post('/api/account', account.data)
           .then(() => {
-            loadLanguage(account.data.langKey)
+            loadTranslation(account.data.langKey)
             router.push('/')
           })
       }

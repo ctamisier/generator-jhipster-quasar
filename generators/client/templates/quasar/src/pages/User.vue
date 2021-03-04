@@ -76,7 +76,7 @@
 import { defineComponent, reactive } from 'vue'
 import { api } from 'boot/axios'
 import { useRouter, useRoute } from 'vue-router'
-import { langKeys } from '../constants/langKeys'
+import { langKeys } from '../constants/i18nConstants'
 
 export default defineComponent({
   name: 'PageUser',

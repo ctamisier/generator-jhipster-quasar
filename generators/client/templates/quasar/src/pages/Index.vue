@@ -55,7 +55,7 @@
 import { defineComponent, reactive, computed } from 'vue'
 import { api } from 'boot/axios'
 import { useStore } from 'vuex'
-import { loadLanguage } from 'boot/i18n'
+import { loadTranslation } from 'boot/i18n'
 
 export default defineComponent({
   name: 'PageIndex',
@@ -80,7 +80,7 @@ export default defineComponent({
           }).then(accountResponse => {
             store.dispatch('auth/login', accountResponse.data)
             const langKey = accountResponse.data.langKey
-            loadLanguage(langKey)
+            loadTranslation(langKey)
           }).catch(() => {
             store.dispatch('auth/logout')
           })

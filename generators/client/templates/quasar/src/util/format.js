@@ -1,10 +1,8 @@
 import { format } from 'date-fns';
-import { enUS, fr } from 'date-fns/locale';
-
-const locales = { enUS, fr };
+import { importLocale } from '../constants/i18nConstants'
 
 export default function (date, formatStr = 'PPpp') {
   return format(date, formatStr, {
-    locale: locales[window.__localeId__],
+    locale: importLocale(),
   });
 }
