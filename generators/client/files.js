@@ -15,9 +15,11 @@ module.exports = {
 };
 
 function writeFiles() {
-    this.copy(`${QUASAR_PATH}`, `${QUASAR_PATH}`);
-    this.copy(`${QUASAR_PATH}/.*`, `${QUASAR_PATH}`);
+    this.copy(`${QUASAR_PATH}/*`, QUASAR_PATH);
+    this.copy(`${QUASAR_PATH}/.*`, QUASAR_PATH);
     this.copy(`${QUASAR_PATH}/.vscode`, `${QUASAR_PATH}/.vscode`);
+    this.copy(`${QUASAR_PATH}/public`, `${QUASAR_PATH}/public`);
+    this.copy(`${QUASAR_PATH}/src`, `${QUASAR_PATH}/src`);
 }
 
 function renameToolbarTitle() {
