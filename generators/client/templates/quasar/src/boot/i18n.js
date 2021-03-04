@@ -11,9 +11,13 @@ export default boot(({ app }) => {
 
 const defaultLanguage = langKeys[0];
 
+const localeMapping = { en: 'enUS' /* non exhaustive mapping for now */ };
+
 const loadLanguage = language => {
   api.get(`/i18n/${language}.json?cache=${new Date().getTime()}`).then(response => {
-    window.__localeId__ = language;
+
+    const mapping = localeMapping[language];
+    window.__localeId__ = mapping || language;
     i18n.global.locale = language;
 
     // TODO maybe use a custom vue-i18n formatter

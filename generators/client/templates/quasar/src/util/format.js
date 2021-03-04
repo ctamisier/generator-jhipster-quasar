@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
-import { enGB, fr } from 'date-fns/locale';
+import { enUS, fr } from 'date-fns/locale';
 
-const locales = { enGB, fr };
+const locales = { enUS, fr };
 
 export default function (date, formatStr = 'PPpp') {
   return format(date, formatStr, {
