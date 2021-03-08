@@ -93,7 +93,7 @@
 import { ref, onMounted, defineComponent } from 'vue'
 import { api } from 'boot/axios'
 import { parseISO } from 'date-fns'
-import format from '../util/format'
+import { format } from '../util/format'
 import { useI18n } from 'vue-i18n'
 import { useQuasar } from 'quasar'
 import { useStore } from 'vuex'
