@@ -314,7 +314,145 @@
         </q-markup-table>
       </div>
     </div>
-    <pre>{{ metrics }}</pre>
+    <h6 class="q-my-md q-ml-md">Database</h6>
+    <div class="q-px-md row items-start q-gutter-md">
+      <q-card>
+        <q-card-section>
+          <q-list>
+            <q-item>
+              <q-item-section>
+                <q-item-label>Connection Pool Usage</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item
+              v-bind:key='entry'
+              v-for="entry in ['active', 'min', 'max', 'idle']"
+            >
+              <q-item-section>
+                <q-item-label>{{ capitalize(entry) }}</q-item-label>
+                <q-item-label caption>{{ metrics.databases[entry]['value'] }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+      </q-card>
+      <q-markup-table>
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th
+              class="text-left"
+              scope="col"
+            >Count</th>
+            <th
+              class="text-left"
+              scope="col"
+            >Mean </th>
+            <th
+              class="text-left"
+              scope="col"
+            >Min</th>
+            <th
+              class="text-left"
+              scope="col"
+            >P50</th>
+            <th
+              class="text-left"
+              scope="col"
+            >P75</th>
+            <th
+              class="text-left"
+              scope="col"
+            >P95</th>
+            <th
+              class="text-left"
+              scope="col"
+            >P99</th>
+            <th
+              class="text-left"
+              scope="col"
+            >Max</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-bind:key="entry"
+            v-for="entry in ['acquire', 'creation', 'usage']"
+          >
+            <th
+              class="text-left"
+              scope="row"
+            >{{ entry }}</th>
+            <td class="text-left">{{ metrics.databases[entry]['count'] }}</td>
+            <td class="text-left">{{ metrics.databases[entry]['mean'] }}</td>
+            <td class="text-left">{{ metrics.databases[entry]['0.0'] }}</td>
+            <td class="text-left">{{ metrics.databases[entry]['0.5'] }}</td>
+            <td class="text-left">{{ metrics.databases[entry]['0.75'] }}</td>
+            <td class="text-left">{{ metrics.databases[entry]['0.75'] }}</td>
+            <td class="text-left">{{ metrics.databases[entry]['0.99'] }}</td>
+            <td class="text-left">{{ metrics.databases[entry]['max'] }}</td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </div>
+    <h6 class="q-my-md q-ml-md">Cache</h6>
+    <div class="q-px-md row items-start q-gutter-md">
+      <q-markup-table>
+        <thead>
+          <tr>
+            <th
+              class="text-left"
+              scope="col"
+            >Cache Name</th>
+            <th
+              class="text-left"
+              scope="col"
+            >Cache Gets Miss</th>
+            <th
+              class="text-left"
+              scope="col"
+            >Cache Puts</th>
+            <th
+              class="text-left"
+              scope="col"
+            >Cache Gets Hit</th>
+            <th
+              class="text-left"
+              scope="col"
+            >Cache Removal</th>
+            <th
+              class="text-left"
+              scope="col"
+            >Cache Evictions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-bind:key="entry"
+            v-for="(entry, key) in metrics.cache"
+          >
+            <td class="text-left">{{ key }}</td>
+            <td class="text-left">{{ metrics.cache[key]['cache.gets.miss'] }}</td>
+            <td class="text-left">{{ metrics.cache[key]['cache.puts'] }}</td>
+            <td class="text-left">{{ metrics.cache[key]['cache.gets.hit'] }}</td>
+            <td class="text-left">{{ metrics.cache[key]['cache.removals'] }}</td>
+            <td class="text-left">{{ metrics.cache[key]['cache.evictions'] }}</td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </div>
+    <div class="q-pa-md">
+      <q-list bordered>
+        <q-expansion-item label="JSON">
+          <q-card>
+            <q-card-section>
+              <pre>{{ metrics }}</pre>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+      </q-list>
+    </div>
+
   </q-page>
 </template>
 
@@ -324,13 +462,12 @@ import { api } from 'boot/axios'
 import { format, formatDistanceStrict } from '../util/format'
 import { format as qformat } from 'quasar'
 
-
 export default defineComponent({
   name: 'PageConfiguration',
 
   setup () {
     const metrics = ref()
-    const { humanStorageSize } = qformat
+    const { humanStorageSize, capitalize } = qformat
 
     api.get('/management/jhimetrics').then(response => {
       metrics.value = response.data
@@ -343,6 +480,7 @@ export default defineComponent({
       format,
       formatDistanceStrict,
       humanStorageSize,
+      capitalize,
       percent,
       percentMetric: metric => percent(metric.committed, metric.max)
     }
