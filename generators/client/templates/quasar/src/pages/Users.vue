@@ -99,7 +99,7 @@ import { useQuasar } from 'quasar'
 import { useStore } from 'vuex'
 
 const toColumn = (name, label) => {
-  return { name: name, align: 'left', label: label, field: name }
+  return { name: name, align: 'left', label: label }
 }
 
 const toSortableColumn = (name, label) => {
