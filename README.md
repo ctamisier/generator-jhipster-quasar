@@ -27,7 +27,7 @@ https://jhipster-quasar.herokuapp.com/
     * Update
     * Delete
 * Metrics (WIP)
-* Configuration (WIP)
+* Configuration
 
 # Introduction
 
