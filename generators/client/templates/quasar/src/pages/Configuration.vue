@@ -13,7 +13,7 @@
           </q-list>
         </q-card-section>
       </q-card>
-      <q-expansion-item :label="$t('configuration.title')">
+      <div class="q-py-md">
         <q-table
           :title="$t('configuration.title')"
           :rows="configProps"
@@ -32,39 +32,28 @@
             </q-tr>
           </template>
         </q-table>
-      </q-expansion-item>
-      <q-expansion-item label="System Environment">
-        <q-table
-          title="env"
-          :rows="env['propertySources']"
-          :columns="envColumns"
-          row-key="name"
-          :rows-per-page-options="[0]"
-        >
-          <template v-slot:body="props">
-            <q-tr>
-              <q-td style="width: 400px; white-space: initial">
-                {{ props.row.name }}
-              </q-td>
-              <q-td style="max-width: 200px;">
-                <q-markup-table>
-                  <tr
-                    v-bind:key="prop"
-                    v-for="(prop, key) in props.row.properties"
-                  >
-                    <td style="width: 400px;">
-                      {{ key }}
-                    </td>
-                    <td style="white-space: initial">
-                      {{ prop.value }}
-                    </td>
-                  </tr>
-                </q-markup-table>
-              </q-td>
-            </q-tr>
-          </template>
-        </q-table>
-      </q-expansion-item>
+      </div>
+      <div
+        v-bind:key="props.name"
+        v-for="props in env['propertySources']"
+      >
+        <h6 class="q-my-md q-ml-md">{{ props.name }}</h6>
+        <q-markup-table>
+          <tbody>
+            <tr
+              v-bind:key="prop"
+              v-for="(prop, key) in props.properties"
+            >
+              <td style="width: 400px;">
+                {{ key }}
+              </td>
+              <td style="white-space: initial">
+                {{ prop.value }}
+              </td>
+            </tr>
+          </tbody>
+        </q-markup-table>
+      </div>
     </div>
   </q-page>
 </template>
