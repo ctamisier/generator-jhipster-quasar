@@ -36,8 +36,8 @@ function renamePackageJsonNameField() {
 
 function addLangKeys() {
     const i18nMapping = {
-        en: { localeId: 'enUS', localeImport: 'en-US' },
-        'zh-tw': { localeId: 'zhTW', localeImport: 'zh-TW' }
+        en: { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
+        'zh-tw': { localeId: 'zhTW', localeImport: 'zh-TW', quasarLang: 'zh-TW' }
     };
 
     const datefnsMapping = Object.keys(i18nMapping)
@@ -49,6 +49,17 @@ function addLangKeys() {
         `${QUASAR_PATH}/src/constants/i18nConstants.js`,
         /export const datefnsMapping =[\s\S]+?};/,
         `export const datefnsMapping = { ${datefnsMapping} };`
+    );
+
+    const quasarLangMapping = Object.keys(i18nMapping)
+        .filter(key => this.languages.includes(key))
+        .map(key => `'${key}': '${i18nMapping[key].quasarLang}'`)
+        .join(', ');
+
+    this.replaceContent(
+        `${QUASAR_PATH}/src/constants/i18nConstants.js`,
+        /export const quasarLangMapping =[\s\S]+?};/,
+        `export const quasarLangMapping = { ${quasarLangMapping} };`
     );
 
     const imports = this.languages

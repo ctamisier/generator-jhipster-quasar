@@ -7,6 +7,8 @@ export const langKeys = ['en', 'fr'];
 
 export const datefnsMapping = { en: 'enUS' };
 
+export const quasarLangMapping = { en: 'en-US' };
+
 export const importLocale = () => {
   switch (window.__localeId__) {
     case 'enUS':

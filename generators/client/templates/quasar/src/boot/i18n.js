@@ -1,7 +1,8 @@
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
 import { api } from 'boot/axios';
-import { langKeys, datefnsMapping } from '../constants/i18nConstants';
+import { langKeys, datefnsMapping, quasarLangMapping } from '../constants/i18nConstants';
+import { Quasar } from 'quasar';
 
 const i18n = createI18n();
 
@@ -20,6 +21,11 @@ const loadTranslation = langKey => {
     // TODO maybe use a custom vue-i18n parser
     const messages = JSON.parse(JSON.stringify(response.data).replaceAll('{{ ', '{').replaceAll(' }}', '}'));
     i18n.global.setLocaleMessage(langKey, messages);
+
+    const quasarLang = quasarLangMapping[langKey] || langKey;
+    import(`quasar/lang/${quasarLang}`).then(lang => {
+      Quasar.lang.set(lang.default);
+    });
   });
 };
 
