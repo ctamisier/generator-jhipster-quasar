@@ -47,34 +47,33 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
-import { api } from 'boot/axios'
-import { useRouter } from 'vue-router'
+import { defineComponent, reactive } from 'vue';
+import { api } from 'boot/axios';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'PageRegister',
 
   setup () {
-    const router = useRouter()
+    const router = useRouter();
     const account = reactive({
       data: {
         login: null,
         email: null,
         password: null,
         password2: null,
-        langKey: 'en'
-      }
-    })
+        langKey: 'en',
+      },
+    });
 
     return {
       account,
       onSubmit () {
-        api.post('/api/register', account.data)
-          .then(() => {
-            router.push('/')
-          })
-      }
-    }
-  }
-})
+        api.post('/api/register', account.data).then(() => {
+          router.push('/');
+        });
+      },
+    };
+  },
+});
 </script>

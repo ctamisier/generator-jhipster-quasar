@@ -138,23 +138,26 @@
 </template>
 
 <script>
-import { defineComponent, reactive, computed, ref } from 'vue'
-import { useStore } from 'vuex'
+import { defineComponent, reactive, computed, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'MainLayout',
 
   setup () {
-    const store = useStore()
+    const store = useStore();
 
-    const isAuthenticatedGetter = () => store.getters['auth/isAuthenticated']
-    const leftDrawerOpen = isAuthenticatedGetter()
-    const data = reactive({ leftDrawerOpen })
-    const link = reactive({})
+    const isAuthenticatedGetter = () => store.getters['auth/isAuthenticated'];
+    const leftDrawerOpen = isAuthenticatedGetter();
+    const data = reactive({ leftDrawerOpen });
+    const link = reactive({});
 
     store.watch(
       () => isAuthenticatedGetter(),
-      (newValue) => { data.leftDrawerOpen = newValue })
+      newValue => {
+        data.leftDrawerOpen = newValue;
+      }
+    );
 
     return {
       data,
@@ -163,13 +166,13 @@ export default defineComponent({
       miniState: ref(true),
       isAuthenticated: computed(() => isAuthenticatedGetter()),
       toggleLeftDrawer () {
-        data.leftDrawerOpen = !data.leftDrawerOpen
+        data.leftDrawerOpen = !data.leftDrawerOpen;
       },
       logout () {
-        data.leftDrawerOpen = false
-        store.dispatch('auth/logout')
-      }
-    }
-  }
-})
+        data.leftDrawerOpen = false;
+        store.dispatch('auth/logout');
+      },
+    };
+  },
+});
 </script>

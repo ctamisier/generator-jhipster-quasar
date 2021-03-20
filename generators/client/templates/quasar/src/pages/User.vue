@@ -73,17 +73,17 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
-import { api } from 'boot/axios'
-import { useRouter, useRoute } from 'vue-router'
-import { langKeys } from '../constants/i18nConstants'
+import { defineComponent, reactive } from 'vue';
+import { api } from 'boot/axios';
+import { useRouter, useRoute } from 'vue-router';
+import { langKeys } from '../constants/i18nConstants';
 
 export default defineComponent({
   name: 'PageUser',
 
   setup () {
-    const router = useRouter()
-    const route = useRoute()
+    const router = useRouter();
+    const route = useRoute();
 
     const account = reactive({
       data: {
@@ -93,14 +93,14 @@ export default defineComponent({
         lastName: null,
         email: null,
         langKey: null,
-        authorities: []
-      }
-    })
+        authorities: [],
+      },
+    });
 
     if (route.params.login) {
       api.get(`/api/admin/users/${route.params.login}`).then(response => {
-        account.data = response.data
-      })
+        account.data = response.data;
+      });
     }
 
     return {
@@ -109,22 +109,23 @@ export default defineComponent({
       availableRoles: [
         {
           label: 'ROLE_ADMIN',
-          value: 'ROLE_ADMIN'
+          value: 'ROLE_ADMIN',
         },
         {
           label: 'ROLE_USER',
-          value: 'ROLE_USER'
-        }],
+          value: 'ROLE_USER',
+        },
+      ],
       onSubmit () {
         api({
           method: account.data.id ? 'put' : 'post',
           url: '/api/admin/users',
-          data: account.data
+          data: account.data,
         }).then(() => {
-          router.push('/users')
-        })
-      }
-    }
-  }
-})
+          router.push('/users');
+        });
+      },
+    };
+  },
+});
 </script>

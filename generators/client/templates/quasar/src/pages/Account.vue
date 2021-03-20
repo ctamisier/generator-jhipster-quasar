@@ -55,42 +55,41 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
-import { api } from 'boot/axios'
-import { useRouter } from 'vue-router'
-import { loadTranslation } from 'boot/i18n'
-import { langKeys } from '../constants/i18nConstants'
+import { defineComponent, reactive } from 'vue';
+import { api } from 'boot/axios';
+import { useRouter } from 'vue-router';
+import { loadTranslation } from 'boot/i18n';
+import { langKeys } from '../constants/i18nConstants';
 
 export default defineComponent({
   name: 'PageAccount',
 
   setup () {
-    const router = useRouter()
+    const router = useRouter();
     const account = reactive({
       data: {
         firstName: null,
         lastName: null,
         email: null,
         langKey: null,
-        authorities: []
-      }
-    })
+        authorities: [],
+      },
+    });
 
     api.get('/api/account').then(accountResponse => {
-      account.data = accountResponse.data
-    })
+      account.data = accountResponse.data;
+    });
 
     return {
       account,
       langKeys,
       onSubmit () {
-        api.post('/api/account', account.data)
-          .then(() => {
-            loadTranslation(account.data.langKey)
-            router.push('/')
-          })
-      }
-    }
-  }
-})
+        api.post('/api/account', account.data).then(() => {
+          loadTranslation(account.data.langKey);
+          router.push('/');
+        });
+      },
+    };
+  },
+});
 </script>

@@ -30,20 +30,16 @@
             <div
               v-bind:key="detail"
               v-for="detail in Object.entries(metric)"
-            >
-              {{ detail[0] }} {{ humanStorageSize(detail[1]) }}
-            </div>
+            >{{ detail[0] }} {{ humanStorageSize(detail[1]) }}</div>
           </q-card-section>
         </q-card>
       </div>
       <h6 class="q-my-md">
-        {{ $t('metrics.jvm.gc.title')}}
+        {{ $t('metrics.jvm.gc.title') }}
       </h6>
       <div class="row items-start q-gutter-md">
         <q-card class="text-center">
-          <q-card-section>
-            GC Live Data Size / GC Max Data Size
-          </q-card-section>
+          <q-card-section> GC Live Data Size / GC Max Data Size </q-card-section>
           <q-card-section>
             <q-circular-progress
               show-value
@@ -52,17 +48,16 @@
               size="50px"
               color="light-blue"
             >
-              {{ Math.ceil(percent(metrics.garbageCollector['jvm.gc.live.data.size'] , metrics.garbageCollector['jvm.gc.max.data.size'])) }}%
+              {{ Math.ceil(percent(metrics.garbageCollector['jvm.gc.live.data.size'], metrics.garbageCollector['jvm.gc.max.data.size'])) }}%
             </q-circular-progress>
           </q-card-section>
           <q-card-section>
-            {{ humanStorageSize(metrics.garbageCollector['jvm.gc.live.data.size']) }} / {{ humanStorageSize(metrics.garbageCollector['jvm.gc.max.data.size']) }}
+            {{ humanStorageSize(metrics.garbageCollector['jvm.gc.live.data.size']) }} /
+            {{ humanStorageSize(metrics.garbageCollector['jvm.gc.max.data.size']) }}
           </q-card-section>
         </q-card>
         <q-card class="text-center">
-          <q-card-section>
-            GC Memory Promoted / GC Memory Allocated
-          </q-card-section>
+          <q-card-section> GC Memory Promoted / GC Memory Allocated </q-card-section>
           <q-card-section>
             <q-circular-progress
               show-value
@@ -71,11 +66,14 @@
               size="50px"
               color="light-blue"
             >
-              {{ Math.ceil(percent(metrics.garbageCollector['jvm.gc.memory.promoted'] , metrics.garbageCollector['jvm.gc.memory.allocated'])) }}%
+              {{
+                Math.ceil(percent(metrics.garbageCollector['jvm.gc.memory.promoted'], metrics.garbageCollector['jvm.gc.memory.allocated']))
+              }}%
             </q-circular-progress>
           </q-card-section>
           <q-card-section>
-            {{ humanStorageSize(metrics.garbageCollector['jvm.gc.memory.promoted']) }} / {{ humanStorageSize(metrics.garbageCollector['jvm.gc.memory.allocated']) }}
+            {{ humanStorageSize(metrics.garbageCollector['jvm.gc.memory.promoted']) }} /
+            {{ humanStorageSize(metrics.garbageCollector['jvm.gc.memory.allocated']) }}
           </q-card-section>
         </q-card>
         <q-card>
@@ -112,7 +110,7 @@
               <th
                 class="text-left"
                 scope="col"
-              >Mean </th>
+              >Mean</th>
               <th
                 class="text-left"
                 scope="col"
@@ -200,9 +198,7 @@
             </q-card-section>
           </q-card>
           <q-card>
-            <q-card-section>
-              Process CPU Usage
-            </q-card-section>
+            <q-card-section> Process CPU Usage </q-card-section>
             <q-card-section>
               <q-circular-progress
                 show-value
@@ -211,14 +207,12 @@
                 size="50px"
                 color="light-blue"
               >
-                {{ Math.ceil(metrics['processMetrics']['process.cpu.usage'] * 100)}}%
+                {{ Math.ceil(metrics['processMetrics']['process.cpu.usage'] * 100) }}%
               </q-circular-progress>
             </q-card-section>
           </q-card>
           <q-card>
-            <q-card-section>
-              System CPU Usage
-            </q-card-section>
+            <q-card-section> System CPU Usage </q-card-section>
             <q-card-section>
               <q-circular-progress
                 show-value
@@ -227,7 +221,7 @@
                 size="50px"
                 color="light-blue"
               >
-                {{ Math.ceil(metrics['processMetrics']['system.cpu.usage'] * 100)}}%
+                {{ Math.ceil(metrics['processMetrics']['system.cpu.usage'] * 100) }}%
               </q-circular-progress>
             </q-card-section>
           </q-card>
@@ -326,7 +320,7 @@
                 </q-item-section>
               </q-item>
               <q-item
-                v-bind:key='entry'
+                v-bind:key="entry"
                 v-for="entry in ['active', 'min', 'max', 'idle']"
               >
                 <q-item-section>
@@ -348,7 +342,7 @@
               <th
                 class="text-left"
                 scope="col"
-              >Mean </th>
+              >Mean</th>
               <th
                 class="text-left"
                 scope="col"
@@ -447,21 +441,21 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
-import { api } from 'boot/axios'
-import { format, formatDistanceStrict } from '../util/format'
-import { format as qformat } from 'quasar'
+import { defineComponent, ref } from 'vue';
+import { api } from 'boot/axios';
+import { format, formatDistanceStrict } from '../util/format';
+import { format as qformat } from 'quasar';
 
 export default defineComponent({
   name: 'PageConfiguration',
 
   setup () {
-    const metrics = ref()
-    const { humanStorageSize, capitalize } = qformat
+    const metrics = ref();
+    const { humanStorageSize, capitalize } = qformat;
 
     api.get('/management/jhimetrics').then(response => {
-      metrics.value = response.data
-    })
+      metrics.value = response.data;
+    });
 
     const percent = (value, total) => (value / total) * 100;
 
@@ -472,8 +466,8 @@ export default defineComponent({
       humanStorageSize,
       capitalize,
       percent,
-      percentMetric: metric => percent(metric.committed, metric.max)
-    }
-  }
-})
+      percentMetric: metric => percent(metric.committed, metric.max),
+    };
+  },
+});
 </script>

@@ -11,7 +11,7 @@
         v-model="credentials.username"
         :label="$t('global.form[\'username.label\']')"
         lazy-rules
-        :rules="[ val => val && val.length >= 4 ]"
+        :rules="[val => val && val.length >= 4]"
       />
       <q-input
         autocomplete="current-password"
@@ -19,7 +19,7 @@
         type="password"
         :label="$t('login.form.password')"
         lazy-rules
-        :rules="[ val => val && val.length >= 4 ]"
+        :rules="[val => val && val.length >= 4]"
       />
       <div class="flex justify-center">
         <q-btn
@@ -46,46 +46,49 @@
       <img
         alt="Quasar logo"
         src="~assets/quasar-logo-full.svg"
-      >
+      />
     </div>
   </q-page>
 </template>
 
 <script>
-import { defineComponent, reactive, computed } from 'vue'
-import { api } from 'boot/axios'
-import { useStore } from 'vuex'
-import { loadTranslation } from 'boot/i18n'
+import { defineComponent, reactive, computed } from 'vue';
+import { api } from 'boot/axios';
+import { useStore } from 'vuex';
+import { loadTranslation } from 'boot/i18n';
 
 export default defineComponent({
   name: 'PageIndex',
 
   setup () {
-    const store = useStore()
+    const store = useStore();
 
     const credentials = reactive({
-      username: '',
-      password: ''
-    })
+      username: 'admin',
+      password: 'admin',
+    });
 
     return {
       credentials,
       isAuthenticated: computed(() => store.getters['auth/isAuthenticated']),
       onSubmit () {
-        api.post('/api/authenticate', credentials)
+        api
+          .post('/api/authenticate', credentials)
           .then(authenticateResponse => {
-            sessionStorage.setItem('id_token', authenticateResponse.data.id_token)
-            api.defaults.headers.common.Authorization = `Bearer ${authenticateResponse.data.id_token}`
-            return api.get('/api/account')
-          }).then(accountResponse => {
-            store.dispatch('auth/login', accountResponse.data)
-            const langKey = accountResponse.data.langKey
-            loadTranslation(langKey)
-          }).catch(() => {
-            store.dispatch('auth/logout')
+            sessionStorage.setItem('id_token', authenticateResponse.data.id_token);
+            api.defaults.headers.common.Authorization = `Bearer ${authenticateResponse.data.id_token}`;
+            return api.get('/api/account');
           })
-      }
-    }
-  }
-})
+          .then(accountResponse => {
+            store.dispatch('auth/login', accountResponse.data);
+            const langKey = accountResponse.data.langKey;
+            loadTranslation(langKey);
+          })
+          .catch(() => {
+            store.dispatch('auth/logout');
+          });
+      },
+    };
+  },
+});
 </script>

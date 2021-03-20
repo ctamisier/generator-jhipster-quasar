@@ -46,31 +46,29 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
-import { api } from 'boot/axios'
-import { useRouter } from 'vue-router'
+import { defineComponent, reactive } from 'vue';
+import { api } from 'boot/axios';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'PageChangePassword',
 
   setup () {
-    const router = useRouter()
+    const router = useRouter();
     const passwords = reactive({
       currentPassword: null,
       newPassword: null,
-      newPassword2: null
-    })
+      newPassword2: null,
+    });
 
     return {
       passwords,
       onSubmit () {
-        api.post('/api/account/change-password', passwords)
-          .then(() => {
-            router.push('/')
-          })
-      }
-    }
-  }
-
-})
+        api.post('/api/account/change-password', passwords).then(() => {
+          router.push('/');
+        });
+      },
+    };
+  },
+});
 </script>

@@ -13,7 +13,7 @@
       <template v-slot:top-right>
         <router-link
           to="/users/new"
-          style="text-decoration: none; color: inherit;"
+          style="text-decoration: none; color: inherit"
         >
           <q-btn
             color="primary"
@@ -73,7 +73,7 @@
           <q-td>
             <router-link
               :to="`/users/${props.row.login}`"
-              style="text-decoration: none; color: inherit;"
+              style="text-decoration: none; color: inherit"
             >
               <q-btn icon="edit" />
             </router-link>
@@ -90,42 +90,42 @@
 </template>
 
 <script>
-import { ref, onMounted, defineComponent } from 'vue'
-import { api } from 'boot/axios'
-import { parseISO } from 'date-fns'
-import { format } from '../util/format'
-import { useI18n } from 'vue-i18n'
-import { useQuasar } from 'quasar'
-import { useStore } from 'vuex'
+import { ref, onMounted, defineComponent } from 'vue';
+import { api } from 'boot/axios';
+import { parseISO } from 'date-fns';
+import { format } from '../util/format';
+import { useI18n } from 'vue-i18n';
+import { useQuasar } from 'quasar';
+import { useStore } from 'vuex';
 
 const toColumn = (name, label) => {
-  return { name: name, align: 'left', label: label }
-}
+  return { name: name, align: 'left', label: label };
+};
 
 const toSortableColumn = (name, label) => {
-  return { ...toColumn(name, label), sortable: true }
-}
+  return { ...toColumn(name, label), sortable: true };
+};
 
 export default defineComponent({
   name: 'PageUsers',
 
   setup () {
-    const $q = useQuasar()
-    const { t } = useI18n()
-    const store = useStore()
-    const rows = ref([])
-    const filter = ref('')
-    const loading = ref(false)
+    const $q = useQuasar();
+    const { t } = useI18n();
+    const store = useStore();
+    const rows = ref([]);
+    const filter = ref('');
+    const loading = ref(false);
     const pagination = ref({
       sortBy: 'login',
       descending: false,
       page: 1,
       rowsPerPage: 10,
-      rowsNumber: 10
-    })
-    const loadingActivation = ref([])
+      rowsNumber: 10,
+    });
+    const loadingActivation = ref([]);
 
-    const currentLogin = store.state.auth.account.login
+    const currentLogin = store.state.auth.account.login;
 
     const columns = [
       toSortableColumn('login', t('userManagement.login')),
@@ -138,35 +138,37 @@ export default defineComponent({
       toColumn('lastModifiedBy', t('userManagement.lastModifiedBy')),
       toColumn('lastModifiedDate', t('userManagement.lastModifiedDate')),
       toColumn('authorities', t('userManagement.profiles')),
-      toSortableColumn('activated', t('userManagement.activated'))
-    ]
+      toSortableColumn('activated', t('userManagement.activated')),
+    ];
 
     function onRequest (props) {
-      const { page, rowsPerPage, sortBy, descending } = props.pagination
+      const { page, rowsPerPage, sortBy, descending } = props.pagination;
 
-      loading.value = true
+      loading.value = true;
 
-      api.get('/api/admin/users', {
-        params: {
-          page: page - 1,
-          size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
-          sort: `${sortBy},${descending ? 'desc' : 'asc'}`
-        }
-      }).then(response => {
-        pagination.value.rowsNumber = response.headers['x-total-count']
-        rows.value = response.data
-        loading.value = false
-      })
+      api
+        .get('/api/admin/users', {
+          params: {
+            page: page - 1,
+            size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
+            sort: `${sortBy},${descending ? 'desc' : 'asc'}`,
+          },
+        })
+        .then(response => {
+          pagination.value.rowsNumber = response.headers['x-total-count'];
+          rows.value = response.data;
+          loading.value = false;
+        });
 
-      pagination.value.page = page
-      pagination.value.rowsPerPage = rowsPerPage
-      pagination.value.sortBy = sortBy
-      pagination.value.descending = descending
+      pagination.value.page = page;
+      pagination.value.rowsPerPage = rowsPerPage;
+      pagination.value.sortBy = sortBy;
+      pagination.value.descending = descending;
     }
 
     onMounted(() => {
-      onRequest({ pagination: pagination.value })
-    })
+      onRequest({ pagination: pagination.value });
+    });
 
     return {
       store,
@@ -180,27 +182,30 @@ export default defineComponent({
       format,
       loadingActivation,
       onRequest,
-      deleteUser: (login) => {
+      deleteUser: login => {
         $q.dialog({
           message: t('userManagement.delete.question', { login: login }),
-          cancel: true
+          cancel: true,
         }).onOk(() => {
           api.delete(`/api/admin/users/${login}`).then(() => {
-            onRequest({ pagination: pagination.value })
-          })
-        })
+            onRequest({ pagination: pagination.value });
+          });
+        });
       },
-      handleActivation: (row) => {
+      handleActivation: row => {
         if (row.login !== currentLogin) {
-          loadingActivation.value[row.login] = true
-          api.put('/api/admin/users', row).then(() => {
-            onRequest({ pagination: pagination.value })
-          }).finally(() => {
-            loadingActivation.value[row.login] = false
-          })
+          loadingActivation.value[row.login] = true;
+          api
+            .put('/api/admin/users', row)
+            .then(() => {
+              onRequest({ pagination: pagination.value });
+            })
+            .finally(() => {
+              loadingActivation.value[row.login] = false;
+            });
         }
-      }
-    }
-  }
-})
+      },
+    };
+  },
+});
 </script>

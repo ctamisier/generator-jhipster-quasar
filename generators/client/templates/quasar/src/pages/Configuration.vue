@@ -44,7 +44,7 @@
               v-bind:key="prop"
               v-for="(prop, key) in props.properties"
             >
-              <td style="width: 400px;">
+              <td style="width: 400px">
                 {{ key }}
               </td>
               <td style="white-space: initial">
@@ -69,18 +69,18 @@ export default defineComponent({
   setup () {
     const { t } = useI18n();
 
-    const configProps = ref([])
+    const configProps = ref([]);
     const env = ref({});
     const info = ref({});
 
     const configPropsColumns = [
       { name: 'prefix', label: t('configuration.table.prefix'), align: 'left' },
-      { name: 'properties', label: t('configuration.table.properties'), align: 'left' }
+      { name: 'properties', label: t('configuration.table.properties'), align: 'left' },
     ];
 
     const envColumns = [
       { name: 'name', label: 'Name', align: 'left' },
-      { name: 'properties', label: 'Properties', align: 'left' }
+      { name: 'properties', label: 'Properties', align: 'left' },
     ];
 
     const transform = tree => {
@@ -104,11 +104,11 @@ export default defineComponent({
     });
 
     api.get('/management/env').then(response => {
-      env.value = response.data
+      env.value = response.data;
     });
 
     api.get('/management/info').then(response => {
-      info.value = response.data
+      info.value = response.data;
     });
 
     return {
@@ -116,7 +116,7 @@ export default defineComponent({
       configProps,
       envColumns,
       env,
-      info
+      info,
     };
   },
 });
