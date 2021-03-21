@@ -75,25 +75,13 @@ module.exports = class extends ClientGenerator {
         };
     }
 
-    get install() {
-        return {
-            installing() {
-                this.installDependencies({
-                    bower: false,
-                    npm: false,
-                    yarn: { cwd: 'quasar' }
-                });
-                this.log(chalk.yellow.bold('yarn install --cwd quasar'));
-            }
-        };
-    }
-
     get end() {
         return {
             end() {
                 this.log(chalk.green.bold('\nClient application generated successfully.\n'));
                 this.log(chalk.green('Run Quasar:'));
                 this.log(chalk.yellow.bold('cd quasar'));
+                this.log(chalk.yellow.bold('yarn install'));
                 this.log(chalk.yellow.bold('npx quasar dev\n'));
             }
         };
