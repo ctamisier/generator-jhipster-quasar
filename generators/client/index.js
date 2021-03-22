@@ -78,10 +78,11 @@ module.exports = class extends ClientGenerator {
     get end() {
         return {
             end() {
+                this.spawnCommand('yarn', ['install'], { cwd: 'quasar' });
+
                 this.log(chalk.green.bold('\nClient application generated successfully.\n'));
                 this.log(chalk.green('Run Quasar:'));
                 this.log(chalk.yellow.bold('cd quasar'));
-                this.log(chalk.yellow.bold('yarn install'));
                 this.log(chalk.yellow.bold('npx quasar dev\n'));
             }
         };
