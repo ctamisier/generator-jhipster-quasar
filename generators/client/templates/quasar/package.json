@@ -1,6 +1,7 @@
 {
   "name": "jhipsterquasar",
   "version": "0.0.1",
+  "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
