@@ -17,7 +17,6 @@
         v-model="passwords.newPassword"
         type="password"
         :label="$t('global.form[\'newpassword.label\']')"
-        lazy-rules="ondemand"
         :rules="[val => !!val]"
       />
       <q-input
