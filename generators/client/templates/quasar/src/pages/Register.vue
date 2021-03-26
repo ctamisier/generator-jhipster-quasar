@@ -8,17 +8,20 @@
       <q-input
         v-model="account.data.login"
         :label="$t('global.form[\'username.label\']')"
+        lazy-rules
         :rules="[val => !!val && val.length >= 4]"
       />
       <q-input
         v-model="account.data.email"
         type="email"
         :label="$t('global.form[\'email.label\']')"
+        lazy-rules
         :rules="[val => !!val && val.length >= 5]"
       />
       <q-input
         v-model="account.data.password"
         :label="$t('global.form[\'newpassword.label\']')"
+        lazy-rules="ondemand"
         :rules="[val => !!val && val.length >= 4]"
       />
       <q-input
