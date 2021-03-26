@@ -1,0 +1,62 @@
+<template>
+  <q-page class="q-pa-md flex flex-center">
+    <q-form
+      @submit="onSubmit"
+      class="q-gutter-md"
+      style="min-width: 300px"
+    >
+      <q-input
+        v-model="forgot.email"
+        type="email"
+        :label="$t('userManagement.email')"
+        lazy-rules
+        :rules="[val => !!val && val.length >= 5]"
+      />
+      <div class="flex justify-between">
+        <q-btn
+          type="submit"
+          color="primary"
+          :label="$t('reset.request.form.button')"
+        />
+        <q-btn
+          to="/"
+          flat
+          color="primary"
+          :label="$t('entity.action.back')"
+        />
+      </div>
+    </q-form>
+  </q-page>
+</template>
+
+<script>
+import { defineComponent, reactive } from 'vue';
+import { api } from 'boot/axios';
+import { useRouter } from 'vue-router';
+
+export default defineComponent({
+  name: 'PageRegister',
+
+  setup () {
+    const router = useRouter();
+    const forgot = reactive({
+      email: null,
+    });
+
+    return {
+      forgot,
+      onSubmit () {
+        api
+          .post('/api/account/reset-password/init', forgot.email, {
+            headers: {
+              'content-type': 'text/plain',
+            },
+          })
+          .then(() => {
+            router.push('/');
+          });
+      },
+    };
+  },
+});
+</script>

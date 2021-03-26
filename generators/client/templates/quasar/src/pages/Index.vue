@@ -21,11 +21,17 @@
         lazy-rules
         :rules="[val => val && val.length >= 4]"
       />
-      <div class="flex justify-center">
+      <div class="flex column">
         <q-btn
           type="submit"
           color="primary"
           :label="$t('login.form.button')"
+        />
+        <q-btn
+          to="/account/reset/init"
+          flat
+          color="primary"
+          :label="$t('login.password.forgot')"
         />
       </div>
       <div class="q-pt-xl column items-center">
