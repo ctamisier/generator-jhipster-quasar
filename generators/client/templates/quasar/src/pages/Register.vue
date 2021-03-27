@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue';
 import { api } from 'boot/axios';
+import { defineComponent, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({

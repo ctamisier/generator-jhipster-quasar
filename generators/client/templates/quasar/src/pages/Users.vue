@@ -90,13 +90,13 @@
 </template>
 
 <script>
-import { ref, onMounted, defineComponent } from 'vue';
 import { api } from 'boot/axios';
 import { parseISO } from 'date-fns';
-import { format } from '../util/format';
-import { useI18n } from 'vue-i18n';
 import { useQuasar } from 'quasar';
+import { defineComponent, onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { format } from '../util/format';
 
 const toColumn = (name, label) => {
   return { name: name, align: 'left', label: label };

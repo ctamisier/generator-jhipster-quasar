@@ -55,10 +55,10 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue';
 import { api } from 'boot/axios';
-import { useRouter } from 'vue-router';
 import { loadTranslation } from 'boot/i18n';
+import { defineComponent, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { langKeys } from '../constants/i18nConstants';
 
 export default defineComponent({

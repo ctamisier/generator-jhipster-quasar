@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, computed, ref } from 'vue';
+import { computed, defineComponent, reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({

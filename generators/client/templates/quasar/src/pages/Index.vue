@@ -58,10 +58,10 @@
 </template>
 
 <script>
-import { defineComponent, reactive, computed } from 'vue';
 import { api } from 'boot/axios';
-import { useStore } from 'vuex';
 import { loadTranslation } from 'boot/i18n';
+import { computed, defineComponent, reactive } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'PageIndex',

@@ -1,6 +1,6 @@
-import { boot } from 'quasar/wrappers';
 import axios from 'axios';
 import { Notify } from 'quasar';
+import { boot } from 'quasar/wrappers';
 
 const api = axios.create({
   baseURL: window.location.hostname === 'localhost' ? 'http://localhost:8080' : '/',

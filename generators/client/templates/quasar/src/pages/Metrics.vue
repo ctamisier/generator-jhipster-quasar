@@ -441,10 +441,10 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
 import { api } from 'boot/axios';
-import { format, formatDistanceStrict } from '../util/format';
 import { format as qformat } from 'quasar';
+import { defineComponent, ref } from 'vue';
+import { format, formatDistanceStrict } from '../util/format';
 
 export default defineComponent({
   name: 'PageConfiguration',

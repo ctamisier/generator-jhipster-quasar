@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue';
 import { api } from 'boot/axios';
-import { useRouter, useRoute } from 'vue-router';
+import { defineComponent, reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'ResetPassword',

@@ -1,8 +1,8 @@
+import { api } from 'boot/axios';
+import { Quasar } from 'quasar';
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
-import { api } from 'boot/axios';
-import { langKeys, datefnsMapping, quasarLangMapping } from '../constants/i18nConstants';
-import { Quasar } from 'quasar';
+import { datefnsMapping, langKeys, quasarLangMapping } from '../constants/i18nConstants';
 
 const i18n = createI18n();
 
