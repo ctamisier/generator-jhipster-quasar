@@ -27,6 +27,7 @@ export default route(function ({ store /*, ssrContext */ }) {
         { path: '', component: () => import('pages/Index.vue') },
         { path: '/register', component: () => import('pages/Register.vue') },
         { path: '/account', component: () => import('pages/Account.vue') },
+        { path: '/account/activate', component: () => import('pages/Activation.vue') },
         { path: '/account/reset/init', component: () => import('pages/ForgotPassword.vue') },
         { path: '/account/reset/finish', component: () => import('pages/ResetPassword.vue') },
         { path: '/password', component: () => import('pages/ChangePassword.vue') },
@@ -84,7 +85,7 @@ export default route(function ({ store /*, ssrContext */ }) {
         loadTranslation(accountResponse.data.langKey);
         next();
       });
-    } else if (!idToken && !['/', '/register', '/account/reset/init', '/account/reset/finish'].includes(to.path)) {
+    } else if (!idToken && !['/', '/register', '/account/activate', '/account/reset/init', '/account/reset/finish'].includes(to.path)) {
       next('/');
     } else {
       next();
