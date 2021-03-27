@@ -1,7 +1,7 @@
-import { route } from 'quasar/wrappers';
-import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router';
 import { api } from 'boot/axios';
 import { loadTranslation } from 'boot/i18n';
+import { route } from 'quasar/wrappers';
+import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
 
 /*
  * If not building with SSR mode, you can
@@ -22,14 +22,15 @@ export default route(function ({ store /*, ssrContext */ }) {
   const routes = [
     {
       path: '/',
+      meta: { public: true },
       component: () => import('layouts/MainLayout.vue'),
       children: [
         { path: '', component: () => import('pages/Index.vue') },
-        { path: '/register', component: () => import('pages/Register.vue') },
+        { path: '/register', meta: { public: true }, component: () => import('pages/Register.vue') },
         { path: '/account', component: () => import('pages/Account.vue') },
-        { path: '/account/activate', component: () => import('pages/Activation.vue') },
-        { path: '/account/reset/init', component: () => import('pages/ForgotPassword.vue') },
-        { path: '/account/reset/finish', component: () => import('pages/ResetPassword.vue') },
+        { path: '/account/activate', meta: { public: true }, component: () => import('pages/Activation.vue') },
+        { path: '/account/reset/init', meta: { public: true }, component: () => import('pages/ForgotPassword.vue') },
+        { path: '/account/reset/finish', meta: { public: true }, component: () => import('pages/ResetPassword.vue') },
         { path: '/password', component: () => import('pages/ChangePassword.vue') },
         {
           path: '/users',
@@ -85,7 +86,7 @@ export default route(function ({ store /*, ssrContext */ }) {
         loadTranslation(accountResponse.data.langKey);
         next();
       });
-    } else if (!idToken && !['/', '/register', '/account/activate', '/account/reset/init', '/account/reset/finish'].includes(to.path)) {
+    } else if (!idToken && !to.meta.public) {
       next('/');
     } else {
       next();
