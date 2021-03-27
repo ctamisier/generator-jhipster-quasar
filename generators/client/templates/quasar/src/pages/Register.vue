@@ -20,6 +20,7 @@
       />
       <q-input
         v-model="account.data.password"
+        type="password"
         :label="$t('global.form[\'newpassword.label\']')"
         lazy-rules="ondemand"
         :rules="[val => !!val && val.length >= 4]"
