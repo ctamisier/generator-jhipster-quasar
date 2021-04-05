@@ -5,7 +5,7 @@
   "keywords": [
     "quasar",
     "jhipster-blueprint",
-    "jhipster-7.0.0"
+    "jhipster-7.0.1"
   ],
   "homepage": "https://github.com/ctamisier/generator-jhipster-quasar",
   "author": {
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "chalk": "2.4.1",
-    "generator-jhipster": "7.0.0"
+    "generator-jhipster": "7.0.1"
   },
   "devDependencies": {
     "chai": "4.1.2",
