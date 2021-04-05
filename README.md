@@ -15,7 +15,7 @@ https://jhipster-quasar.herokuapp.com/
 # Features
 
 * Quasar 2 beta (Vue 3)
-* Sign in
+* Sign in / Sign out
 * Sign up
 * JWT
 * Account
@@ -27,7 +27,7 @@ https://jhipster-quasar.herokuapp.com/
     * Create
     * Update
     * Delete
-* Metrics (WIP)
+* Metrics
 * Configuration
 
 # Introduction
