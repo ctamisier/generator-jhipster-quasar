@@ -1,5 +1,5 @@
 <template>
-  <q-page v-if="metrics">
+  <q-page v-if="metrics && threads && threadsByState">
     <div class="q-pa-md">
       <h5 class="q-my-md">
         {{ $t('metrics.jvm.title') }}
@@ -34,12 +34,85 @@
           </q-card-section>
         </q-card>
       </div>
+      <h6 class="q-my-md">{{ $t('metrics.jvm.threads.title') }}</h6>
+      <div class="row items-start q-gutter-md">
+        <q-card>
+          <q-card-section>
+            <q-list>
+              <q-item
+                v-bind:key="key"
+                v-for="(group, key) in threadsByState"
+              >
+                <q-item-section>
+                  <q-item-label>{{ key }}</q-item-label>
+                  <q-item-label caption>{{ group.length }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card-section>
+        </q-card>
+        <q-table
+          :rows="threads"
+          :columns="threadColumns"
+          row-key="threadId"
+          :pagination="threadsInitialPagination"
+        >
+          <template v-slot:body="props">
+            <q-tr>
+              <q-td>
+                {{ props.row.threadId }}
+              </q-td>
+              <q-td>
+                {{ props.row.threadState }}
+              </q-td>
+              <q-td>
+                {{ props.row.threadName }}
+
+                <q-btn
+                  v-if="props.row.stackTrace.length"
+                  flat
+                  label="Stacktrace"
+                  color="primary"
+                >
+                  <q-menu>
+                    <div class="row no-wrap q-pa-md">
+                      <div class="column">
+                        <div
+                          v-bind:key="trace"
+                          v-for="trace in props.row.stackTrace"
+                        >
+                          {{ trace.className }}.{{ trace.methodName }}({{ trace.fileName }}:{{ trace.lineNumber }})
+                        </div>
+                      </div>
+                    </div>
+                  </q-menu>
+                </q-btn>
+              </q-td>
+              <q-td>
+                {{ props.row.blockedTime }}
+              </q-td>
+              <q-td>
+                {{ props.row.blockedCount }}
+              </q-td>
+              <q-td>
+                {{ props.row.waitedTime }}
+              </q-td>
+              <q-td>
+                {{ props.row.waitedCount }}
+              </q-td>
+              <q-td>
+                {{ props.row.lockName }}
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
+      </div>
       <h6 class="q-my-md">
         {{ $t('metrics.jvm.gc.title') }}
       </h6>
       <div class="row items-start q-gutter-md">
         <q-card class="text-center">
-          <q-card-section> GC Live Data Size / GC Max Data Size </q-card-section>
+          <q-card-section>GC Live Data Size / GC Max Data Size</q-card-section>
           <q-card-section>
             <q-circular-progress
               show-value
@@ -57,7 +130,7 @@
           </q-card-section>
         </q-card>
         <q-card class="text-center">
-          <q-card-section> GC Memory Promoted / GC Memory Allocated </q-card-section>
+          <q-card-section>GC Memory Promoted / GC Memory Allocated</q-card-section>
           <q-card-section>
             <q-circular-progress
               show-value
@@ -197,8 +270,8 @@
               </q-list>
             </q-card-section>
           </q-card>
-          <q-card>
-            <q-card-section> Process CPU Usage </q-card-section>
+          <q-card class="text-center">
+            <q-card-section>Process CPU Usage</q-card-section>
             <q-card-section>
               <q-circular-progress
                 show-value
@@ -211,8 +284,8 @@
               </q-circular-progress>
             </q-card-section>
           </q-card>
-          <q-card>
-            <q-card-section> System CPU Usage </q-card-section>
+          <q-card class="text-center">
+            <q-card-section>System CPU Usage</q-card-section>
             <q-card-section>
               <q-circular-progress
                 show-value
@@ -442,6 +515,7 @@
 
 <script>
 import { api } from 'boot/axios';
+import { groupBy } from 'lodash';
 import { format as qformat } from 'quasar';
 import { defineComponent, ref } from 'vue';
 import { format, formatDistanceStrict } from '../util/format';
@@ -451,22 +525,49 @@ export default defineComponent({
 
   setup () {
     const metrics = ref();
+    const threads = ref();
+    const threadsByState = ref();
     const { humanStorageSize, capitalize } = qformat;
 
     api.get('/management/jhimetrics').then(response => {
       metrics.value = response.data;
     });
 
+    api.get('/management/threaddump').then(response => {
+      threadsByState.value = groupBy(response.data.threads, 'threadState');
+      threads.value = response.data.threads;
+    });
+
     const percent = (value, total) => (value / total) * 100;
+    const percentMetric = metric => percent(metric.committed, metric.max);
+
+    const threadColumns = [
+      { name: 'threadId', label: 'id', align: 'left', field: 'threadId', sortable: true },
+      { name: 'threadState', label: 'Thread State', align: 'left', field: 'threadState', sortable: true },
+      { name: 'threadName', label: 'Thread Name', align: 'left', field: 'threadName', sortable: true },
+      { name: 'blockedTime', label: 'Blocked Time', align: 'left', field: 'blockedTime', sortable: true },
+      { name: 'blockedCount', label: 'Blocked Count', align: 'left', field: 'blockedCount', sortable: true },
+      { name: 'waitedTime', label: 'Waited Time', align: 'left', field: 'waitedTime', sortable: true },
+      { name: 'waitedCount', label: 'Waited Count', align: 'left', field: 'waitedCount', sortable: true },
+      { name: 'lockName', label: 'Lock Name', align: 'left', field: 'lockName', sortable: true },
+    ];
+
+    const threadsInitialPagination = {
+      rowsPerPage: 0,
+    };
 
     return {
       metrics,
+      threads,
+      threadsByState,
+      threadColumns,
+      threadsInitialPagination,
       format,
       formatDistanceStrict,
       humanStorageSize,
       capitalize,
       percent,
-      percentMetric: metric => percent(metric.committed, metric.max),
+      percentMetric,
     };
   },
 });
