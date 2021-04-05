@@ -56,6 +56,7 @@
           :columns="threadColumns"
           row-key="threadId"
           :pagination="threadsInitialPagination"
+          hide-pagination
         >
           <template v-slot:body="props">
             <q-tr>
