@@ -34,80 +34,6 @@
           </q-card-section>
         </q-card>
       </div>
-      <h6 class="q-my-md">{{ $t('metrics.jvm.threads.title') }}</h6>
-      <div class="row items-start q-gutter-md">
-        <q-card>
-          <q-card-section>
-            <q-list>
-              <q-item
-                v-bind:key="key"
-                v-for="(group, key) in threadsByState"
-              >
-                <q-item-section>
-                  <q-item-label>{{ key }}</q-item-label>
-                  <q-item-label caption>{{ group.length }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card-section>
-        </q-card>
-        <q-table
-          :rows="threads"
-          :columns="threadColumns"
-          row-key="threadId"
-          :pagination="threadsInitialPagination"
-          hide-pagination
-        >
-          <template v-slot:body="props">
-            <q-tr>
-              <q-td>
-                {{ props.row.threadId }}
-              </q-td>
-              <q-td>
-                {{ props.row.threadState }}
-              </q-td>
-              <q-td>
-                {{ props.row.threadName }}
-
-                <q-btn
-                  v-if="props.row.stackTrace.length"
-                  flat
-                  label="Stacktrace"
-                  color="primary"
-                >
-                  <q-menu>
-                    <div class="row no-wrap q-pa-md">
-                      <div class="column">
-                        <div
-                          v-bind:key="trace"
-                          v-for="trace in props.row.stackTrace"
-                        >
-                          {{ trace.className }}.{{ trace.methodName }}({{ trace.fileName }}:{{ trace.lineNumber }})
-                        </div>
-                      </div>
-                    </div>
-                  </q-menu>
-                </q-btn>
-              </q-td>
-              <q-td>
-                {{ props.row.blockedTime }}
-              </q-td>
-              <q-td>
-                {{ props.row.blockedCount }}
-              </q-td>
-              <q-td>
-                {{ props.row.waitedTime }}
-              </q-td>
-              <q-td>
-                {{ props.row.waitedCount }}
-              </q-td>
-              <q-td>
-                {{ props.row.lockName }}
-              </q-td>
-            </q-tr>
-          </template>
-        </q-table>
-      </div>
       <h6 class="q-my-md">
         {{ $t('metrics.jvm.gc.title') }}
       </h6>
@@ -509,6 +435,80 @@
             </tr>
           </tbody>
         </q-markup-table>
+      </div>
+      <h6 class="q-my-md">{{ $t('metrics.jvm.threads.title') }}</h6>
+      <div class="row items-start q-gutter-md">
+        <q-card>
+          <q-card-section>
+            <q-list>
+              <q-item
+                v-bind:key="key"
+                v-for="(group, key) in threadsByState"
+              >
+                <q-item-section>
+                  <q-item-label>{{ key }}</q-item-label>
+                  <q-item-label caption>{{ group.length }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card-section>
+        </q-card>
+        <q-table
+          :rows="threads"
+          :columns="threadColumns"
+          row-key="threadId"
+          :pagination="threadsInitialPagination"
+          hide-pagination
+        >
+          <template v-slot:body="props">
+            <q-tr>
+              <q-td>
+                {{ props.row.threadId }}
+              </q-td>
+              <q-td>
+                {{ props.row.threadState }}
+              </q-td>
+              <q-td>
+                {{ props.row.threadName }}
+
+                <q-btn
+                  v-if="props.row.stackTrace.length"
+                  flat
+                  label="Stacktrace"
+                  color="primary"
+                >
+                  <q-menu>
+                    <div class="row no-wrap q-pa-md">
+                      <div class="column">
+                        <div
+                          v-bind:key="trace"
+                          v-for="trace in props.row.stackTrace"
+                        >
+                          {{ trace.className }}.{{ trace.methodName }}({{ trace.fileName }}:{{ trace.lineNumber }})
+                        </div>
+                      </div>
+                    </div>
+                  </q-menu>
+                </q-btn>
+              </q-td>
+              <q-td>
+                {{ props.row.blockedTime }}
+              </q-td>
+              <q-td>
+                {{ props.row.blockedCount }}
+              </q-td>
+              <q-td>
+                {{ props.row.waitedTime }}
+              </q-td>
+              <q-td>
+                {{ props.row.waitedCount }}
+              </q-td>
+              <q-td>
+                {{ props.row.lockName }}
+              </q-td>
+            </q-tr>
+          </template>
+        </q-table>
       </div>
     </div>
   </q-page>
