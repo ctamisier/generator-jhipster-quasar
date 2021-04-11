@@ -98,14 +98,6 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { format } from '../util/format';
 
-const toColumn = (name, label) => {
-  return { name: name, align: 'left', label: label };
-};
-
-const toSortableColumn = (name, label) => {
-  return { ...toColumn(name, label), sortable: true };
-};
-
 export default defineComponent({
   name: 'PageUsers',
 
@@ -128,17 +120,17 @@ export default defineComponent({
     const currentLogin = store.state.auth.account.login;
 
     const columns = [
-      toSortableColumn('login', t('userManagement.login')),
-      toSortableColumn('firstName', t('userManagement.firstName')),
-      toSortableColumn('lastName', t('userManagement.lastName')),
-      toSortableColumn('email', t('userManagement.email')),
-      toSortableColumn('langKey', t('userManagement.langKey')),
-      toColumn('createdBy', t('userManagement.createdBy')),
-      toColumn('createdDate', t('userManagement.createdDate')),
-      toColumn('lastModifiedBy', t('userManagement.lastModifiedBy')),
-      toColumn('lastModifiedDate', t('userManagement.lastModifiedDate')),
-      toColumn('authorities', t('userManagement.profiles')),
-      toSortableColumn('activated', t('userManagement.activated')),
+      { name: 'login', align: 'left', label: t('userManagement.login'), field: 'login', sortable: true },
+      { name: 'firstName', align: 'left', label: t('userManagement.firstName'), field: 'firstName', sortable: true },
+      { name: 'lastName', align: 'left', label: t('userManagement.lastName'), field: 'lastName', sortable: true },
+      { name: 'email', align: 'left', label: t('userManagement.email'), field: 'email', sortable: true },
+      { name: 'langKey', align: 'left', label: t('userManagement.langKey'), field: 'langKey', sortable: true },
+      { name: 'createdBy', align: 'left', label: t('userManagement.createdBy'), field: 'createdBy', sortable: false },
+      { name: 'createdDate', align: 'left', label: t('userManagement.createdDate'), field: 'createdDate', sortable: false },
+      { name: 'lastModifiedBy', align: 'left', label: t('userManagement.lastModifiedBy'), field: 'lastModifiedBy', sortable: false },
+      { name: 'lastModifiedDate', align: 'left', label: t('userManagement.lastModifiedDate'), field: 'lastModifiedDate', sortable: false },
+      { name: 'authorities', align: 'left', label: t('userManagement.profiles'), field: 'authorities', sortable: false },
+      { name: 'activated', align: 'left', label: t('userManagement.activated'), field: 'activated', sortable: true },
     ];
 
     function onRequest (props) {

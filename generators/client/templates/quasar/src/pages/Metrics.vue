@@ -459,6 +459,7 @@
           row-key="threadId"
           :pagination="threadsInitialPagination"
           hide-pagination
+          binary-state-sort
         >
           <template v-slot:body="props">
             <q-tr>
@@ -543,14 +544,14 @@ export default defineComponent({
     const percentMetric = metric => percent(metric.committed, metric.max);
 
     const threadColumns = [
-      { name: 'threadId', label: 'id', align: 'left', field: 'threadId', sortable: true },
-      { name: 'threadState', label: 'Thread State', align: 'left', field: 'threadState', sortable: true },
-      { name: 'threadName', label: 'Thread Name', align: 'left', field: 'threadName', sortable: true },
-      { name: 'blockedTime', label: 'Blocked Time', align: 'left', field: 'blockedTime', sortable: true },
-      { name: 'blockedCount', label: 'Blocked Count', align: 'left', field: 'blockedCount', sortable: true },
-      { name: 'waitedTime', label: 'Waited Time', align: 'left', field: 'waitedTime', sortable: true },
-      { name: 'waitedCount', label: 'Waited Count', align: 'left', field: 'waitedCount', sortable: true },
-      { name: 'lockName', label: 'Lock Name', align: 'left', field: 'lockName', sortable: true },
+      { name: 'threadId', align: 'left', label: 'Id', field: 'threadId', sortable: true },
+      { name: 'threadState', align: 'left',label: 'Thread State',  field: 'threadState', sortable: true },
+      { name: 'threadName',  align: 'left',label: 'Thread Name', field: 'threadName', sortable: true },
+      { name: 'blockedTime', align: 'left',label: 'Blocked Time',  field: 'blockedTime', sortable: true },
+      { name: 'blockedCount', align: 'left',label: 'Blocked Count',  field: 'blockedCount', sortable: true },
+      { name: 'waitedTime', align: 'left',label: 'Waited Time',  field: 'waitedTime', sortable: true },
+      { name: 'waitedCount', align: 'left',label: 'Waited Count',  field: 'waitedCount', sortable: true },
+      { name: 'lockName', align: 'left',label: 'Lock Name',  field: 'lockName', sortable: true },
     ];
 
     const threadsInitialPagination = {
