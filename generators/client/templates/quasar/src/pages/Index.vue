@@ -73,8 +73,8 @@ export default defineComponent({
     const router = useRouter();
 
     const credentials = reactive({
-      username: 'admin',
-      password: 'admin',
+      username: '',
+      password: '',
     });
 
     return {
