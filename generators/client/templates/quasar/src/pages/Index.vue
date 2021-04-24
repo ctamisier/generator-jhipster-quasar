@@ -61,6 +61,7 @@
 import { api } from 'boot/axios';
 import { loadTranslation } from 'boot/i18n';
 import { computed, defineComponent, reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -68,6 +69,8 @@ export default defineComponent({
 
   setup () {
     const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
 
     const credentials = reactive({
       username: 'admin',
@@ -89,6 +92,9 @@ export default defineComponent({
             store.dispatch('auth/login', accountResponse.data);
             const langKey = accountResponse.data.langKey;
             loadTranslation(langKey);
+            if (route.query.redirect) {
+              router.push(route.query.redirect);
+            }
           })
           .catch(() => {
             store.dispatch('auth/logout');

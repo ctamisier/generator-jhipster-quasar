@@ -92,7 +92,10 @@ export default route(function ({ store /*, ssrContext */ }) {
         next();
       });
     } else if (!idToken && !to.meta.public) {
-      next('/');
+      next({
+        path: '/',
+        query: { redirect: to.fullPath },
+      });
     } else {
       next();
     }
