@@ -9,7 +9,7 @@
       </h6>
       <div class="row items-start q-gutter-md">
         <q-card
-          v-bind:key="metric"
+          v-bind:key="key"
           v-for="(metric, key) in metrics['jvm']"
         >
           <q-card-section class="text-center">
@@ -423,7 +423,7 @@
           </thead>
           <tbody>
             <tr
-              v-bind:key="entry"
+              v-bind:key="key"
               v-for="(entry, key) in metrics.cache"
             >
               <td class="text-left">{{ key }}</td>
