@@ -15,13 +15,11 @@ https://jhipster-quasar.herokuapp.com/
 # Features
 
 * Quasar 2 beta (Vue 3)
-* Sign in / Sign out
-* Sign up
+* Sign in / Sign out / Sign up
 * JWT
 * Account
 * I18n
-* Change password
-* Reset password
+* Change password / Reset password
 * Users
     * List
     * Create
@@ -29,6 +27,7 @@ https://jhipster-quasar.herokuapp.com/
     * Delete
 * Metrics
 * Configuration
+* Log level runtime update
 
 # Introduction
 
