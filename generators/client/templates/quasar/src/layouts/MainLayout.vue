@@ -117,6 +117,22 @@
         </q-item-section>
       </q-item>
       <q-item
+        to="/logs"
+        clickable
+        v-ripple
+        :active="link === 'logs'"
+        @click="link = 'logs'"
+        active-class="bg-blue-1 text-blue-10"
+        v-if="store.getters['auth/hasRoleAdmin']"
+      >
+        <q-item-section avatar>
+          <q-icon name="text_snippet" />
+        </q-item-section>
+        <q-item-section>
+          {{ $t('global.menu.admin.logs') }}
+        </q-item-section>
+      </q-item>
+      <q-item
         to="/"
         clickable
         v-ripple

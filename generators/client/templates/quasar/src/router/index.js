@@ -61,6 +61,12 @@ export default route(function ({ store /*, ssrContext */ }) {
           component: () => import('pages/Metrics.vue'),
           beforeEnter: () => store.getters['auth/hasRoleAdmin'],
         },
+        {
+          path: '/logs',
+          meta: { public: false },
+          component: () => import('pages/Logs.vue'),
+          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+        },
       ],
     },
 
