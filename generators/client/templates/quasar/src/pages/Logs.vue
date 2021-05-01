@@ -1,5 +1,13 @@
 <template>
   <div class="q-pa-md">
+    <div class="q-pa-md flex flex-left">
+      <q-input
+        v-model="filterValue"
+        label="Filter"
+        style="min-width: 400px"
+        @keyup="filter(filterValue)"
+      />
+    </div>
     <q-virtual-scroll
       type="table"
       style="max-height: 90vh"
@@ -50,31 +58,43 @@ export default defineComponent({
     const loggers = ref([]);
     const levels = ref([]);
     const model = ref([]);
+    const filterValue = ref('');
+    let initialLoggers = [];
 
-    const fetchLoggers = () => {
+    const filter = filterInputValue => {
+      loggers.value = Object.values(initialLoggers).filter(log => log.logger.toLowerCase().includes(filterInputValue.toLowerCase()));
+    };
+
+    const fetchLoggers = filterInputValue => {
+      initialLoggers = [];
       api.get('/management/loggers').then(response => {
         const data = response.data;
+        const entries = Object.entries(data.loggers);
 
-        for (const [key, value] of Object.entries(data.loggers)) {
+        for (const [key, value] of entries) {
           model.value[key] = value.effectiveLevel;
-          loggers.value.push({ logger: key, level: value.effectiveLevel });
+          initialLoggers.push({ logger: key, level: value.effectiveLevel });
         }
 
         levels.value = data.levels.map(level => {
           return { label: level, value: level };
         });
+
+        filter(filterInputValue);
       });
     };
 
-    fetchLoggers();
+    fetchLoggers(filterValue.value);
 
     return {
       loggers,
       levels,
       model,
+      filterValue,
+      filter,
       toggle: (row, level) => {
         api.post(`/management/loggers/${row.logger}`, { configuredLevel: level }).then(() => {
-          fetchLoggers();
+          fetchLoggers(filterValue.value);
         });
       },
     };
