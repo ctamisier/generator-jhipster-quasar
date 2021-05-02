@@ -4,13 +4,13 @@
       <q-input
         v-model="filterValue"
         label="Filter"
-        style="min-width: 400px"
+        style="min-width: 300px"
         @keyup="filter(filterValue)"
       />
     </div>
     <q-virtual-scroll
       type="table"
-      style="max-height: 90vh"
+      style="max-height: 80vh"
       :virtual-scroll-item-size="48"
       :virtual-scroll-sticky-size-start="48"
       :virtual-scroll-sticky-size-end="32"
@@ -52,7 +52,7 @@ import { api } from 'boot/axios';
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
-  name: 'LogsPage',
+  name: 'PageLogs',
 
   setup () {
     const loggers = ref([]);
