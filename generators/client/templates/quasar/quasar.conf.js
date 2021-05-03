@@ -9,6 +9,7 @@
 /* eslint-env node */
 const ESLintPlugin = require('eslint-webpack-plugin');
 const MergeJsonWebpackPlugin = require('merge-jsons-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { configure } = require('quasar/wrappers');
 
 module.exports = configure(function (/* ctx */) {
@@ -77,6 +78,20 @@ module.exports = configure(function (/* ctx */) {
                 { pattern: '../src/main/webapp/i18n/en/*.json', fileName: '../i18n/en.json' },
               ],
             },
+          },
+        ]);
+        chain.plugin('copy-webpack-plugin').use(CopyWebpackPlugin, [
+          {
+            patterns: [
+              {
+                context: './node_modules/swagger-ui-dist/',
+                from: '*.{js,css,html,png}',
+                to: '../swagger-ui/',
+                globOptions: { ignore: ['**/index.html'] },
+              },
+              { from: './node_modules/axios/dist/axios.min.js', to: '../swagger-ui/' },
+              { from: '../src/main/webapp/swagger-ui/', to: '../swagger-ui/' },
+            ],
           },
         ]);
       },

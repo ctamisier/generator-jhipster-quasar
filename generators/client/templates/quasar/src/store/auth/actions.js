@@ -4,5 +4,5 @@ export function login(context, data) {
 
 export function logout(context) {
   context.commit('setAccount', null);
-  sessionStorage.removeItem('id_token');
+  sessionStorage.removeItem('jhi-authenticationToken');
 }

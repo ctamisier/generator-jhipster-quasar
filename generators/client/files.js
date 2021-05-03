@@ -11,7 +11,8 @@ module.exports = {
     addForwardOnRoot,
     addCorsI18N,
     addYarnVersion,
-    replaceNpmByYarn
+    replaceNpmByYarn,
+    addSwagger
 };
 
 function writeFiles() {
@@ -174,4 +175,18 @@ function replaceNpmByYarn() {
                     </executions>
                 </plugin>`
     );
+}
+
+function addSwagger() {
+    const { CLIENT_MAIN_SRC_DIR } = jhipsterConstants;
+
+    const files = {
+        swagger: [
+            {
+                path: CLIENT_MAIN_SRC_DIR,
+                templates: ['swagger-ui/index.html', { file: 'swagger-ui/dist/images/throbber.gif', method: 'copy' }]
+            }
+        ]
+    };
+    return this.writeFilesToDisk(files, 'common');
 }

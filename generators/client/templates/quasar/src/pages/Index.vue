@@ -84,7 +84,7 @@ export default defineComponent({
         api
           .post('/api/authenticate', credentials)
           .then(authenticateResponse => {
-            sessionStorage.setItem('id_token', authenticateResponse.data.id_token);
+            sessionStorage.setItem('jhi-authenticationToken', authenticateResponse.data.id_token);
             api.defaults.headers.common.Authorization = `Bearer ${authenticateResponse.data.id_token}`;
             return api.get('/api/account');
           })

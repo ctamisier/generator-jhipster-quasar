@@ -67,6 +67,12 @@ export default route(function ({ store /*, ssrContext */ }) {
           component: () => import('pages/Logs.vue'),
           beforeEnter: () => store.getters['auth/hasRoleAdmin'],
         },
+        {
+          path: '/docs',
+          meta: { public: false },
+          component: () => import('pages/Docs.vue'),
+          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+        },
       ],
     },
 
@@ -89,7 +95,7 @@ export default route(function ({ store /*, ssrContext */ }) {
   });
 
   Router.beforeEach((to, from, next) => {
-    const idToken = sessionStorage.getItem('id_token');
+    const idToken = sessionStorage.getItem('jhi-authenticationToken');
     if (idToken && !store.getters['auth/isAuthenticated']) {
       api.defaults.headers.common.Authorization = `Bearer ${idToken}`;
       api.get('/api/account').then(accountResponse => {

@@ -133,6 +133,22 @@
         </q-item-section>
       </q-item>
       <q-item
+        to="/docs"
+        clickable
+        v-ripple
+        :active="link === 'docs'"
+        @click="link = 'docs'"
+        active-class="bg-blue-1 text-blue-10"
+        v-if="store.getters['auth/hasRoleAdmin']"
+      >
+        <q-item-section avatar>
+          <q-icon name="menu_book" />
+        </q-item-section>
+        <q-item-section>
+          {{ $t('global.menu.admin.apidocs') }}
+        </q-item-section>
+      </q-item>
+      <q-item
         to="/"
         clickable
         v-ripple

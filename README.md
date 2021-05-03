@@ -25,9 +25,10 @@ https://jhipster-quasar.herokuapp.com/
     * Create
     * Update
     * Delete
-* Metrics
 * Configuration
+* Metrics
 * Log level runtime update
+* API Documentation
 
 # Introduction
 

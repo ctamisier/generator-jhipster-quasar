@@ -10,6 +10,7 @@ const addForwardOnRoot = require('./files').addForwardOnRoot;
 const addCorsI18N = require('./files').addCorsI18N;
 const addYarnVersion = require('./files').addYarnVersion;
 const replaceNpmByYarn = require('./files').replaceNpmByYarn;
+const addSwagger = require('./files').addSwagger;
 const prompts = require('./prompts');
 
 module.exports = class extends ClientGenerator {
@@ -33,8 +34,8 @@ module.exports = class extends ClientGenerator {
         return {
             askForClient: prompts.askForClient,
 
-            setSharedConfigOptions() {
-                this.configOptions.clientFramework = this.clientFramework;
+            overrideConfigOptions() {
+                this.configOptions.clientFramework = this.jhipsterConfig.clientFramework = this.clientFramework = 'quasar';
             }
         };
     }
@@ -71,6 +72,7 @@ module.exports = class extends ClientGenerator {
                 addCorsI18N.call(this);
                 addYarnVersion.call(this);
                 replaceNpmByYarn.call(this);
+                addSwagger.call(this);
             }
         };
     }
