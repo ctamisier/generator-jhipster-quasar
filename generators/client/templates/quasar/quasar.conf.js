@@ -88,6 +88,10 @@ module.exports = configure(function (/* ctx */) {
       https: false,
       port: 8100,
       open: true, // opens browser window automatically
+      proxy: {
+        context: ['/api', '/i18n', '/management', '/swagger-ui', '/swagger-resources', '/v3/api-docs'],
+        target: 'http://localhost:8080',
+      },
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework

@@ -2,9 +2,7 @@ import axios from 'axios';
 import { Notify } from 'quasar';
 import { boot } from 'quasar/wrappers';
 
-const api = axios.create({
-  baseURL: window.location.hostname === 'localhost' ? 'http://localhost:8080' : '/',
-});
+const api = axios.create();
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
