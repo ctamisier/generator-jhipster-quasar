@@ -86,6 +86,7 @@ module.exports = class extends ClientGenerator {
                 this.log(chalk.green('Run Quasar:'));
                 this.log(chalk.yellow.bold('cd quasar'));
                 this.log(chalk.yellow.bold('npx quasar dev\n'));
+                this.log(chalk.yellow.bold('Log in with admin/admin or user/user\n'));
             }
         };
     }
