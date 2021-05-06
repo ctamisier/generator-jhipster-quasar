@@ -56,6 +56,12 @@ export default route(function ({ store /*, ssrContext */ }) {
           beforeEnter: () => store.getters['auth/hasRoleAdmin'],
         },
         {
+          path: '/health',
+          meta: { public: false },
+          component: () => import('pages/Health.vue'),
+          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+        },
+        {
           path: '/metrics',
           meta: { public: false },
           component: () => import('pages/Metrics.vue'),

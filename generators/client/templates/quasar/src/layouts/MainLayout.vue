@@ -101,6 +101,22 @@
         </q-item-section>
       </q-item>
       <q-item
+        to="/health"
+        clickable
+        v-ripple
+        :active="link === 'health'"
+        @click="link = 'health'"
+        active-class="bg-blue-1 text-blue-10"
+        v-if="store.getters['auth/hasRoleAdmin']"
+      >
+        <q-item-section avatar>
+          <q-icon name="health_and_safety" />
+        </q-item-section>
+        <q-item-section>
+          {{ $t('global.menu.admin.health') }}
+        </q-item-section>
+      </q-item>
+      <q-item
         to="/metrics"
         clickable
         v-ripple
