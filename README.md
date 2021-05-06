@@ -10,7 +10,7 @@
 
 # Demo
 
-https://jhipster-quasar.herokuapp.com/
+https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 
 # Features
 
