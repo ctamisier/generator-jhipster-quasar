@@ -26,6 +26,7 @@ https://jhipster-quasar.herokuapp.com/
     * Update
     * Delete
 * Configuration
+* Health  
 * Metrics
 * Log level runtime update
 * API Documentation
