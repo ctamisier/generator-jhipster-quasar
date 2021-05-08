@@ -7,7 +7,6 @@ const renamePackageJsonNameField = require('./files').renamePackageJsonNameField
 const addLangKeys = require('./files').addLangKeys;
 const addLanguagesInQuasarConf = require('./files').addLanguagesInQuasarConf;
 const addForwardOnRoot = require('./files').addForwardOnRoot;
-const addCorsI18N = require('./files').addCorsI18N;
 const addYarnVersion = require('./files').addYarnVersion;
 const replaceNpmByYarn = require('./files').replaceNpmByYarn;
 const addSwagger = require('./files').addSwagger;
@@ -69,7 +68,6 @@ module.exports = class extends ClientGenerator {
                 addLangKeys.call(this);
                 addLanguagesInQuasarConf.call(this);
                 addForwardOnRoot.call(this);
-                addCorsI18N.call(this);
                 addYarnVersion.call(this);
                 replaceNpmByYarn.call(this);
                 addSwagger.call(this);

@@ -9,7 +9,6 @@ module.exports = {
     addLangKeys,
     addLanguagesInQuasarConf,
     addForwardOnRoot,
-    addCorsI18N,
     addYarnVersion,
     replaceNpmByYarn,
     addSwagger
@@ -100,15 +99,6 @@ function addForwardOnRoot() {
          public String forwardRoot() {
               return "forward:/${QUASAR_PATH}/index.html";
          }`
-    );
-}
-
-function addCorsI18N() {
-    this.replaceContent(
-        `${jhipsterConstants.SERVER_MAIN_SRC_DIR}${this.packageFolder}/config/WebConfigurer.java`,
-        'source.registerCorsConfiguration("/api/**", config)',
-        `source.registerCorsConfiguration("/i18n/**", config);
-         source.registerCorsConfiguration("/api/**", config);`
     );
 }
 
