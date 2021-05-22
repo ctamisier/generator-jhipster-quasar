@@ -58,11 +58,10 @@
 </template>
 
 <script>
-import { api } from 'boot/axios';
-import { loadTranslation } from 'boot/i18n';
 import { computed, defineComponent, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { authLogin } from '../auth/authentication';
 
 export default defineComponent({
   name: 'PageIndex',
@@ -81,24 +80,7 @@ export default defineComponent({
       credentials,
       isAuthenticated: computed(() => store.getters['auth/isAuthenticated']),
       onSubmit () {
-        api
-          .post('/api/authenticate', credentials)
-          .then(authenticateResponse => {
-            sessionStorage.setItem('jhi-authenticationToken', authenticateResponse.data.id_token);
-            api.defaults.headers.common.Authorization = `Bearer ${authenticateResponse.data.id_token}`;
-            return api.get('/api/account');
-          })
-          .then(accountResponse => {
-            store.dispatch('auth/login', accountResponse.data);
-            const langKey = accountResponse.data.langKey;
-            loadTranslation(langKey);
-            if (route.query.redirect) {
-              router.push(route.query.redirect);
-            }
-          })
-          .catch(() => {
-            store.dispatch('auth/logout');
-          });
+        authLogin(store, router, route, credentials)
       },
     };
   },

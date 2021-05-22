@@ -20,11 +20,13 @@ export default boot(({ app }) => {
       return response;
     },
     function (error) {
-      Notify.create({
-        type: 'negative',
-        message: 'Operation failed',
-        timeout: 1000,
-      });
+      if (error.response.config.url !== '/api/account') {
+        Notify.create({
+          type: 'negative',
+          message: 'Operation failed',
+          timeout: 1000,
+        });
+      }
       return Promise.reject(error);
     }
   );

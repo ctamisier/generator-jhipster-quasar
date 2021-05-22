@@ -1,0 +1,40 @@
+<template>
+  <q-page class="q-pa-md flex flex-center">
+    <div
+      class="flex column"
+      style="min-width: 300px"
+      v-if="!isAuthenticated"
+    >
+      <q-btn
+        color="primary"
+        :label="$t('login.form.button')"
+        @click="authLogin()"
+      />
+    </div>
+    <div v-if="isAuthenticated">
+      <img
+        alt="Quasar logo"
+        src="~assets/quasar-logo-full.svg"
+      />
+    </div>
+  </q-page>
+</template>
+
+<script>
+import { computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
+import { authLogin } from '../auth/authentication';
+
+export default defineComponent({
+  name: 'PageIndex',
+
+  setup () {
+    const store = useStore();
+
+    return {
+      isAuthenticated: computed(() => store.getters['auth/isAuthenticated']),
+      authLogin,
+    };
+  },
+});
+</script>

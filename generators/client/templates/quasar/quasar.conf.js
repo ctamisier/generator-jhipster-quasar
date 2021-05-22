@@ -104,7 +104,7 @@ module.exports = configure(function (/* ctx */) {
       port: 8100,
       open: true, // opens browser window automatically
       proxy: {
-        context: ['/api', '/i18n', '/management', '/swagger-ui', '/swagger-resources', '/v3/api-docs'],
+        context: ['/api', '/i18n', '/management', '/swagger-ui', '/swagger-resources', '/v3/api-docs', '/oauth2', '/login', '/auth'],
         target: 'http://localhost:8080',
       },
     },

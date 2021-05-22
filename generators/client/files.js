@@ -15,11 +15,100 @@ module.exports = {
 };
 
 function writeFiles() {
-    this.copy(`${QUASAR_PATH}/*`, QUASAR_PATH);
-    this.copy(`${QUASAR_PATH}/.*`, QUASAR_PATH);
-    this.copy(`${QUASAR_PATH}/.vscode`, `${QUASAR_PATH}/.vscode`);
+    const files = {
+        root: [
+            {
+                templates: [
+                    `${QUASAR_PATH}/.editorconfig`,
+                    `${QUASAR_PATH}/.eslintignore`,
+                    `${QUASAR_PATH}/.eslintrc.js`,
+                    `${QUASAR_PATH}/.gitignore`,
+                    `${QUASAR_PATH}/.postcssrc.js`,
+                    `${QUASAR_PATH}/babel.config.js`,
+                    `${QUASAR_PATH}/jsconfig.json`,
+                    `${QUASAR_PATH}/README.md`
+                ]
+            }
+        ],
+        vscode: [
+            {
+                templates: [`${QUASAR_PATH}/.vscode/extensions.json`, `${QUASAR_PATH}/.vscode/settings.json`]
+            }
+        ],
+        src: [
+            {
+                templates: [`${QUASAR_PATH}/src/App.vue`]
+            }
+        ],
+        srcboot: [
+            {
+                templates: [`${QUASAR_PATH}/src/boot/axios.js`, `${QUASAR_PATH}/src/boot/i18n.js`]
+            }
+        ],
+        srccss: [
+            {
+                templates: [`${QUASAR_PATH}/src/css/app.scss`, `${QUASAR_PATH}/src/css/quasar.variables.scss`]
+            }
+        ],
+        srclayout: [
+            {
+                templates: [`${QUASAR_PATH}/src/layouts/MainLayout.vue`]
+            }
+        ],
+        srcpages: [
+            {
+                condition: generator => generator.authenticationType !== 'oauth2',
+                templates: [
+                    `${QUASAR_PATH}/src/pages/Account.vue`,
+                    `${QUASAR_PATH}/src/pages/Activation.vue`,
+                    `${QUASAR_PATH}/src/pages/ChangePassword.vue`,
+                    `${QUASAR_PATH}/src/pages/ForgotPassword.vue`,
+                    `${QUASAR_PATH}/src/pages/Register.vue`,
+                    `${QUASAR_PATH}/src/pages/ResetPassword.vue`,
+                    `${QUASAR_PATH}/src/pages/User.vue`,
+                    `${QUASAR_PATH}/src/pages/Users.vue`
+                ]
+            },
+            {
+                templates: [
+                    `${QUASAR_PATH}/src/pages/Configuration.vue`,
+                    `${QUASAR_PATH}/src/pages/Docs.vue`,
+                    `${QUASAR_PATH}/src/pages/Error404.vue`,
+                    `${QUASAR_PATH}/src/pages/Health.vue`,
+                    {
+                        file: () => `${QUASAR_PATH}/src/pages/_${this.authenticationType}/Index.vue`,
+                        renameTo: () => `${QUASAR_PATH}/src/pages/Index.vue`
+                    },
+                    `${QUASAR_PATH}/src/pages/Logs.vue`,
+                    `${QUASAR_PATH}/src/pages/Metrics.vue`
+                ]
+            }
+        ],
+        srcrouter: [{ templates: [`${QUASAR_PATH}/src/router/index.js`] }],
+        srcstore: [{ templates: [`${QUASAR_PATH}/src/store/index.js`, `${QUASAR_PATH}/src/store/store-flag.d.ts`] }],
+        srcstoreauth: [
+            {
+                templates: [
+                    `${QUASAR_PATH}/src/store/auth/actions.js`,
+                    `${QUASAR_PATH}/src/store/auth/getters.js`,
+                    `${QUASAR_PATH}/src/store/auth/index.js`,
+                    `${QUASAR_PATH}/src/store/auth/mutations.js`,
+                    `${QUASAR_PATH}/src/store/auth/state.js`
+                ]
+            }
+        ],
+        srcutil: [{ templates: [`${QUASAR_PATH}/src/util/format.js`, `${QUASAR_PATH}/src/util/cookies.js`] }]
+    };
+
+    this.writeFilesToDisk(files, '.');
+
+    this.copy(`${QUASAR_PATH}/package.json`, `${QUASAR_PATH}/package.json`);
     this.copy(`${QUASAR_PATH}/public`, `${QUASAR_PATH}/public`);
-    this.copy(`${QUASAR_PATH}/src`, `${QUASAR_PATH}/src`);
+    this.copy(`${QUASAR_PATH}/src/index.template.html`, `${QUASAR_PATH}/src/index.template.html`);
+    this.copy(`${QUASAR_PATH}/src/constants/i18nConstants.js`, `${QUASAR_PATH}/src/constants/i18nConstants.js`);
+    this.copy(`${QUASAR_PATH}/src/assets/quasar-logo-full.svg`, `${QUASAR_PATH}/src/assets/quasar-logo-full.svg`);
+    this.copy(`${QUASAR_PATH}/quasar.conf.js`, `${QUASAR_PATH}/quasar.conf.js`);
+    this.copy(`${QUASAR_PATH}/src/auth/_${this.authenticationType}/authentication.js`, `${QUASAR_PATH}/src/auth/authentication.js`);
 }
 
 function renameToolbarTitle() {

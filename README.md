@@ -16,7 +16,7 @@ https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 
 * Quasar 2 beta (Vue 3)
 * Sign in / Sign out / Sign up
-* JWT
+* JWT / OAuth 2.0
 * Account
 * I18n
 * Change password / Reset password

@@ -38,6 +38,7 @@
       class="bg-grey-3"
       v-if="store.state.auth.account"
     >
+<%_ if (authenticationType !== 'oauth2' ) { _%>
       <q-item
         to="/account"
         clickable
@@ -84,6 +85,7 @@
           {{ $t('global.menu.admin.userManagement') }}
         </q-item-section>
       </q-item>
+<%_ } _%>
       <q-item
         to="/configuration"
         clickable
@@ -165,7 +167,6 @@
         </q-item-section>
       </q-item>
       <q-item
-        to="/"
         clickable
         v-ripple
         @click="logout"
@@ -187,13 +188,16 @@
 
 <script>
 import { computed, defineComponent, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { authLogout } from '../auth/authentication';
 
 export default defineComponent({
   name: 'MainLayout',
 
   setup () {
     const store = useStore();
+    const router = useRouter();
 
     const isAuthenticatedGetter = () => store.getters['auth/isAuthenticated'];
     const leftDrawerOpen = isAuthenticatedGetter();
@@ -218,7 +222,7 @@ export default defineComponent({
       },
       logout () {
         data.leftDrawerOpen = false;
-        store.dispatch('auth/logout');
+        authLogout(store, router)
       },
     };
   },

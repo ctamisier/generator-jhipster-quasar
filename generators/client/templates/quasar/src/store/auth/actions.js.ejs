@@ -1,0 +1,16 @@
+<%_ if (authenticationType === 'oauth2' ) { _%>
+import { deleteCookie } from '../../util/cookies';
+<% } %>
+
+export function login(context, data) {
+  context.commit('setAccount', data);
+}
+
+export function logout(context) {
+  context.commit('setAccount', null);
+<%_ if (authenticationType === 'oauth2' ) { _%>
+  deleteCookie('XSRF-TOKEN');
+<%_ } else { _%>
+  sessionStorage.removeItem('jhi-authenticationToken');
+<%_ } _%>
+}

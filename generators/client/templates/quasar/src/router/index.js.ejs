@@ -1,7 +1,6 @@
-import { api } from 'boot/axios';
-import { loadTranslation } from 'boot/i18n';
 import { route } from 'quasar/wrappers';
 import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
+import { beforeEachAuth } from '../auth/authentication'
 
 /*
  * If not building with SSR mode, you can
@@ -26,6 +25,7 @@ export default route(function ({ store /*, ssrContext */ }) {
       component: () => import('layouts/MainLayout.vue'),
       children: [
         { path: '', meta: { public: true }, component: () => import('pages/Index.vue') },
+<%_ if (authenticationType !== 'oauth2' ) { _%>
         { path: '/register', meta: { public: true }, component: () => import('pages/Register.vue') },
         { path: '/account', meta: { public: false }, component: () => import('pages/Account.vue') },
         { path: '/account/activate', meta: { public: true }, component: () => import('pages/Activation.vue') },
@@ -49,6 +49,7 @@ export default route(function ({ store /*, ssrContext */ }) {
           meta: { public: false },
           component: () => import('pages/User.vue'),
         },
+<%_ } _%>
         {
           path: '/configuration',
           meta: { public: false },
@@ -100,24 +101,7 @@ export default route(function ({ store /*, ssrContext */ }) {
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE),
   });
 
-  Router.beforeEach((to, from, next) => {
-    const idToken = sessionStorage.getItem('jhi-authenticationToken');
-    if (idToken && !store.getters['auth/isAuthenticated']) {
-      api.defaults.headers.common.Authorization = `Bearer ${idToken}`;
-      api.get('/api/account').then(accountResponse => {
-        store.dispatch('auth/login', accountResponse.data);
-        loadTranslation(accountResponse.data.langKey);
-        next();
-      });
-    } else if (!idToken && !to.meta.public) {
-      next({
-        path: '/',
-        query: { redirect: to.fullPath },
-      });
-    } else {
-      next();
-    }
-  });
+  Router.beforeEach((to, from, next) => beforeEachAuth(to, from, next, store));
 
   return Router;
 });
