@@ -64,7 +64,6 @@ module.exports = class extends ClientGenerator {
             write() {
                 writeFiles.call(this);
                 renameToolbarTitle.call(this);
-                renamePackageJsonNameField.call(this);
                 addLangKeys.call(this);
                 addLanguagesInQuasarConf.call(this);
                 addForwardOnRoot.call(this);

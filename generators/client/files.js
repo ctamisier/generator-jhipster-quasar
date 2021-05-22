@@ -5,7 +5,6 @@ const QUASAR_PATH = 'quasar';
 module.exports = {
     writeFiles,
     renameToolbarTitle,
-    renamePackageJsonNameField,
     addLangKeys,
     addLanguagesInQuasarConf,
     addForwardOnRoot,
@@ -26,6 +25,7 @@ function writeFiles() {
                     `${QUASAR_PATH}/.postcssrc.js`,
                     `${QUASAR_PATH}/babel.config.js`,
                     `${QUASAR_PATH}/jsconfig.json`,
+                    `${QUASAR_PATH}/package.json`,
                     `${QUASAR_PATH}/README.md`
                 ]
             }
@@ -102,7 +102,6 @@ function writeFiles() {
 
     this.writeFilesToDisk(files, '.');
 
-    this.copy(`${QUASAR_PATH}/package.json`, `${QUASAR_PATH}/package.json`);
     this.copy(`${QUASAR_PATH}/public`, `${QUASAR_PATH}/public`);
     this.copy(`${QUASAR_PATH}/src/index.template.html`, `${QUASAR_PATH}/src/index.template.html`);
     this.copy(`${QUASAR_PATH}/src/constants/i18nConstants.js`, `${QUASAR_PATH}/src/constants/i18nConstants.js`);
@@ -117,10 +116,6 @@ function renameToolbarTitle() {
         /<q-toolbar-title>[\s\S]*<\/q-toolbar-title>/,
         `<q-toolbar-title>\n          ${this.lowercaseBaseName}\n        </q-toolbar-title>`
     );
-}
-
-function renamePackageJsonNameField() {
-    this.replaceContent(`${QUASAR_PATH}/package.json`, /"name":[\s\S]+?"[\s\S]+?"/, `"name": "${this.lowercaseBaseName}"`);
 }
 
 function addLangKeys() {
