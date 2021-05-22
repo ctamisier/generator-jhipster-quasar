@@ -1,6 +1,6 @@
 import { api } from 'boot/axios';
 import { loadTranslation } from 'boot/i18n';
-import { deleteCookie, getCookie } from '../util/cookies';
+import { getCookie } from '../util/cookies';
 
 export const beforeEachAuth = (to, from, next, store) => {
   const xsrfToken = getCookie('XSRF-TOKEN');
