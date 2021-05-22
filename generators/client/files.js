@@ -121,6 +121,18 @@ function renameToolbarTitle() {
 function addLangKeys() {
     const i18nMapping = {
         en: { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
+        al: { localeId: 'sq', localeImport: 'sq', quasarLang: 'sq' },
+        'ar-ly': { localeId: 'arDZ', localeImport: 'ar-DZ', quasarLang: 'ar' },
+        by: { localeId: 'be', localeImport: 'be', quasarLang: 'en-US' },
+        fa: { localeId: 'faIR', localeImport: 'fa-IR', quasarLang: 'en-US' },
+        in: { localeId: 'id', localeImport: 'id', quasarLang: 'id' },
+        mr: { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
+        my: { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
+        si: { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
+        'pt-pt': { localeId: 'pt', localeImport: 'pt', quasarLang: 'pt' },
+        ua: { localeId: 'uk', localeImport: 'uk', quasarLang: 'uk' },
+        'uz-Cyrl-uz': { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
+        'uz-Latn-uz': { localeId: 'uz', localeImport: 'uz', quasarLang: 'en-US' },
         'zh-tw': { localeId: 'zhTW', localeImport: 'zh-TW', quasarLang: 'zh-TW' }
     };
 
