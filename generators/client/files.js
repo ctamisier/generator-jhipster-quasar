@@ -5,7 +5,7 @@ const QUASAR_PATH = 'quasar';
 module.exports = {
     writeFiles,
     renameToolbarTitle,
-    addLangKeys,
+    addLanguages,
     addLanguagesInQuasarConf,
     addForwardOnRoot,
     addYarnVersion,
@@ -118,21 +118,24 @@ function renameToolbarTitle() {
     );
 }
 
-function addLangKeys() {
+function addLanguages() {
     const i18nMapping = {
         en: { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
-        al: { localeId: 'sq', localeImport: 'sq', quasarLang: 'sq' },
+        al: { localeId: 'sq', localeImport: 'sq', quasarLang: '' },
         'ar-ly': { localeId: 'arDZ', localeImport: 'ar-DZ', quasarLang: 'ar' },
-        by: { localeId: 'be', localeImport: 'be', quasarLang: 'en-US' },
-        fa: { localeId: 'faIR', localeImport: 'fa-IR', quasarLang: 'en-US' },
-        in: { localeId: 'id', localeImport: 'id', quasarLang: 'id' },
-        mr: { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
-        my: { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
-        si: { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
+        by: { localeId: 'be', localeImport: 'be', quasarLang: '' },
+        fa: { localeId: 'faIR', localeImport: 'fa-IR', quasarLang: 'fa-IR' },
+        in: { localeId: 'id', localeImport: 'id', quasarLang: '' },
+        ko: { localeId: 'ko', localeImport: 'ko', quasarLang: 'ko-KR' },
+        mr: { localeId: '', localeImport: '', quasarLang: '' },
+        my: { localeId: '', localeImport: '', quasarLang: '' },
+        'pt-br': { localeId: 'ptBR', localeImport: 'pt-BR', quasarLang: 'pt-BR' },
         'pt-pt': { localeId: 'pt', localeImport: 'pt', quasarLang: 'pt' },
+        si: { localeId: '', localeImport: '', quasarLang: '' },
         ua: { localeId: 'uk', localeImport: 'uk', quasarLang: 'uk' },
-        'uz-Cyrl-uz': { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
-        'uz-Latn-uz': { localeId: 'uz', localeImport: 'uz', quasarLang: 'en-US' },
+        'uz-Cyrl-uz': { localeId: '', localeImport: '', quasarLang: '' },
+        'uz-Latn-uz': { localeId: 'uz', localeImport: 'uz', quasarLang: '' },
+        'zh-cn': { localeId: 'zhCN', localeImport: 'zh-CN', quasarLang: 'zh-CN' },
         'zh-tw': { localeId: 'zhTW', localeImport: 'zh-TW', quasarLang: 'zh-TW' }
     };
 
@@ -159,6 +162,7 @@ function addLangKeys() {
     );
 
     const imports = this.languages
+        .filter(language => !i18nMapping[language] || i18nMapping[language].localeId)
         .map(language => {
             const mapping = i18nMapping[language] || { localeId: language, localeImport: language };
             return `case '${mapping.localeId}':\nreturn require('date-fns/locale/${mapping.localeImport}');`;
@@ -168,13 +172,15 @@ function addLangKeys() {
     this.replaceContent(
         `${QUASAR_PATH}/src/constants/i18nConstants.js`,
         /export const importLocale =[\s\S]+?};/,
-        `export const importLocale = () => {\nswitch (window.__localeId__) { ${imports} }};`
+        `export const importLocale = () => {\nswitch (window.__localeId__) { ${imports} default: return require('date-fns/locale/en-US');}};`
     );
 
     this.replaceContent(
         `${QUASAR_PATH}/src/constants/i18nConstants.js`,
-        /export const langKeys =[\s\S]+?\]/,
-        `export const langKeys = [${this.languages.map(language => `'${language}'`).join(', ')}]`
+        /export const languages =[\s\S]+?\]/,
+        `export const languages = {${this.languages
+            .map(language => `'${language}': '${jhipsterConstants.LANGUAGES.filter(lang => lang.value === language)[0].dispName}'`)
+            .join(', ')}}`
     );
 }
 

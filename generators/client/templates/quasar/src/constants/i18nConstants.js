@@ -3,7 +3,11 @@
  * DO NOT EDIT.
  *
  **/
-export const langKeys = ['en', 'fr'];
+export const languages = ['en', 'fr'];
+
+export const langObjects = Object.entries(languages).map(entry => {
+  return { key: entry[0], value: entry[1] };
+});
 
 export const datefnsMapping = { en: 'enUS' };
 

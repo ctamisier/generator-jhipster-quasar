@@ -4,7 +4,7 @@ const ClientGenerator = require('generator-jhipster/generators/client');
 const writeFiles = require('./files').writeFiles;
 const renameToolbarTitle = require('./files').renameToolbarTitle;
 const renamePackageJsonNameField = require('./files').renamePackageJsonNameField;
-const addLangKeys = require('./files').addLangKeys;
+const addLanguages = require('./files').addLanguages;
 const addLanguagesInQuasarConf = require('./files').addLanguagesInQuasarConf;
 const addForwardOnRoot = require('./files').addForwardOnRoot;
 const addYarnVersion = require('./files').addYarnVersion;
@@ -64,7 +64,7 @@ module.exports = class extends ClientGenerator {
             write() {
                 writeFiles.call(this);
                 renameToolbarTitle.call(this);
-                addLangKeys.call(this);
+                addLanguages.call(this);
                 addLanguagesInQuasarConf.call(this);
                 addForwardOnRoot.call(this);
                 addYarnVersion.call(this);

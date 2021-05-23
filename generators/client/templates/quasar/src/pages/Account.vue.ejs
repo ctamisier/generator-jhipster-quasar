@@ -32,7 +32,11 @@
         />
         <q-select
           v-model="account.data.langKey"
-          :options="langKeys"
+          :options="langObjects"
+          option-value="key"
+          option-label="value"
+          emit-value
+          map-options
           :label="$t('userManagement.langKey')"
           :rules="[val => !!val]"
         />
@@ -59,7 +63,7 @@ import { api } from 'boot/axios';
 import { loadTranslation } from 'boot/i18n';
 import { defineComponent, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { langKeys } from '../constants/i18nConstants';
+import { langObjects } from '../constants/i18nConstants';
 
 export default defineComponent({
   name: 'PageAccount',
@@ -82,7 +86,7 @@ export default defineComponent({
 
     return {
       account,
-      langKeys,
+      langObjects,
       onSubmit () {
         api.post('/api/account', account.data).then(() => {
           loadTranslation(account.data.langKey);

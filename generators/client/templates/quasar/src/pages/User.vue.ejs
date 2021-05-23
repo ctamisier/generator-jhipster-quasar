@@ -28,7 +28,11 @@
       />
       <q-select
         v-model="account.data.langKey"
-        :options="langKeys"
+        :options="langObjects"
+        option-value="key"
+        option-label="value"
+        emit-value
+        map-options
         :label="$t('userManagement.langKey')"
         :rules="[val => !!val]"
       />
@@ -76,7 +80,7 @@
 import { api } from 'boot/axios';
 import { defineComponent, reactive } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { langKeys } from '../constants/i18nConstants';
+import { langObjects } from '../constants/i18nConstants';
 
 export default defineComponent({
   name: 'PageUser',
@@ -105,7 +109,7 @@ export default defineComponent({
 
     return {
       account,
-      langKeys,
+      langObjects,
       availableRoles: [
         {
           label: 'ROLE_ADMIN',
