@@ -97,7 +97,15 @@ function writeFiles() {
                 ]
             }
         ],
-        srcutil: [{ templates: [`${QUASAR_PATH}/src/util/format.js`, `${QUASAR_PATH}/src/util/cookies.js`] }]
+        srcutil: [
+            {
+                templates: [`${QUASAR_PATH}/src/util/format.js`]
+            },
+            {
+                condition: generator => generator.authenticationType !== 'jwt',
+                templates: [`${QUASAR_PATH}/src/util/cookies.js`]
+            }
+        ]
     };
 
     this.writeFilesToDisk(files, '.');
