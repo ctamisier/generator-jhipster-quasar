@@ -122,7 +122,7 @@ function renameToolbarTitle() {
     this.replaceContent(
         `${QUASAR_PATH}/src/layouts/MainLayout.vue`,
         /<q-toolbar-title>[\s\S]*<\/q-toolbar-title>/,
-        `<q-toolbar-title>\n          ${this.lowercaseBaseName}\n        </q-toolbar-title>`
+        `<q-toolbar-title>${this.lowercaseBaseName}</q-toolbar-title>`
     );
 }
 
@@ -173,31 +173,31 @@ function addLanguages() {
         .filter(language => !i18nMapping[language] || i18nMapping[language].localeId)
         .map(language => {
             const mapping = i18nMapping[language] || { localeId: language, localeImport: language };
-            return `case '${mapping.localeId}':\nreturn require('date-fns/locale/${mapping.localeImport}');`;
+            return `case '${mapping.localeId}': return require('date-fns/locale/${mapping.localeImport}');`;
         })
         .join('\n');
 
     this.replaceContent(
         `${QUASAR_PATH}/src/constants/i18nConstants.js`,
         /export const importLocale =[\s\S]+?};/,
-        `export const importLocale = () => {\nswitch (window.__localeId__) { ${imports} default: return require('date-fns/locale/en-US');}};`
+        `export const importLocale = () => { switch (window.__localeId__) { ${imports} default: return require('date-fns/locale/en-US');}};`
     );
 
     this.replaceContent(
         `${QUASAR_PATH}/src/constants/i18nConstants.js`,
         /export const languages =[\s\S]+?\]/,
         `export const languages = {${this.languages
-            .map(language => `'${language}': '${jhipsterConstants.LANGUAGES.filter(lang => lang.value === language)[0].dispName}'`)
-            .join(', ')}}`
+            .map(language => `'${language}': '${jhipsterConstants.LANGUAGES.find(lang => lang.value === language).dispName}'`)
+            .join(',')}}`
     );
 }
 
 function addLanguagesInQuasarConf() {
     const i18nMergeEntries = this.languages
-        .map(language => `                { pattern: '../src/main/webapp/i18n/${language}/*.json', fileName: '../i18n/${language}.json' }`)
-        .join(',\n');
+        .map(language => `{ pattern: '../src/main/webapp/i18n/${language}/*.json', fileName: '../i18n/${language}.json' }`)
+        .join(',');
 
-    this.replaceContent(`${QUASAR_PATH}/quasar.conf.js`, /groupBy: \[[\s\S]+?\]/, `groupBy: [\n${i18nMergeEntries}\n              ]`);
+    this.replaceContent(`${QUASAR_PATH}/quasar.conf.js`, /groupBy: \[[\s\S]+?\]/, `groupBy: [ ${i18nMergeEntries} ]`);
 }
 
 function addForwardOnRoot() {

@@ -16,8 +16,8 @@ function askForClient(meta) {
     const PROMPT = {
         type: 'list',
         name: 'clientFramework',
-        when: response => applicationType !== 'microservice' && applicationType !== 'uaa',
-        message: response => 'Which *Framework* would you like to use for the client?',
+        when: () => applicationType !== 'microservice' && applicationType !== 'uaa',
+        message: () => 'Which *Framework* would you like to use for the client?',
         choices,
         default: 'quasar'
     };
