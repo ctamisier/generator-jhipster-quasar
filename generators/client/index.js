@@ -3,7 +3,6 @@ const chalk = require('chalk');
 const ClientGenerator = require('generator-jhipster/generators/client');
 const writeFiles = require('./files').writeFiles;
 const renameToolbarTitle = require('./files').renameToolbarTitle;
-const renamePackageJsonNameField = require('./files').renamePackageJsonNameField;
 const addLanguages = require('./files').addLanguages;
 const addLanguagesInQuasarConf = require('./files').addLanguagesInQuasarConf;
 const addForwardOnRoot = require('./files').addForwardOnRoot;
