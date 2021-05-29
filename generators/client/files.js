@@ -113,7 +113,7 @@ function writeFiles() {
     this.copy(`${QUASAR_PATH}/public`, `${QUASAR_PATH}/public`);
     this.copy(`${QUASAR_PATH}/src/index.template.html`, `${QUASAR_PATH}/src/index.template.html`);
     this.copy(`${QUASAR_PATH}/src/constants/i18nConstants.js`, `${QUASAR_PATH}/src/constants/i18nConstants.js`);
-    this.copy(`${QUASAR_PATH}/src/assets/quasar-logo-full.svg`, `${QUASAR_PATH}/src/assets/quasar-logo-full.svg`);
+    this.copy(`${QUASAR_PATH}/src/assets/quasar-logo-vertical.svg`, `${QUASAR_PATH}/src/assets/quasar-logo-vertical.svg`);
     this.copy(`${QUASAR_PATH}/quasar.conf.js`, `${QUASAR_PATH}/quasar.conf.js`);
     this.copy(`${QUASAR_PATH}/src/auth/_${this.authenticationType}/authentication.js`, `${QUASAR_PATH}/src/auth/authentication.js`);
 }
