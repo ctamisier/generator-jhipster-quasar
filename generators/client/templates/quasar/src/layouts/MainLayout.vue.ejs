@@ -6,7 +6,7 @@
     color="primary"
     size="10px"
   />
-  <q-layout view="hHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -34,9 +34,9 @@
     <q-drawer
       v-model="data.leftDrawerOpen"
       show-if-above
-      :mini="miniState"
-      @mouseover="miniState = false"
-      @mouseout="miniState = true"
+      :mini="data.miniState"
+      @mouseover="data.miniState = false"
+      @mouseout="data.miniState = true"
       mini-to-overlay
       :width="250"
       :breakpoint="500"
@@ -206,7 +206,7 @@ export default defineComponent({
 
     const isAuthenticatedGetter = () => store.getters['auth/isAuthenticated'];
     const leftDrawerOpen = isAuthenticatedGetter();
-    const data = reactive({ leftDrawerOpen });
+    const data = reactive({ leftDrawerOpen, miniState: true });
     const link = reactive({});
 
     store.watch(
@@ -220,14 +220,14 @@ export default defineComponent({
       data,
       link,
       store,
-      miniState: ref(true),
       isAuthenticated: computed(() => isAuthenticatedGetter()),
       toggleLeftDrawer () {
         data.leftDrawerOpen = !data.leftDrawerOpen;
       },
       logout () {
         data.leftDrawerOpen = false;
-        authLogout(store, router)
+        data.miniState = true;
+        authLogout(store, router);
       },
     };
   },
