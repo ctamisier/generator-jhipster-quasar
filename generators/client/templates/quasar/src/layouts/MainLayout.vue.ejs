@@ -21,6 +21,12 @@
         <q-toolbar-title>
           jhipsterquasar
         </q-toolbar-title>
+        <q-btn
+          flat
+          round
+          @click="$q.dark.toggle()"
+          :icon="$q.dark.isActive ? 'dark_mode' : 'light_mode'"
+        />
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
@@ -35,7 +41,6 @@
       :width="250"
       :breakpoint="500"
       bordered
-      class="bg-grey-3"
       v-if="store.state.auth.account"
     >
 <%_ if (authenticationType !== 'oauth2' ) { _%>
