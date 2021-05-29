@@ -89,7 +89,10 @@ function writeFiles() {
         srcstoreauth: [
             {
                 templates: [
-                    `${QUASAR_PATH}/src/store/auth/actions.js`,
+                    {
+                        file: () => `${QUASAR_PATH}/src/store/auth/_${this.authenticationType}/actions.js`,
+                        renameTo: () => `${QUASAR_PATH}/src/store/auth/actions.js`
+                    },
                     `${QUASAR_PATH}/src/store/auth/getters.js`,
                     `${QUASAR_PATH}/src/store/auth/index.js`,
                     `${QUASAR_PATH}/src/store/auth/mutations.js`,
@@ -100,10 +103,6 @@ function writeFiles() {
         srcutil: [
             {
                 templates: [`${QUASAR_PATH}/src/util/format.js`]
-            },
-            {
-                condition: generator => generator.authenticationType !== 'jwt',
-                templates: [`${QUASAR_PATH}/src/util/cookies.js`]
             }
         ]
     };

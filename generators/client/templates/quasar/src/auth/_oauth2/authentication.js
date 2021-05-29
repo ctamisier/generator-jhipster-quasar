@@ -1,11 +1,11 @@
 import { api } from 'boot/axios';
 import { loadTranslation } from 'boot/i18n';
-import { getCookie } from '../util/cookies';
+import { Cookies } from 'quasar';
 
 export const beforeEachAuth = (to, from, next, store) => {
-  const xsrfToken = getCookie('XSRF-TOKEN');
+  const hasXsrfToken = Cookies.has('XSRF-TOKEN');
 
-  if (xsrfToken && !store.getters['auth/isAuthenticated']) {
+  if (hasXsrfToken && !store.getters['auth/isAuthenticated']) {
     api
       .get('/api/account')
       .then(accountResponse => {
@@ -16,7 +16,7 @@ export const beforeEachAuth = (to, from, next, store) => {
       .catch(() => {
         authLogin();
       });
-  } else if (!xsrfToken && !to.meta.public) {
+  } else if (!hasXsrfToken && !to.meta.public) {
     next({
       path: '/',
       query: { redirect: to.fullPath },
