@@ -30,6 +30,7 @@ https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 * Metrics
 * Log level runtime update
 * API Documentation
+* Dark Mode
 
 # Introduction
 
