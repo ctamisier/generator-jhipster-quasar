@@ -24,7 +24,7 @@
         <q-btn
           flat
           round
-          @click="$q.dark.toggle()"
+          @click="changeTheme()"
           :icon="$q.dark.isActive ? 'dark_mode' : 'light_mode'"
         />
         <div>Quasar v{{ $q.version }}</div>
@@ -192,7 +192,8 @@
 </template>
 
 <script>
-import { computed, defineComponent, reactive, ref } from 'vue';
+import { LocalStorage, useQuasar } from 'quasar';
+import { computed, defineComponent, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { authLogout } from '../auth/authentication';
@@ -203,11 +204,18 @@ export default defineComponent({
   setup () {
     const store = useStore();
     const router = useRouter();
+    const $q = useQuasar();
 
     const isAuthenticatedGetter = () => store.getters['auth/isAuthenticated'];
     const leftDrawerOpen = isAuthenticatedGetter();
     const data = reactive({ leftDrawerOpen, miniState: true });
     const link = reactive({});
+
+    if (LocalStorage.has('dark-mode')) {
+      $q.dark.set(LocalStorage.getItem('dark-mode'));
+    } else {
+      $q.dark.set($q.dark.mode);
+    }
 
     store.watch(
       () => isAuthenticatedGetter(),
@@ -223,6 +231,10 @@ export default defineComponent({
       isAuthenticated: computed(() => isAuthenticatedGetter()),
       toggleLeftDrawer () {
         data.leftDrawerOpen = !data.leftDrawerOpen;
+      },
+      changeTheme: () => {
+        $q.dark.toggle();
+        LocalStorage.set('dark-mode', $q.dark.mode);
       },
       logout () {
         data.leftDrawerOpen = false;
