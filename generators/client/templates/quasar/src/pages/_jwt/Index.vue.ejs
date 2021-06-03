@@ -21,6 +21,10 @@
         lazy-rules
         :rules="[val => val && val.length >= 4]"
       />
+      <q-checkbox
+        v-model="credentials.rememberMe"
+        :label="$t('login.form.rememberme')"
+      />
       <div class="flex column">
         <q-btn
           type="submit"
@@ -93,6 +97,7 @@ export default defineComponent({
     const credentials = reactive({
       username: '',
       password: '',
+      rememberMe: false,
     });
 
     return {

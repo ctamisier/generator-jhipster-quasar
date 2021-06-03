@@ -1,9 +1,9 @@
 import { api } from 'boot/axios';
 import { loadTranslation } from 'boot/i18n';
-import { SessionStorage } from 'quasar';
+import { LocalStorage, SessionStorage } from 'quasar';
 
 export const beforeEachAuth = (to, from, next, store) => {
-  const idToken = SessionStorage.getItem('jhi-authenticationToken');
+  const idToken = LocalStorage.getItem('jhi-authenticationToken') || SessionStorage.getItem('jhi-authenticationToken');
   if (idToken && !store.getters['auth/isAuthenticated']) {
     api.defaults.headers.common.Authorization = `Bearer ${idToken}`;
     api.get('/api/account').then(accountResponse => {
@@ -25,7 +25,8 @@ export const authLogin = (store, router, route, credentials) => {
   api
     .post('/api/authenticate', credentials)
     .then(authenticateResponse => {
-      SessionStorage.set('jhi-authenticationToken', authenticateResponse.data.id_token);
+      const storage = credentials.rememberMe ? LocalStorage : SessionStorage;
+      storage.set('jhi-authenticationToken', authenticateResponse.data.id_token);
       api.defaults.headers.common.Authorization = `Bearer ${authenticateResponse.data.id_token}`;
       return api.get('/api/account');
     })
