@@ -525,7 +525,7 @@ import { format, formatDistanceStrict } from '../util/format';
 export default defineComponent({
   name: 'PageConfiguration',
 
-  setup () {
+  setup() {
     const metrics = ref();
     const threads = ref();
     const threadsByState = ref();
@@ -545,13 +545,13 @@ export default defineComponent({
 
     const threadColumns = [
       { name: 'threadId', align: 'left', label: 'Id', field: 'threadId', sortable: true },
-      { name: 'threadState', align: 'left',label: 'Thread State',  field: 'threadState', sortable: true },
-      { name: 'threadName',  align: 'left',label: 'Thread Name', field: 'threadName', sortable: true },
-      { name: 'blockedTime', align: 'left',label: 'Blocked Time',  field: 'blockedTime', sortable: true },
-      { name: 'blockedCount', align: 'left',label: 'Blocked Count',  field: 'blockedCount', sortable: true },
-      { name: 'waitedTime', align: 'left',label: 'Waited Time',  field: 'waitedTime', sortable: true },
-      { name: 'waitedCount', align: 'left',label: 'Waited Count',  field: 'waitedCount', sortable: true },
-      { name: 'lockName', align: 'left',label: 'Lock Name',  field: 'lockName', sortable: true },
+      { name: 'threadState', align: 'left', label: 'Thread State', field: 'threadState', sortable: true },
+      { name: 'threadName', align: 'left', label: 'Thread Name', field: 'threadName', sortable: true },
+      { name: 'blockedTime', align: 'left', label: 'Blocked Time', field: 'blockedTime', sortable: true },
+      { name: 'blockedCount', align: 'left', label: 'Blocked Count', field: 'blockedCount', sortable: true },
+      { name: 'waitedTime', align: 'left', label: 'Waited Time', field: 'waitedTime', sortable: true },
+      { name: 'waitedCount', align: 'left', label: 'Waited Count', field: 'waitedCount', sortable: true },
+      { name: 'lockName', align: 'left', label: 'Lock Name', field: 'lockName', sortable: true },
     ];
 
     const threadsInitialPagination = {

@@ -85,7 +85,7 @@ import { langObjects } from '../constants/i18nConstants';
 export default defineComponent({
   name: 'PageUser',
 
-  setup () {
+  setup() {
     const router = useRouter();
     const route = useRoute();
 
@@ -120,7 +120,7 @@ export default defineComponent({
           value: 'ROLE_USER',
         },
       ],
-      onSubmit () {
+      onSubmit() {
         api({
           method: account.data.id ? 'put' : 'post',
           url: '/api/admin/users',

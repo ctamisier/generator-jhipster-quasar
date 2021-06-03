@@ -201,7 +201,7 @@ import { authLogout } from '../auth/authentication';
 export default defineComponent({
   name: 'MainLayout',
 
-  setup () {
+  setup() {
     const store = useStore();
     const router = useRouter();
     const $q = useQuasar();
@@ -229,14 +229,14 @@ export default defineComponent({
       link,
       store,
       isAuthenticated: computed(() => isAuthenticatedGetter()),
-      toggleLeftDrawer () {
+      toggleLeftDrawer() {
         data.leftDrawerOpen = !data.leftDrawerOpen;
       },
-      changeTheme: () => {
+      changeTheme() {
         $q.dark.toggle();
         LocalStorage.set('dark-mode', $q.dark.mode);
       },
-      logout () {
+      logout() {
         data.leftDrawerOpen = false;
         data.miniState = true;
         authLogout(store, router);

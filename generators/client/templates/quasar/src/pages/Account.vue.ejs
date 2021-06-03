@@ -68,7 +68,7 @@ import { langObjects } from '../constants/i18nConstants';
 export default defineComponent({
   name: 'PageAccount',
 
-  setup () {
+  setup() {
     const router = useRouter();
     const account = reactive({
       data: {
@@ -87,7 +87,7 @@ export default defineComponent({
     return {
       account,
       langObjects,
-      onSubmit () {
+      onSubmit() {
         api.post('/api/account', account.data).then(() => {
           loadTranslation(account.data.langKey);
           router.push('/');

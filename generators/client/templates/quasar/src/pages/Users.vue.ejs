@@ -101,7 +101,7 @@ import { format } from '../util/format';
 export default defineComponent({
   name: 'PageUsers',
 
-  setup () {
+  setup() {
     const $q = useQuasar();
     const { t } = useI18n();
     const store = useStore();
@@ -133,7 +133,7 @@ export default defineComponent({
       { name: 'activated', align: 'left', label: t('userManagement.activated'), field: 'activated', sortable: true },
     ];
 
-    function onRequest (props) {
+    function onRequest(props) {
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
 
       loading.value = true;

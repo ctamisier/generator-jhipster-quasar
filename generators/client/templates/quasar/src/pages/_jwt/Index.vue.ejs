@@ -60,7 +60,7 @@
         <img
           alt="Quasar logo"
           src="~assets/jhipster.svg"
-          style="width: 200px; height: 100px; animation-duration: 1s;"
+          style="width: 200px; height: 100px; animation-duration: 1s"
         />
       </transition>
       <br />
@@ -89,7 +89,7 @@ import { authLogin } from '../auth/authentication';
 export default defineComponent({
   name: 'PageIndex',
 
-  setup () {
+  setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -103,7 +103,7 @@ export default defineComponent({
     return {
       credentials,
       isAuthenticated: computed(() => store.getters['auth/isAuthenticated']),
-      onSubmit () {
+      onSubmit() {
         authLogin(store, router, route, credentials);
       },
     };
