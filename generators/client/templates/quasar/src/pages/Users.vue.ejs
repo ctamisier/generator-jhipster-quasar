@@ -112,7 +112,6 @@ export default defineComponent({
     const { t } = useI18n();
     const store = useStore();
     const rows = ref([]);
-    const filter = ref('');
     const loading = ref(false);
     const pagination = ref({
       sortBy: 'login',
@@ -170,7 +169,6 @@ export default defineComponent({
 
     return {
       store,
-      filter,
       loading,
       pagination,
       columns,
