@@ -13,11 +13,13 @@
       <template v-slot:top-right>
         <router-link
           to="/users/new"
-          style="text-decoration: none; color: inherit"
+          v-slot="{ navigate }"
+          custom
         >
           <q-btn
             color="primary"
             :label="$t('userManagement.home.createLabel')"
+            @click="navigate"
           />
         </router-link>
       </template>
@@ -73,9 +75,13 @@
           <q-td>
             <router-link
               :to="`/users/${props.row.login}`"
-              style="text-decoration: none; color: inherit"
+              v-slot="{ navigate }"
+              custom
             >
-              <q-btn icon="edit" />
+              <q-btn
+                icon="edit"
+                @click="navigate"
+              />
             </router-link>
             <q-btn
               v-bind:disable="currentLogin === props.row.login"
