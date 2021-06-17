@@ -4,7 +4,6 @@ const QUASAR_PATH = 'quasar';
 
 module.exports = {
     writeFiles,
-    renameToolbarTitle,
     addLanguages,
     addLanguagesInQuasarConf,
     addForwardOnRoot,
@@ -117,14 +116,6 @@ function writeFiles() {
     this.copy(`${QUASAR_PATH}/src/assets/quasar-logo-vertical-dark.svg`, `${QUASAR_PATH}/src/assets/quasar-logo-vertical-dark.svg`);
     this.copy(`${QUASAR_PATH}/quasar.conf.js`, `${QUASAR_PATH}/quasar.conf.js`);
     this.copy(`${QUASAR_PATH}/src/auth/_${this.authenticationType}/authentication.js`, `${QUASAR_PATH}/src/auth/authentication.js`);
-}
-
-function renameToolbarTitle() {
-    this.replaceContent(
-        `${QUASAR_PATH}/src/layouts/MainLayout.vue`,
-        /<q-toolbar-title>[\s\S]*<\/q-toolbar-title>/,
-        `<q-toolbar-title>${this.lowercaseBaseName}</q-toolbar-title>`
-    );
 }
 
 function addLanguages() {
