@@ -25,8 +25,8 @@ export const authLogin = (store, router, route, credentials) => {
   api
     .post('/api/authenticate', credentials)
     .then(authenticateResponse => {
-      const storage = credentials.rememberMe ? LocalStorage : SessionStorage;
-      storage.set('jhi-authenticationToken', authenticateResponse.data.id_token);
+      const storage = credentials.rememberMe ? localStorage : sessionStorage;
+      storage.setItem('jhi-authenticationToken', authenticateResponse.data.id_token);
       api.defaults.headers.common.Authorization = `Bearer ${authenticateResponse.data.id_token}`;
       return api.get('/api/account');
     })
