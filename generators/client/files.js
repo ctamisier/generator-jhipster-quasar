@@ -216,56 +216,55 @@ function addYarnVersion() {
 function replaceNpmByYarn() {
     this.replaceContent(
         'pom.xml',
-        /<plugin>[\s]*<groupId>com.github.eirslett<\/groupId>[\s]*<artifactId>frontend-maven-plugin<\/artifactId>[\s\S]+?<\/plugin>/g,
+        /<plugin>[\s]*<groupId>com.github.eirslett<\/groupId>[\s]*<artifactId>frontend-maven-plugin<\/artifactId>[\s]*<executions>[\s\S]+?<\/plugin>/g,
         `<plugin>
-                    <groupId>com.github.eirslett</groupId>
-                    <artifactId>frontend-maven-plugin</artifactId>
-                    <version>\${frontend-maven-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>install node and npm for quasar</id>
-                            <goals>
-                                <goal>install-node-and-npm</goal>
-                            </goals>
-                            <configuration>
-                                <workingDirectory>quasar</workingDirectory>
-                                <nodeVersion>\${node.version}</nodeVersion>
-                                <npmVersion>\${npm.version}</npmVersion>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>install node and yarn for quasar</id>
-                            <goals>
-                                <goal>install-node-and-yarn</goal>
-                            </goals>
-                            <configuration>
-                                <workingDirectory>quasar</workingDirectory>
-                                <nodeVersion>\${node.version}</nodeVersion>
-                                <yarnVersion>\${yarn.version}</yarnVersion>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>quasar install</id>
-                            <goals>
-                                <goal>yarn</goal>
-                            </goals>
-                            <configuration>
-                                <workingDirectory>quasar</workingDirectory>
-                                <arguments>install</arguments>
-                            </configuration>
-                        </execution>
-                        <execution>
-                            <id>quasar build</id>
-                            <goals>
-                                <goal>yarn</goal>
-                            </goals>
-                            <configuration>
-                                <workingDirectory>quasar</workingDirectory>
-                                <arguments>build</arguments>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>`
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>install node and npm for quasar</id>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
+                                <configuration>
+                                    <workingDirectory>quasar</workingDirectory>
+                                    <nodeVersion>\${node.version}</nodeVersion>
+                                    <npmVersion>\${npm.version}</npmVersion>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install node and yarn for quasar</id>
+                                <goals>
+                                    <goal>install-node-and-yarn</goal>
+                                </goals>
+                                <configuration>
+                                    <workingDirectory>quasar</workingDirectory>
+                                    <nodeVersion>\${node.version}</nodeVersion>
+                                    <yarnVersion>\${yarn.version}</yarnVersion>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>quasar install</id>
+                                <goals>
+                                    <goal>yarn</goal>
+                                </goals>
+                                <configuration>
+                                    <workingDirectory>quasar</workingDirectory>
+                                    <arguments>install</arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>quasar build</id>
+                                <goals>
+                                    <goal>yarn</goal>
+                                </goals>
+                                <configuration>
+                                    <workingDirectory>quasar</workingDirectory>
+                                    <arguments>build</arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>`
     );
 }
 
