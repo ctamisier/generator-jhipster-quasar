@@ -14,7 +14,7 @@ https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 
 # Features
 
-* Quasar 2 beta (Vue 3)
+* Quasar v2 (Vue.js 3)
 * Sign in / Sign out / Sign up
 * JWT / OAuth 2.0
 * Account
