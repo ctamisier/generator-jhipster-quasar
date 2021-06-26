@@ -14,23 +14,41 @@ https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 
 # Features
 
-* Quasar v2 (Vue.js 3)
-* Sign in / Sign out / Sign up
-* JWT / OAuth 2.0
-* Account
-* I18n
-* Change password / Reset password
-* Users
-    * List
-    * Create
-    * Update
-    * Delete
-* Configuration
-* Health  
-* Metrics
-* Log level runtime update
-* API Documentation
-* Dark Mode
+- JHipster 7 with Quasar v2 (Vue.js 3)
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/home.png)
+- Users (List, Create, Update, Delete)
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/users.png)
+- Configuration
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/configuration.png)
+- Health
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/health.png)
+- Metrics
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/metrics.png)
+- Log level runtime update
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/loggers.png)
+- API Documentation
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/apidocs.png)
+
+- Sign in
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/signin.png)
+
+- Sign up
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/signup.png)
+
+- Account
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/account.png)
+
+- Change password
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/changepassword.png)
+
+- Reset password
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/resetpassword.png)
+
+- Dark Mode
+  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/darkmode.png)
+- JWT / OAuth 2.0 / ~~Session~~
+- Maven / ~~Gradle~~
+- i18n
 
 # Introduction
 
@@ -80,12 +98,11 @@ To use this blueprint, run the below command
 jhipster --blueprints quasar
 ```
 
-
 ## Running local Blueprint version for development
 
 During development of blueprint, please note the below steps. They are very important.
 
-1. Link your blueprint globally 
+1. Link your blueprint globally
 
 Note: If you do not want to link the blueprint(step 3) to each project being created, use NPM instead of Yarn as yeoman doesn't seem to fetch globally linked Yarn modules. On the other hand, this means you have to use NPM in all the below steps as well.
 
@@ -121,7 +138,6 @@ jhipster -d --blueprint quasar
 # License
 
 Apache-2.0 © [Clément Tamisier]()
-
 
 [npm-image]: https://img.shields.io/npm/v/generator-jhipster-quasar.svg
 [npm-url]: https://npmjs.org/package/generator-jhipster-quasar
