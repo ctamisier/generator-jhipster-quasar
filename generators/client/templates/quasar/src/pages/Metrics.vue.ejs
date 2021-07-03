@@ -531,14 +531,18 @@ export default defineComponent({
     const threadsByState = ref();
     const { humanStorageSize, capitalize } = qformat;
 
-    api.get('/management/jhimetrics').then(response => {
-      metrics.value = response.data;
-    });
+    const fetchMetrics = async () => {
+      metrics.value = (await api.get('/management/jhimetrics')).data;
+    };
 
-    api.get('/management/threaddump').then(response => {
+    const fetchThreadDump = async () => {
+      const response = await api.get('/management/threaddump');
       threadsByState.value = groupBy(response.data.threads, 'threadState');
       threads.value = response.data.threads;
-    });
+    };
+
+    fetchMetrics();
+    fetchThreadDump();
 
     const percent = (value, total) => (value / total) * 100;
     const percentMetric = metric => percent(metric.committed, metric.max);

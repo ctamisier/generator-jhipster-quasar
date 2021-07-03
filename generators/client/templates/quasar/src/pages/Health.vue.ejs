@@ -51,11 +51,12 @@
             <div
               :key="item"
               v-for="item in ['database', 'validationQuery']"
-            >{{ item }}
+            >
+              {{ item }}
               <q-badge
                 outline
                 color="primary"
-                :label=" health.components.db.details[item]"
+                :label="health.components.db.details[item]"
               />
             </div>
           </q-card-section>
@@ -77,9 +78,12 @@ export default defineComponent({
     const { humanStorageSize } = format;
     const health = ref();
 
-    api.get('/management/health').then(response => {
-      health.value = response.data;
-    });
+    const fetchHealth = async () => {
+      health.value = (await api.get('/management/health')).data;
+    };
+
+    fetchHealth();
+
     return {
       health,
       humanStorageSize,

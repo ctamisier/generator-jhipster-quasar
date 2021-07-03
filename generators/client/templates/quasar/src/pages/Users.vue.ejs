@@ -143,19 +143,20 @@ export default defineComponent({
 
       loading.value = true;
 
-      api
-        .get('/api/admin/users', {
+      const fetchUsers = async () => {
+        const response = await api.get('/api/admin/users', {
           params: {
             page: page - 1,
             size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
             sort: `${sortBy},${descending ? 'desc' : 'asc'}`,
           },
-        })
-        .then(response => {
-          pagination.value.rowsNumber = response.headers['x-total-count'];
-          rows.value = response.data;
-          loading.value = false;
         });
+        pagination.value.rowsNumber = response.headers['x-total-count'];
+        rows.value = response.data;
+        loading.value = false;
+      };
+
+      fetchUsers();
 
       pagination.value.page = page;
       pagination.value.rowsPerPage = rowsPerPage;
@@ -182,23 +183,20 @@ export default defineComponent({
         $q.dialog({
           message: t('userManagement.delete.question', { login: login }),
           cancel: true,
-        }).onOk(() => {
-          api.delete(`/api/admin/users/${login}`).then(() => {
-            onRequest({ pagination: pagination.value });
-          });
+        }).onOk(async () => {
+          await api.delete(`/api/admin/users/${login}`);
+          onRequest({ pagination: pagination.value });
         });
       },
-      handleActivation: row => {
+      handleActivation: async row => {
         if (row.login !== currentLogin) {
           loadingActivation.value[row.login] = true;
-          api
-            .put('/api/admin/users', row)
-            .then(() => {
-              onRequest({ pagination: pagination.value });
-            })
-            .finally(() => {
-              loadingActivation.value[row.login] = false;
-            });
+          try {
+            await api.put('/api/admin/users', row);
+            onRequest({ pagination: pagination.value });
+          } finally {
+            loadingActivation.value[row.login] = false;
+          }
         }
       },
     };

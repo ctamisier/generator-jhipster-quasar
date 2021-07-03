@@ -65,23 +65,22 @@ export default defineComponent({
       loggers.value = Object.values(initialLoggers).filter(log => log.logger.toLowerCase().includes(filterInputValue.toLowerCase()));
     };
 
-    const fetchLoggers = filterInputValue => {
+    const fetchLoggers = async filterInputValue => {
       initialLoggers = [];
-      api.get('/management/loggers').then(response => {
-        const data = response.data;
-        const entries = Object.entries(data.loggers);
+      const response = await api.get('/management/loggers');
+      const data = response.data;
+      const entries = Object.entries(data.loggers);
 
-        for (const [key, value] of entries) {
-          model.value[key] = value.effectiveLevel;
-          initialLoggers.push({ logger: key, level: value.effectiveLevel });
-        }
+      for (const [key, value] of entries) {
+        model.value[key] = value.effectiveLevel;
+        initialLoggers.push({ logger: key, level: value.effectiveLevel });
+      }
 
-        levels.value = data.levels.map(level => {
-          return { label: level, value: level };
-        });
-
-        filter(filterInputValue);
+      levels.value = data.levels.map(level => {
+        return { label: level, value: level };
       });
+
+      filter(filterInputValue);
     };
 
     fetchLoggers(filterValue.value);
@@ -92,10 +91,9 @@ export default defineComponent({
       model,
       filterValue,
       filter,
-      toggle: (row, level) => {
-        api.post(`/management/loggers/${row.logger}`, { configuredLevel: level }).then(() => {
-          fetchLoggers(filterValue.value);
-        });
+      toggle: async (row, level) => {
+        await api.post(`/management/loggers/${row.logger}`, { configuredLevel: level });
+        fetchLoggers(filterValue.value);
       },
     };
   },

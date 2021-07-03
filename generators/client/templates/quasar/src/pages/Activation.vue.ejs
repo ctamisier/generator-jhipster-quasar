@@ -15,21 +15,23 @@ export default defineComponent({
 
     router.push('/');
 
-    api
-      .get('/api/activate', { params: { key: route.query.key } })
-      .then(() => {
+    const activate = async () => {
+      try {
+        await api.get('/api/activate', { params: { key: route.query.key } });
         Notify.create({
           html: true,
           message: t('activate.messages.success'),
         });
-      })
-      .catch(() => {
+      } catch (e) {
         Notify.create({
           html: true,
           type: 'negative',
           message: t('activate.messages.error'),
         });
-      });
+      }
+    };
+
+    activate();
   },
 });
 </script>

@@ -101,11 +101,13 @@ export default defineComponent({
       },
     });
 
-    if (route.params.login) {
-      api.get(`/api/admin/users/${route.params.login}`).then(response => {
-        account.data = response.data;
-      });
-    }
+    const fetchUser = async () => {
+      if (route.params.login) {
+        account.data = (await api.get(`/api/admin/users/${route.params.login}`)).data;
+      }
+    };
+
+    fetchUser();
 
     return {
       account,
@@ -120,14 +122,13 @@ export default defineComponent({
           value: 'ROLE_USER',
         },
       ],
-      onSubmit() {
-        api({
+      onSubmit: async () => {
+        await api({
           method: account.data.id ? 'put' : 'post',
           url: '/api/admin/users',
           data: account.data,
-        }).then(() => {
-          router.push('/users');
         });
+        router.push('/users');
       },
     };
   },

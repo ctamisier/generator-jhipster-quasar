@@ -72,10 +72,9 @@ export default defineComponent({
 
     return {
       account,
-      onSubmit() {
-        api.post('/api/register', account.data).then(() => {
-          router.push('/');
-        });
+      onSubmit: async () => {
+        await api.post('/api/register', account.data);
+        router.push('/');
       },
     };
   },

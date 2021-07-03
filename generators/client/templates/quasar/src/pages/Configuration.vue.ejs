@@ -99,17 +99,21 @@ export default defineComponent({
       }
     };
 
-    api.get('/management/configprops').then(response => {
-      transform(response.data);
-    });
+    const fetchConfigProps = async () => {
+      transform((await api.get('/management/configprops')).data);
+    };
 
-    api.get('/management/env').then(response => {
-      env.value = response.data;
-    });
+    const fetchEnv = async () => {
+      env.value = (await api.get('/management/env')).data;
+    };
 
-    api.get('/management/info').then(response => {
-      info.value = response.data;
-    });
+    const fetchInfo = async () => {
+      info.value = (await api.get('/management/info')).data;
+    };
+
+    fetchConfigProps();
+    fetchEnv();
+    fetchInfo();
 
     return {
       configPropsColumns,
