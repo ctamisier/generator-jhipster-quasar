@@ -19,3 +19,5 @@
 *.gz binary
 *.ai binary
 *.eps binary
+
+*.ico binary
