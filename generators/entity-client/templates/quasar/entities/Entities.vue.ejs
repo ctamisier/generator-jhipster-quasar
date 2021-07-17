@@ -1,0 +1,138 @@
+<template>
+  <div class="q-pa-md">
+    <q-table
+      :title="$t('<%= i18nKeyPrefix %>.home.title')"
+      :rows="rows"
+      :columns="columns"
+      row-key="id"
+      v-model:pagination="pagination"
+      :loading="loading"
+      @request="onRequest"
+      binary-state-sort
+    >
+      <template v-slot:top-right>
+        <router-link
+          to="/<%= entityApiUrl %>/new"
+          v-slot="{ navigate }"
+          custom
+        >
+          <q-btn
+            color="primary"
+            :label="$t('<%= i18nKeyPrefix %>.home.createLabel')"
+            @click="navigate"
+          />
+        </router-link>
+      </template>
+      <template v-slot:body="props">
+        <q-tr>
+          <%_ for (field of fields) { _%>
+          <q-td>
+            {{ props.row.<%= field.fieldName %> }}
+          </q-td>
+          <%_ } _%>
+          <q-td>
+            <router-link
+              :to="`/<%= entityApiUrl %>/${props.row.id}`"
+              v-slot="{ navigate }"
+              custom
+            >
+              <q-btn
+                icon="edit"
+                @click="navigate"
+              />
+            </router-link>
+            <q-btn
+              icon="delete_forever"
+              @click="delete<%= entityAngularName %>(props.row.id)"
+            />
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
+  </div>
+</template>
+
+<script>
+import { api } from 'boot/axios';
+import { useQuasar } from 'quasar';
+import { defineComponent, onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+import { format } from '../../../util/format';
+
+export default defineComponent({
+  name: 'Page<%= entityAngularNamePlural %>',
+
+  setup() {
+    const $q = useQuasar();
+    const { t } = useI18n();
+    const store = useStore();
+    const rows = ref([]);
+    const filter = ref('');
+    const loading = ref(false);
+    const pagination = ref({
+      sortBy: 'id',
+      descending: false,
+      page: 1,
+      rowsPerPage: 10,
+      rowsNumber: 10,
+    });
+
+    const columns = [
+      <%_ for (field of fields) { _%>
+      { name: '<%= field.fieldName %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= field.fieldName %>'), field: '<%= field.fieldName %>', sortable: true },
+      <%_ } _%>
+    ];
+
+    function onRequest(props) {
+      const { page, rowsPerPage, sortBy, descending } = props.pagination;
+
+      loading.value = true;
+
+      api
+        .get('/api/<%= entityApiUrl %>', {
+          params: {
+            page: page - 1,
+            size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
+            sort: `${sortBy},${descending ? 'desc' : 'asc'}`,
+          },
+        })
+        .then(response => {
+          pagination.value.rowsNumber = response.headers['x-total-count'];
+          rows.value = response.data;
+          loading.value = false;
+        });
+
+      pagination.value.page = page;
+      pagination.value.rowsPerPage = rowsPerPage;
+      pagination.value.sortBy = sortBy;
+      pagination.value.descending = descending;
+    }
+
+    onMounted(() => {
+      onRequest({ pagination: pagination.value });
+    });
+
+    return {
+      store,
+      filter,
+      loading,
+      pagination,
+      columns,
+      rows,
+      format,
+      onRequest,
+      delete<%= entityAngularName %>: id => {
+        $q.dialog({
+          message: t('<%= i18nKeyPrefix %>.delete.question', { id: id }),
+          cancel: true,
+        }).onOk(() => {
+          api.delete(`/api/<%= entityApiUrl %>/${id}`).then(() => {
+            onRequest({ pagination: pagination.value });
+          });
+        });
+      },
+    };
+  },
+});
+</script>

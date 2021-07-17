@@ -1,0 +1,17 @@
+export const <%= entityFolderName %>Routes = [
+  {
+    path: '/<%= entityApiUrl %>',
+    meta: { public: false },
+    component: () => import('pages/entities/<%= entityFolderName %>/<%= entityAngularNamePlural %>.vue'),
+  },
+  {
+    path: '/<%= entityApiUrl %>/new',
+    meta: { public: false },
+    component: () => import('pages/entities/<%= entityFolderName %>/<%= entityAngularName %>.vue'),
+  },
+  {
+    path: '/<%= entityApiUrl %>/:id',
+    meta: { public: false },
+    component: () => import('pages/entities/<%= entityFolderName %>/<%= entityAngularName %>.vue'),
+  },
+];

@@ -83,7 +83,11 @@ function writeFiles() {
                 ]
             }
         ],
-        srcrouter: [{ templates: [`${QUASAR_PATH}/src/router/index.js`] }],
+        srcrouter: [
+            {
+                templates: [`${QUASAR_PATH}/src/router/index.js`, `${QUASAR_PATH}/src/router/entityRoutes.js`]
+            }
+        ],
         srcstore: [{ templates: [`${QUASAR_PATH}/src/store/index.js`, `${QUASAR_PATH}/src/store/store-flag.d.ts`] }],
         srcstoreauth: [
             {

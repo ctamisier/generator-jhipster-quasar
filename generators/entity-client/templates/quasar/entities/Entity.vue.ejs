@@ -1,0 +1,73 @@
+<template>
+  <q-page class="q-pa-md flex flex-center">
+    <q-form
+      @submit="onSubmit"
+      class="q-gutter-md"
+      style="min-width: 300px"
+    >
+      <%_ for(field of fields.filter(field => !field.id)) { _%>
+      <q-input
+        v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
+        :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
+        :rules="[val => !!val]"
+      />
+      <%_} _%>
+      <div class="flex justify-between">
+        <q-btn
+          type="submit"
+          color="primary"
+          :label="$t('entity.action.save')"
+        />
+        <q-btn
+          to="/<%= entityApiUrl %>"
+          flat
+          color="primary"
+          :label="$t('entity.action.back')"
+        />
+      </div>
+    </q-form>
+  </q-page>
+</template>
+
+<script>
+import { api } from 'boot/axios';
+import { defineComponent, reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+export default defineComponent({
+  name: 'Page<%= entityAngularName %>',
+
+  setup() {
+    const router = useRouter();
+    const route = useRoute();
+
+    const <%= entityInstance %> = reactive({
+      data: {
+        <%_ for(field of fields) { _%>
+        <%= field.fieldName %>: null,
+        <%_} _%>
+      },
+    });
+
+    const fetch<%= entityAngularName %> = async () => {
+      if (route.params.id) {
+        <%= entityInstance %>.data = (await api.get(`/api/<%= entityApiUrl %>/${route.params.id}`)).data;
+      }
+    };
+
+    fetch<%= entityAngularName %>();
+
+    return {
+      <%= entityInstance %>,
+      onSubmit: async () => {
+        await api({
+          method: <%= entityInstance %>.data.id ? 'put' : 'post',
+          url: `/api/<%= entityApiUrl %>/${<%= entityInstance %>.data.id ? <%= entityInstance %>.data.id : ''}`,
+          data: <%= entityInstance %>.data,
+        });
+        router.push('/<%= entityApiUrl %>');
+      },
+    };
+  },
+});
+</script>

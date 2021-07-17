@@ -49,6 +49,7 @@ https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 - JWT / OAuth 2.0 / ~~Session~~
 - Maven / ~~Gradle~~
 - i18n
+- Entity (WIP)
 
 # Introduction
 
