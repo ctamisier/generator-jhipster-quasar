@@ -43,132 +43,21 @@
       bordered
       v-if="store.state.auth.account"
     >
-<%_ if (authenticationType !== 'oauth2' ) { _%>
       <q-item
-        to="/account"
+        :key="menuItem.name"
+        v-for="menuItem in menuItems()"
+        :to="menuItem.name"
         clickable
         v-ripple
-        :active="link === 'account'"
-        @click="link = 'account'"
+        :active="link === menuItem.name"
         active-class="bg-blue-1 text-blue-10"
+        @click="link = menuItem.name"
       >
         <q-item-section avatar>
-          <q-icon name="account_circle" />
+          <q-icon :name="menuItem.icon" />
         </q-item-section>
         <q-item-section>
-          {{ $t('global.menu.account.main') }}
-        </q-item-section>
-      </q-item>
-      <q-item
-        to="/password"
-        clickable
-        v-ripple
-        :active="link === 'password'"
-        @click="link = 'password'"
-        active-class="bg-blue-1 text-blue-10"
-      >
-        <q-item-section avatar>
-          <q-icon name="password" />
-        </q-item-section>
-        <q-item-section>
-          {{ $t('global.menu.account.password') }}
-        </q-item-section>
-      </q-item>
-      <q-item
-        to="/users"
-        clickable
-        v-ripple
-        :active="link === 'users'"
-        @click="link = 'users'"
-        active-class="bg-blue-1 text-blue-10"
-        v-if="store.getters['auth/hasRoleAdmin']"
-      >
-        <q-item-section avatar>
-          <q-icon name="people" />
-        </q-item-section>
-        <q-item-section>
-          {{ $t('global.menu.admin.userManagement') }}
-        </q-item-section>
-      </q-item>
-<%_ } _%>
-      <q-item
-        to="/configuration"
-        clickable
-        v-ripple
-        :active="link === 'configuration'"
-        @click="link = 'configuration'"
-        active-class="bg-blue-1 text-blue-10"
-        v-if="store.getters['auth/hasRoleAdmin']"
-      >
-        <q-item-section avatar>
-          <q-icon name="settings" />
-        </q-item-section>
-        <q-item-section>
-          {{ $t('global.menu.admin.configuration') }}
-        </q-item-section>
-      </q-item>
-      <q-item
-        to="/health"
-        clickable
-        v-ripple
-        :active="link === 'health'"
-        @click="link = 'health'"
-        active-class="bg-blue-1 text-blue-10"
-        v-if="store.getters['auth/hasRoleAdmin']"
-      >
-        <q-item-section avatar>
-          <q-icon name="health_and_safety" />
-        </q-item-section>
-        <q-item-section>
-          {{ $t('global.menu.admin.health') }}
-        </q-item-section>
-      </q-item>
-      <q-item
-        to="/metrics"
-        clickable
-        v-ripple
-        :active="link === 'metrics'"
-        @click="link = 'metrics'"
-        active-class="bg-blue-1 text-blue-10"
-        v-if="store.getters['auth/hasRoleAdmin']"
-      >
-        <q-item-section avatar>
-          <q-icon name="analytics" />
-        </q-item-section>
-        <q-item-section>
-          {{ $t('global.menu.admin.metrics') }}
-        </q-item-section>
-      </q-item>
-      <q-item
-        to="/logs"
-        clickable
-        v-ripple
-        :active="link === 'logs'"
-        @click="link = 'logs'"
-        active-class="bg-blue-1 text-blue-10"
-        v-if="store.getters['auth/hasRoleAdmin']"
-      >
-        <q-item-section avatar>
-          <q-icon name="text_snippet" />
-        </q-item-section>
-        <q-item-section>
-          {{ $t('global.menu.admin.logs') }}
-        </q-item-section>
-      </q-item>
-      <q-item
-        to="/docs"
-        clickable
-        v-ripple
-        :active="link === 'docs'"
-        @click="link = 'docs'"
-        active-class="bg-blue-1 text-blue-10"
-        v-if="store.getters['auth/hasRoleAdmin']"
-      >
-        <q-item-section avatar>
-          <q-icon name="menu_book" />
-        </q-item-section>
-        <q-item-section>
-          {{ $t('global.menu.admin.apidocs') }}
+          {{ $t(menuItem.i18nKey) }}
         </q-item-section>
       </q-item>
       <q-item
@@ -228,6 +117,21 @@ export default defineComponent({
       data,
       link,
       store,
+      menuItems() {
+        return [
+<%_ if (authenticationType !== 'oauth2' ) { _%>
+          { name: 'account', icon: 'account_circle', i18nKey: 'global.menu.account.main', enable: true },
+          { name: 'password', icon: 'password', i18nKey: 'global.menu.account.password', enable: true },
+          { name: 'users', icon: 'people', i18nKey: 'global.menu.admin.userManagement', enable: store.getters['auth/hasRoleAdmin'] },
+<%_ } _%>
+          { name: 'configuration', icon: 'settings', i18nKey: 'global.menu.admin.configuration', enable: store.getters['auth/hasRoleAdmin'] },
+          { name: 'health', icon: 'health_and_safety', i18nKey: 'global.menu.admin.health', enable: store.getters['auth/hasRoleAdmin'] },
+          { name: 'metrics', icon: 'analytics', i18nKey: 'global.menu.admin.metrics', enable: store.getters['auth/hasRoleAdmin'] },
+          { name: 'logs', icon: 'text_snippet', i18nKey: 'global.menu.admin.logs', enable: store.getters['auth/hasRoleAdmin'] },
+          { name: 'docs', icon: 'menu_book', i18nKey: 'global.menu.admin.apidocs', enable: store.getters['auth/hasRoleAdmin'] },
+          ...[],
+        ].filter(item => item.enable);
+      },
       isAuthenticated: computed(() => isAuthenticatedGetter()),
       toggleLeftDrawer() {
         data.leftDrawerOpen = !data.leftDrawerOpen;

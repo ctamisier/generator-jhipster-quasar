@@ -55,21 +55,8 @@ function addRoute() {
 }
 
 function addMenuEntry() {
-    const entry = `  <q-item
-        to="/${this.entityFolderName}s"
-        clickable
-        v-ripple
-        :active="link === '${this.entityFolderName}s'"
-        @click="link = '${this.entityFolderName}s'"
-        active-class="bg-blue-1 text-blue-10"
-      >
-        <q-item-section avatar>
-          <q-icon name="auto_awesome" />
-        </q-item-section>
-        <q-item-section>
-          {{ $t('global.menu.entities.${this.entityFolderName}') }}
-        </q-item-section>
-      </q-item>`;
+    // eslint-disable-next-line prettier/prettier
+    const entry = `{ name: '${this.entityFolderName}s', icon: 'auto_awesome', i18nKey: 'global.menu.entities.${this.entityFolderName}', enable: store.getters['auth/hasRoleAdmin'] }`;
 
     const entryIncluded = jhipsterUtils.checkStringInFile(`${QUASAR_PATH}/src/layouts/MainLayout.vue`, `${this.entityFolderName}s`, this);
 
@@ -77,5 +64,5 @@ function addMenuEntry() {
         return;
     }
 
-    this.replaceContent(`${QUASAR_PATH}/src/layouts/MainLayout.vue`, '</q-drawer>', `${entry}\n    </q-drawer>`);
+    this.replaceContent(`${QUASAR_PATH}/src/layouts/MainLayout.vue`, '...[]', `${entry},\n          ...[]`);
 }
