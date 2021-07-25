@@ -8,6 +8,7 @@ const addForwardOnRoot = require('./files').addForwardOnRoot;
 const addYarnVersion = require('./files').addYarnVersion;
 const replaceNpmByYarn = require('./files').replaceNpmByYarn;
 const addSwagger = require('./files').addSwagger;
+const addWebappBuildPackageJson = require('./files').addWebappBuildPackageJson;
 const prompts = require('./prompts');
 
 module.exports = class extends ClientGenerator {
@@ -67,6 +68,7 @@ module.exports = class extends ClientGenerator {
                 addYarnVersion.call(this);
                 replaceNpmByYarn.call(this);
                 addSwagger.call(this);
+                addWebappBuildPackageJson.call(this);
             }
         };
     }

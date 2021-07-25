@@ -9,7 +9,8 @@ module.exports = {
     addForwardOnRoot,
     addYarnVersion,
     replaceNpmByYarn,
-    addSwagger
+    addSwagger,
+    addWebappBuildPackageJson
 };
 
 function writeFiles() {
@@ -277,4 +278,8 @@ function addSwagger() {
         ]
     };
     return this.writeFilesToDisk(files, 'common');
+}
+
+function addWebappBuildPackageJson() {
+    this.replaceContent('package.json', '"scripts": {', '  "scripts": {\n  "webapp:build": "",\n');
 }
