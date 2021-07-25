@@ -224,28 +224,23 @@ function replaceNpmByYarn() {
         `<plugin>
                         <groupId>com.github.eirslett</groupId>
                         <artifactId>frontend-maven-plugin</artifactId>
+                        <configuration>
+                            <workingDirectory>quasar</workingDirectory>
+                            <nodeVersion>\${node.version}</nodeVersion>
+                            <yarnVersion>\${yarn.version}</yarnVersion>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>install node and npm for quasar</id>
                                 <goals>
                                     <goal>install-node-and-npm</goal>
                                 </goals>
-                                <configuration>
-                                    <workingDirectory>quasar</workingDirectory>
-                                    <nodeVersion>\${node.version}</nodeVersion>
-                                    <npmVersion>\${npm.version}</npmVersion>
-                                </configuration>
                             </execution>
                             <execution>
                                 <id>install node and yarn for quasar</id>
                                 <goals>
                                     <goal>install-node-and-yarn</goal>
                                 </goals>
-                                <configuration>
-                                    <workingDirectory>quasar</workingDirectory>
-                                    <nodeVersion>\${node.version}</nodeVersion>
-                                    <yarnVersion>\${yarn.version}</yarnVersion>
-                                </configuration>
                             </execution>
                             <execution>
                                 <id>quasar install</id>
@@ -253,7 +248,6 @@ function replaceNpmByYarn() {
                                     <goal>yarn</goal>
                                 </goals>
                                 <configuration>
-                                    <workingDirectory>quasar</workingDirectory>
                                     <arguments>install</arguments>
                                 </configuration>
                             </execution>
@@ -263,7 +257,6 @@ function replaceNpmByYarn() {
                                     <goal>yarn</goal>
                                 </goals>
                                 <configuration>
-                                    <workingDirectory>quasar</workingDirectory>
                                     <arguments>build</arguments>
                                 </configuration>
                             </execution>
