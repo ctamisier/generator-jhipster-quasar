@@ -9,7 +9,7 @@
       </h6>
       <div class="row items-start q-gutter-md">
         <q-card
-          v-bind:key="key"
+          :key="key"
           v-for="(metric, key) in metrics['jvm']"
         >
           <q-card-section class="text-center">
@@ -28,7 +28,7 @@
           </q-card-section>
           <q-card-section>
             <div
-              v-bind:key="detail"
+              :key="detail"
               v-for="detail in Object.entries(metric)"
             >{{ detail[0] }} {{ humanStorageSize(detail[1]) }}</div>
           </q-card-section>
@@ -254,7 +254,7 @@
             </thead>
             <tbody>
               <tr
-                v-bind:key="key"
+                :key="key"
                 v-for="(item, key) in metrics['http.server.requests']['percode']"
               >
                 <td class="text-left">{{ key }}</td>
@@ -292,11 +292,11 @@
             </thead>
             <tbody>
               <template
-                v-bind:key="parentKey"
+                :key="parentKey"
                 v-for="(parentItem, parentKey) in metrics.services"
               >
                 <tr
-                  v-bind:key="method"
+                  :key="method"
                   v-for="(i, method) in parentItem"
                 >
                   <td class="text-left">{{ parentKey }}</td>
@@ -320,7 +320,7 @@
                 </q-item-section>
               </q-item>
               <q-item
-                v-bind:key="entry"
+                :key="entry"
                 v-for="entry in ['active', 'min', 'max', 'idle']"
               >
                 <q-item-section>
@@ -371,7 +371,7 @@
           </thead>
           <tbody>
             <tr
-              v-bind:key="entry"
+              :key="entry"
               v-for="entry in ['acquire', 'creation', 'usage']"
             >
               <th
@@ -423,7 +423,7 @@
           </thead>
           <tbody>
             <tr
-              v-bind:key="key"
+              :key="key"
               v-for="(entry, key) in metrics.cache"
             >
               <td class="text-left">{{ key }}</td>
@@ -442,7 +442,7 @@
           <q-card-section>
             <q-list>
               <q-item
-                v-bind:key="key"
+                :key="key"
                 v-for="(group, key) in threadsByState"
               >
                 <q-item-section>
@@ -482,7 +482,7 @@
                     <div class="row no-wrap q-pa-md">
                       <div class="column">
                         <div
-                          v-bind:key="trace"
+                          :key="trace"
                           v-for="trace in props.row.stackTrace"
                         >
                           {{ trace.className }}.{{ trace.methodName }}({{ trace.fileName }}:{{ trace.lineNumber }})

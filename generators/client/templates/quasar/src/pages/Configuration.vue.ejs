@@ -34,14 +34,14 @@
         </q-table>
       </div>
       <div
-        v-bind:key="props.name"
+        :key="props.name"
         v-for="props in env['propertySources']"
       >
         <h6 class="q-my-md q-ml-md">{{ props.name }}</h6>
         <q-markup-table>
           <tbody>
             <tr
-              v-bind:key="prop"
+              :key="prop"
               v-for="(prop, key) in props.properties"
             >
               <td style="width: 400px">
