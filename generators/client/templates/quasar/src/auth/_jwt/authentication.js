@@ -3,20 +3,25 @@ import { loadTranslation } from 'boot/i18n';
 import { LocalStorage, SessionStorage } from 'quasar';
 
 export const beforeEachAuth = async (to, from, next, store) => {
-  const idToken = LocalStorage.getItem('jhi-authenticationToken') || SessionStorage.getItem('jhi-authenticationToken');
-  if (idToken && !store.getters['auth/isAuthenticated']) {
-    api.defaults.headers.common.Authorization = `Bearer ${idToken}`;
-    const accountResponse = await api.get('/api/account');
-    store.dispatch('auth/login', accountResponse.data);
-    loadTranslation(accountResponse.data.langKey);
-    next();
-  } else if (!idToken && !to.meta.public) {
-    next({
-      path: '/',
-      query: { redirect: to.fullPath },
-    });
-  } else {
-    next();
+  try {
+    const idToken = LocalStorage.getItem('jhi-authenticationToken') || SessionStorage.getItem('jhi-authenticationToken');
+    if (idToken && !store.getters['auth/isAuthenticated']) {
+      api.defaults.headers.common.Authorization = `Bearer ${idToken}`;
+      const accountResponse = await api.get('/api/account');
+      store.dispatch('auth/login', accountResponse.data);
+      loadTranslation(accountResponse.data.langKey);
+      next();
+    } else if (!idToken && !to.meta.public) {
+      next({
+        path: '/',
+        query: { redirect: to.fullPath },
+      });
+    } else {
+      next();
+    }
+  } catch (e) {
+    store.dispatch('auth/logout');
+    next('/');
   }
 };
 
