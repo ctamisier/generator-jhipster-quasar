@@ -25,7 +25,7 @@ function writeFiles() {
                     },
                     {
                         file: `${QUASAR_PATH}/entities/routeEntity.js`,
-                        renameTo: generator => `${QUASAR_PATH}/src/router/entities/${generator.entityFolderName}Routes.js`
+                        renameTo: generator => `${QUASAR_PATH}/src/router/entities/${generator.entityInstance}Routes.js`
                     }
                 ]
             }
@@ -45,18 +45,18 @@ function addRoute() {
         return;
     }
 
-    this.replaceContent(`${QUASAR_PATH}/src/router/entityRoutes.js`, '...[]];', `...${this.entityFolderName}Routes,...[]];`);
+    this.replaceContent(`${QUASAR_PATH}/src/router/entityRoutes.js`, '...[]];', `...${this.entityInstance}Routes,...[]];`);
 
     this.replaceContent(
         `${QUASAR_PATH}/src/router/entityRoutes.js`,
         'export const entityRoutes',
-        `import { ${this.entityFolderName}Routes } from './entities/${this.entityFolderName}Routes';\n\nexport const entityRoutes`
+        `import { ${this.entityInstance}Routes } from './entities/${this.entityInstance}Routes';\nexport const entityRoutes`
     );
 }
 
 function addMenuEntry() {
     // eslint-disable-next-line prettier/prettier
-    const entry = `{ name: '${this.entityFolderName}s', icon: 'auto_awesome', i18nKey: 'global.menu.entities.${this.entityFolderName}', enable: store.getters['auth/hasRoleAdmin'] }`;
+    const entry = `{ name: '${this.entityApiUrl}', icon: 'auto_awesome', i18nKey: 'global.menu.entities.${this.entityInstance}', enable: store.getters['auth/hasRoleAdmin'] }`;
 
     const entryIncluded = jhipsterUtils.checkStringInFile(`${QUASAR_PATH}/src/layouts/MainLayout.vue`, `${this.entityFolderName}s`, this);
 
