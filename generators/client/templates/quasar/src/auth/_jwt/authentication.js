@@ -31,7 +31,6 @@ export const authLogin = async (store, router, route, credentials) => {
     const storage = credentials.rememberMe ? localStorage : sessionStorage;
     storage.setItem('jhi-authenticationToken', authenticateResponse.data.id_token);
     api.defaults.headers.common.Authorization = `Bearer ${authenticateResponse.data.id_token}`;
-
     const accountResponse = await api.get('/api/account');
     store.dispatch('auth/login', accountResponse.data);
     const langKey = accountResponse.data.langKey;
