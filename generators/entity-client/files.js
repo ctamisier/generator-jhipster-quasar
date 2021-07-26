@@ -45,7 +45,7 @@ function addRoute() {
         return;
     }
 
-    this.replaceContent(`${QUASAR_PATH}/src/router/entityRoutes.js`, '...[]];', `...${this.entityInstance}Routes,...[]];`);
+    this.replaceContent(`${QUASAR_PATH}/src/router/entityRoutes.js`, '...[]', `...${this.entityInstance}Routes,...[]`);
 
     this.replaceContent(
         `${QUASAR_PATH}/src/router/entityRoutes.js`,
