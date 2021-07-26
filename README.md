@@ -1,6 +1,6 @@
 # generator-jhipster-quasar
 
-Quasar for JHipster
+> Quasar for JHipster
 
 [![NPM version][npm-image]][npm-url]
 
