@@ -37,7 +37,6 @@
         :rules="[val => !!val]"
       />
       <q-select
-        filled
         v-model="account.data.authorities"
         :options="availableRoles"
         :label="$t('userManagement.profiles')"
@@ -48,7 +47,7 @@
         <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
           <q-item v-bind="itemProps">
             <q-item-section>
-              <q-item-label v-html="opt.label"></q-item-label>
+              <q-item-label v-html="opt"></q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-toggle
@@ -112,16 +111,7 @@ export default defineComponent({
     return {
       account,
       langObjects,
-      availableRoles: [
-        {
-          label: 'ROLE_ADMIN',
-          value: 'ROLE_ADMIN',
-        },
-        {
-          label: 'ROLE_USER',
-          value: 'ROLE_USER',
-        },
-      ],
+      availableRoles: ['ROLE_ADMIN', 'ROLE_USER'],
       onSubmit: async () => {
         await api({
           method: account.data.id ? 'put' : 'post',
