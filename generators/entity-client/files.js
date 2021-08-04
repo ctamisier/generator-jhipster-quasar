@@ -37,7 +37,7 @@ function writeFiles() {
 function addRoute() {
     const routesIncluded = jhipsterUtils.checkStringInFile(
         `${QUASAR_PATH}/src/router/entityRoutes.js`,
-        `${this.entityFolderName}Routes`,
+        `${this.entityInstance}Routes`,
         this
     );
 
@@ -58,7 +58,7 @@ function addMenuEntry() {
     // eslint-disable-next-line prettier/prettier
     const entry = `{ name: '${this.entityApiUrl}', icon: 'auto_awesome', i18nKey: 'global.menu.entities.${this.entityInstance}', enable: store.getters['auth/hasRoleAdmin'] }`;
 
-    const entryIncluded = jhipsterUtils.checkStringInFile(`${QUASAR_PATH}/src/layouts/MainLayout.vue`, `${this.entityFolderName}s`, this);
+    const entryIncluded = jhipsterUtils.checkStringInFile(`${QUASAR_PATH}/src/layouts/MainLayout.vue`, `${this.entityInstance}`, this);
 
     if (entryIncluded) {
         return;
