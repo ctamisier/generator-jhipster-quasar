@@ -5,13 +5,22 @@
       class="q-gutter-md"
       style="min-width: 300px"
     >
-      <%_ for(field of fields.filter(field => !field.id)) { _%>
+<%_ for (field of fields.filter(field => !field.id)) { _%>
+<%_ if (field.fieldIsEnum) { _%>
+      <q-select
+        v-model="jobHistory.data.language"
+        :label="$t('jhipsterquasarApp.jobHistory.language')"
+        :options="[null, <%- field.enumValues.map(item => `'${item.value}'`).join(', ') _%>]"
+        :rules="[val => !!val]"
+      />
+<%_ } else { _%>
       <q-input
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
         :rules="[val => !!val]"
       />
-      <%_} _%>
+<%_ } _%>
+<%_ } _%>
       <div class="flex justify-between">
         <q-btn
           type="submit"
