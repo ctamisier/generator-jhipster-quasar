@@ -56,7 +56,7 @@ function addRoute() {
 
 function addMenuEntry() {
     // eslint-disable-next-line prettier/prettier
-    const entry = `{ name: '${this.entityApiUrl}', icon: 'auto_awesome', i18nKey: 'global.menu.entities.${this.entityInstance}', enable: store.getters['auth/hasRoleAdmin'] }`;
+    const entry = `{ to: '/${this.entityApiUrl}', icon: 'auto_awesome', i18nKey: 'global.menu.entities.${this.entityInstance}', enable: store.getters['auth/hasRoleAdmin'] }`;
 
     const entryIncluded = jhipsterUtils.checkStringInFile(`${QUASAR_PATH}/src/layouts/MainLayout.vue`, `${this.entityInstance}`, this);
 

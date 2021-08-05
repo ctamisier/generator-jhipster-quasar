@@ -44,14 +44,14 @@
       v-if="store.state.auth.account"
     >
       <q-item
-        :key="menuItem.name"
+        :key="menuItem.to"
         v-for="menuItem in menuItems()"
-        :to="menuItem.name"
+        :to="menuItem.to"
         clickable
         v-ripple
-        :active="link === menuItem.name"
+        :active="link === menuItem.to"
         active-class="bg-blue-1 text-blue-10"
-        @click="link = menuItem.name"
+        @click="link = menuItem.to"
       >
         <q-item-section avatar>
           <q-icon :name="menuItem.icon" />
@@ -129,15 +129,15 @@ export default defineComponent({
       menuItems() {
         return [
 <%_ if (authenticationType !== 'oauth2' ) { _%>
-          { name: 'account', icon: 'account_circle', i18nKey: 'global.menu.account.main', enable: true },
-          { name: 'password', icon: 'password', i18nKey: 'global.menu.account.password', enable: true },
-          { name: 'users', icon: 'people', i18nKey: 'global.menu.admin.userManagement', enable: store.getters['auth/hasRoleAdmin'] },
+          { to: '/account', icon: 'account_circle', i18nKey: 'global.menu.account.main', enable: true },
+          { to: '/password', icon: 'password', i18nKey: 'global.menu.account.password', enable: true },
+          { to: '/users', icon: 'people', i18nKey: 'global.menu.admin.userManagement', enable: store.getters['auth/hasRoleAdmin'] },
 <%_ } _%>
-          { name: 'configuration', icon: 'settings', i18nKey: 'global.menu.admin.configuration', enable: store.getters['auth/hasRoleAdmin'] },
-          { name: 'health', icon: 'health_and_safety', i18nKey: 'global.menu.admin.health', enable: store.getters['auth/hasRoleAdmin'] },
-          { name: 'metrics', icon: 'analytics', i18nKey: 'global.menu.admin.metrics', enable: store.getters['auth/hasRoleAdmin'] },
-          { name: 'logs', icon: 'text_snippet', i18nKey: 'global.menu.admin.logs', enable: store.getters['auth/hasRoleAdmin'] },
-          { name: 'docs', icon: 'menu_book', i18nKey: 'global.menu.admin.apidocs', enable: store.getters['auth/hasRoleAdmin'] },
+          { to: '/configuration', icon: 'settings', i18nKey: 'global.menu.admin.configuration', enable: store.getters['auth/hasRoleAdmin'] },
+          { to: '/health', icon: 'health_and_safety', i18nKey: 'global.menu.admin.health', enable: store.getters['auth/hasRoleAdmin'] },
+          { to: '/metrics', icon: 'analytics', i18nKey: 'global.menu.admin.metrics', enable: store.getters['auth/hasRoleAdmin'] },
+          { to: '/logs', icon: 'text_snippet', i18nKey: 'global.menu.admin.logs', enable: store.getters['auth/hasRoleAdmin'] },
+          { to: '/docs', icon: 'menu_book', i18nKey: 'global.menu.admin.apidocs', enable: store.getters['auth/hasRoleAdmin'] },
           ...[],
         ].filter(item => item.enable);
       },
