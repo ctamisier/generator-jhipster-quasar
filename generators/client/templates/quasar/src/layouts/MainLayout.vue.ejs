@@ -129,17 +129,17 @@ export default defineComponent({
       menuItems() {
         return [
 <%_ if (authenticationType !== 'oauth2' ) { _%>
-          { to: '/account', icon: 'account_circle', i18nKey: 'global.menu.account.main', enable: true },
-          { to: '/password', icon: 'password', i18nKey: 'global.menu.account.password', enable: true },
-          { to: '/users', icon: 'people', i18nKey: 'global.menu.admin.userManagement', enable: store.getters['auth/hasRoleAdmin'] },
+          { to: '/account', icon: 'account_circle', i18nKey: 'global.menu.account.main', enabled: true },
+          { to: '/password', icon: 'password', i18nKey: 'global.menu.account.password', enabled: true },
+          { to: '/users', icon: 'people', i18nKey: 'global.menu.admin.userManagement', enabled: store.getters['auth/hasRoleAdmin'] },
 <%_ } _%>
-          { to: '/configuration', icon: 'settings', i18nKey: 'global.menu.admin.configuration', enable: store.getters['auth/hasRoleAdmin'] },
-          { to: '/health', icon: 'health_and_safety', i18nKey: 'global.menu.admin.health', enable: store.getters['auth/hasRoleAdmin'] },
-          { to: '/metrics', icon: 'analytics', i18nKey: 'global.menu.admin.metrics', enable: store.getters['auth/hasRoleAdmin'] },
-          { to: '/logs', icon: 'text_snippet', i18nKey: 'global.menu.admin.logs', enable: store.getters['auth/hasRoleAdmin'] },
-          { to: '/docs', icon: 'menu_book', i18nKey: 'global.menu.admin.apidocs', enable: store.getters['auth/hasRoleAdmin'] },
+          { to: '/configuration', icon: 'settings', i18nKey: 'global.menu.admin.configuration', enabled: store.getters['auth/hasRoleAdmin'] },
+          { to: '/health', icon: 'health_and_safety', i18nKey: 'global.menu.admin.health', enabled: store.getters['auth/hasRoleAdmin'] },
+          { to: '/metrics', icon: 'analytics', i18nKey: 'global.menu.admin.metrics', enabled: store.getters['auth/hasRoleAdmin'] },
+          { to: '/logs', icon: 'text_snippet', i18nKey: 'global.menu.admin.logs', enabled: store.getters['auth/hasRoleAdmin'] },
+          { to: '/docs', icon: 'menu_book', i18nKey: 'global.menu.admin.apidocs', enabled: store.getters['auth/hasRoleAdmin'] },
           ...[],
-        ].filter(item => item.enable);
+        ].filter(item => item.enabled);
       },
       isAuthenticated: computed(() => isAuthenticatedGetter()),
       toggleLeftDrawer() {
