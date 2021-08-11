@@ -1,6 +1,6 @@
 import { api } from 'boot/axios';
 import { loadTranslation } from 'boot/i18n';
-import { LocalStorage, SessionStorage } from 'quasar';
+import { LocalStorage, Notify, SessionStorage } from 'quasar';
 
 export const beforeEachAuth = async (to, from, next, store) => {
   try {
@@ -40,6 +40,10 @@ export const authLogin = async (store, router, route, credentials) => {
     }
   } catch (e) {
     store.dispatch('auth/logout');
+    Notify.create({
+      type: 'negative',
+      message: 'Operation failed',
+    });
   }
 };
 

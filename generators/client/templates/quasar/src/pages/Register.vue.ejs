@@ -9,29 +9,29 @@
         v-model="account.data.login"
         :label="$t('global.form[\'username.label\']')"
         lazy-rules
-        :rules="[val => !!val && val.length >= 4]"
+        :rules="[$rules.required(), $rules.minLength(4), $rules.maxLength(100)]"
       />
       <q-input
         v-model="account.data.email"
         type="email"
         :label="$t('global.form[\'email.label\']')"
         lazy-rules
-        :rules="[val => !!val && val.length >= 5]"
+        :rules="[$rules.required(), $rules.minLength(5), $rules.maxLength(254)]"
       />
       <q-input
         v-model="account.data.password"
         type="password"
         :label="$t('global.form[\'newpassword.label\']')"
-        lazy-rules="ondemand"
-        :rules="[val => !!val && val.length >= 4]"
+        lazy-rules
+        :rules="[$rules.required(), $rules.minLength(4), $rules.maxLength(100)]"
       />
       <q-input
         autocomplete="new-password"
         v-model="account.data.password2"
         type="password"
         :label="$t('global.form[\'confirmpassword.label\']')"
-        lazy-rules="ondemand"
-        :rules="[val => !!val && val.length >= 4 && val === account.data.password]"
+        lazy-rules
+        :rules="[$rules.sameAs(account.data.password)]"
       />
       <div class="flex justify-between">
         <q-btn
@@ -52,14 +52,19 @@
 
 <script>
 import { api } from 'boot/axios';
+import { useQuasar } from 'quasar';
 import { defineComponent, reactive } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'PageRegister',
 
   setup() {
+    const { t } = useI18n();
+    const $q = useQuasar();
     const router = useRouter();
+
     const account = reactive({
       data: {
         login: null,
@@ -70,12 +75,21 @@ export default defineComponent({
       },
     });
 
-    return {
-      account,
-      onSubmit: async () => {
+    const onSubmit = async () => {
+      try {
         await api.post('/api/register', account.data);
         router.push('/');
-      },
+      } catch (e) {
+        $q.notify({
+          type: 'negative',
+          message: t(e.response.data.message),
+        });
+      }
+    };
+
+    return {
+      account,
+      onSubmit,
     };
   },
 });

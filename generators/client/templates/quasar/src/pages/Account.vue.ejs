@@ -17,18 +17,21 @@
         <q-input
           v-model="account.data.firstName"
           :label="$t('userManagement.firstName')"
-          :rules="[val => !!val]"
+          lazy-rules
+          :rules="[$rules.maxLength(50)]"
         />
         <q-input
           v-model="account.data.lastName"
           :label="$t('userManagement.lastName')"
-          :rules="[val => !!val]"
+          lazy-rules
+          :rules="[$rules.maxLength(50)]"
         />
         <q-input
           v-model="account.data.email"
           type="email"
           :label="$t('userManagement.email')"
-          :rules="[val => !!val]"
+          lazy-rules
+          :rules="[$rules.required(), $rules.minLength(5), $rules.maxLength(254)]"
         />
         <q-select
           v-model="account.data.langKey"
@@ -38,7 +41,7 @@
           emit-value
           map-options
           :label="$t('userManagement.langKey')"
-          :rules="[val => !!val]"
+          :rules="[$rules.required()]"
         />
         <div class="flex justify-between">
           <q-btn
@@ -61,7 +64,9 @@
 <script>
 import { api } from 'boot/axios';
 import { loadTranslation } from 'boot/i18n';
+import { useQuasar } from 'quasar';
 import { defineComponent, reactive } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { langObjects } from '../constants/i18nConstants';
 
@@ -69,7 +74,10 @@ export default defineComponent({
   name: 'PageAccount',
 
   setup() {
+    const $q = useQuasar();
+    const { t } = useI18n();
     const router = useRouter();
+
     const account = reactive({
       data: {
         firstName: null,
@@ -86,14 +94,23 @@ export default defineComponent({
 
     fetchAccount();
 
-    return {
-      account,
-      langObjects,
-      onSubmit: async () => {
+    const onSubmit = async () => {
+      try {
         await api.post('/api/account', account.data);
         loadTranslation(account.data.langKey);
         router.push('/');
-      },
+      } catch (e) {
+        $q.notify({
+          type: 'negative',
+          message: t(e.response.data.message),
+        });
+      }
+    };
+
+    return {
+      account,
+      langObjects,
+      onSubmit,
     };
   },
 });

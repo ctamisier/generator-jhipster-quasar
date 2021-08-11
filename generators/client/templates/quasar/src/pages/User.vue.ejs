@@ -8,23 +8,27 @@
       <q-input
         v-model="account.data.login"
         :label="$t('userManagement.login')"
-        :rules="[val => !!val]"
+        lazy-rules
+        :rules="[$rules.required(), $rules.maxLength(50)]"
       />
       <q-input
         v-model="account.data.firstName"
         :label="$t('userManagement.firstName')"
-        :rules="[val => !!val]"
+        lazy-rules
+        :rules="[$rules.maxLength(50)]"
       />
       <q-input
         v-model="account.data.lastName"
         :label="$t('userManagement.lastName')"
-        :rules="[val => !!val]"
+        lazy-rules
+        :rules="[$rules.maxLength(50)]"
       />
       <q-input
         v-model="account.data.email"
         type="email"
         :label="$t('userManagement.email')"
-        :rules="[val => !!val]"
+        lazy-rules
+        :rules="[$rules.required(), $rules.minLength(5), $rules.maxLength(254)]"
       />
       <q-select
         v-model="account.data.langKey"
@@ -34,7 +38,7 @@
         emit-value
         map-options
         :label="$t('userManagement.langKey')"
-        :rules="[val => !!val]"
+        :rules="[$rules.required()]"
       />
       <q-select
         v-model="account.data.authorities"
@@ -77,7 +81,9 @@
 
 <script>
 import { api } from 'boot/axios';
+import { useQuasar } from 'quasar';
 import { defineComponent, reactive } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { langObjects } from '../constants/i18nConstants';
 
@@ -85,6 +91,8 @@ export default defineComponent({
   name: 'PageUser',
 
   setup() {
+    const { t } = useI18n();
+    const $q = useQuasar();
     const router = useRouter();
     const route = useRoute();
 
@@ -108,18 +116,27 @@ export default defineComponent({
 
     fetchUser();
 
-    return {
-      account,
-      langObjects,
-      availableRoles: ['ROLE_ADMIN', 'ROLE_USER'],
-      onSubmit: async () => {
+    const onSubmit = async () => {
+      try {
         await api({
           method: account.data.id ? 'put' : 'post',
           url: '/api/admin/users',
           data: account.data,
         });
         router.push('/users');
-      },
+      } catch (e) {
+        $q.notify({
+          type: 'negative',
+          message: t(e.response.data.message),
+        });
+      }
+    };
+
+    return {
+      account,
+      langObjects,
+      availableRoles: ['ROLE_ADMIN', 'ROLE_USER'],
+      onSubmit,
     };
   },
 });

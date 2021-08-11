@@ -26,6 +26,7 @@ function writeFiles() {
                     `${QUASAR_PATH}/babel.config.js`,
                     `${QUASAR_PATH}/jsconfig.json`,
                     `${QUASAR_PATH}/package.json`,
+                    `${QUASAR_PATH}/quasar.extensions.json`,
                     `${QUASAR_PATH}/README.md`
                 ]
             }

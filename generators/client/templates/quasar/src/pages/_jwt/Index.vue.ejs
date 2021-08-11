@@ -100,12 +100,14 @@ export default defineComponent({
       rememberMe: false,
     });
 
+    const onSubmit = async () => {
+      authLogin(store, router, route, credentials);
+    };
+
     return {
       credentials,
       isAuthenticated: computed(() => store.getters['auth/isAuthenticated']),
-      onSubmit() {
-        authLogin(store, router, route, credentials);
-      },
+      onSubmit,
     };
   },
 });
