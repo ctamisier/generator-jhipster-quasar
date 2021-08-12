@@ -11,7 +11,7 @@
         v-model="credentials.username"
         :label="$t('global.form[\'username.label\']')"
         lazy-rules
-        :rules="[val => val && val.length >= 4]"
+        :rules="[$rules.required(), $rules.minLength(4)]"
       />
       <q-input
         autocomplete="current-password"
@@ -19,7 +19,7 @@
         type="password"
         :label="$t('login.form.password')"
         lazy-rules
-        :rules="[val => val && val.length >= 4]"
+        :rules="[$rules.required(), $rules.minLength(4)]"
       />
       <q-checkbox
         v-model="credentials.rememberMe"
@@ -100,13 +100,15 @@ export default defineComponent({
       rememberMe: false,
     });
 
-    const onSubmit = async () => {
+    const onSubmit = () => {
       authLogin(store, router, route, credentials);
     };
 
+    const isAuthenticated = computed(() => store.getters['auth/isAuthenticated']);
+
     return {
       credentials,
-      isAuthenticated: computed(() => store.getters['auth/isAuthenticated']),
+      isAuthenticated,
       onSubmit,
     };
   },
