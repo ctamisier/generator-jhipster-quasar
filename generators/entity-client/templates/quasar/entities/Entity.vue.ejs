@@ -1,3 +1,8 @@
+<%_ const validators = {
+    required: { value: 'required' },
+    minlength: { value: 'minLength', lengthField: 'fieldValidateRulesMinlength' },
+    maxlength: { value: 'maxLength', lengthField: 'fieldValidateRulesMaxlength' },
+} _%>
 <template>
   <q-page class="q-pa-md flex flex-center">
     <q-form
@@ -8,16 +13,23 @@
 <%_ for (field of fields.filter(field => !field.id)) { _%>
 <%_ if (field.fieldIsEnum) { _%>
       <q-select
-        v-model="jobHistory.data.language"
-        :label="$t('jhipsterquasarApp.jobHistory.language')"
+        v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
+        :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
         :options="[null, <%- field.enumValues.map(item => `'${item.value}'`).join(', ') _%>]"
-        :rules="[val => !!val]"
       />
 <%_ } else { _%>
       <q-input
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
-        :rules="[val => !!val]"
+<%_ if (field.fieldValidate) { _%>
+        :rules="[<%- field.fieldValidateRules
+            .filter(rule => validators[rule])
+            .map(rule => {
+                const validator = validators[rule];
+                const length = field[validator.lengthField] || ''
+                return `$rules.${validator.value}(${length})` })
+            .join(', ') _%>]"
+<%_ } _%>
       />
 <%_ } _%>
 <%_ } _%>
