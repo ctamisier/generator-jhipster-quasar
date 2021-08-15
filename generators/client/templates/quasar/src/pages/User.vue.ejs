@@ -45,8 +45,6 @@
         :options="availableRoles"
         :label="$t('userManagement.profiles')"
         multiple
-        emit-value
-        map-options
       >
         <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
           <q-item v-bind="itemProps">
@@ -104,7 +102,7 @@ export default defineComponent({
         lastName: null,
         email: null,
         langKey: null,
-        authorities: [],
+        authorities: null,
       },
     });
 
