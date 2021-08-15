@@ -1,7 +1,13 @@
-<%_ const validators = {
-    required: { value: 'required' },
-    minlength: { value: 'minLength', lengthField: 'fieldValidateRulesMinlength' },
-    maxlength: { value: 'maxLength', lengthField: 'fieldValidateRulesMaxlength' },
+<%_
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+} _%>
+
+<%_
+const validators = {
+  required: { value: 'required' },
+  minlength: { value: 'minLength', lengthField: 'fieldValidateRulesMinlength' },
+  maxlength: { value: 'maxLength', lengthField: 'fieldValidateRulesMaxlength' },
 } _%>
 <template>
   <q-page class="q-pa-md flex flex-center">
@@ -33,6 +39,14 @@
       />
 <%_ } _%>
 <%_ } _%>
+<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+      <q-select
+        v-model="<%= entityInstance %>.data.<%= relationship.relationshipName %>"
+        :label="$t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>')"
+        :options="<%= relationship.otherEntityNamePlural %>"
+        option-label="id"
+      />
+<%_ } _%>
       <div class="flex justify-between">
         <q-btn
           type="submit"
@@ -52,7 +66,7 @@
 
 <script>
 import { api } from 'boot/axios';
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -64,30 +78,43 @@ export default defineComponent({
 
     const <%= entityInstance %> = reactive({
       data: {
-        <%_ for(field of fields) { _%>
+<%_ for(field of fields) { _%>
         <%= field.fieldName %>: null,
-        <%_} _%>
+<%_} _%>
+<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+        <%= relationship.relationshipName %>: null,
+<%_} _%>
       },
     });
 
-    const fetch<%= entityAngularName %> = async () => {
+    (async function fetch<%= entityAngularName %>() {
       if (route.params.id) {
         <%= entityInstance %>.data = (await api.get(`/api/<%= entityApiUrl %>/${route.params.id}`)).data;
       }
-    };
+    })();
 
-    fetch<%= entityAngularName %>();
+<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+    const <%= relationship.otherEntityNamePlural %> = ref([]);
+    (async function fetch<%= capitalizeFirstLetter(relationship.otherEntityNamePlural) %>() {
+      <%= relationship.otherEntityNamePlural %>.value = (await api.get(`/api/<%= relationship.otherEntityNamePlural %>`)).data;
+    })();
+
+<%_} _%>
+    const onSubmit = async () => {
+      await api({
+        method: <%= entityInstance %>.data.id ? 'put' : 'post',
+        url: `/api/<%= entityApiUrl %>/${<%= entityInstance %>.data.id ? <%= entityInstance %>.data.id : ''}`,
+        data: <%= entityInstance %>.data,
+      });
+      router.push('/<%= entityApiUrl %>');
+    };
 
     return {
       <%= entityInstance %>,
-      onSubmit: async () => {
-        await api({
-          method: <%= entityInstance %>.data.id ? 'put' : 'post',
-          url: `/api/<%= entityApiUrl %>/${<%= entityInstance %>.data.id ? <%= entityInstance %>.data.id : ''}`,
-          data: <%= entityInstance %>.data,
-        });
-        router.push('/<%= entityApiUrl %>');
-      },
+<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+      <%= relationship.otherEntityNamePlural %>,
+<%_} _%>
+      onSubmit,
     };
   },
 });

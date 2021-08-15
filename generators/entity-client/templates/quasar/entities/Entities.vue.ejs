@@ -25,11 +25,16 @@
       </template>
       <template v-slot:body="props">
         <q-tr>
-          <%_ for (field of fields) { _%>
+<%_ for (field of fields) { _%>
           <q-td>
             {{ props.row.<%= field.fieldName %> }}
           </q-td>
-          <%_ } _%>
+<%_ } _%>
+<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+        <q-td>
+          {{ props.row.<%= relationship.relationshipName %> && props.row.<%= relationship.relationshipName %>.id }}
+        </q-td>
+<%_ } _%>
           <q-td>
             <router-link
               :to="`/<%= entityApiUrl %>/${props.row.id}`"
@@ -79,9 +84,12 @@ export default defineComponent({
     });
 
     const columns = [
-      <%_ for (field of fields) { _%>
+<%_ for (field of fields) { _%>
       { name: '<%= field.fieldName %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= field.fieldName %>'), field: '<%= field.fieldName %>', sortable: true },
-      <%_ } _%>
+<%_ } _%>
+<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+      { name: '<%= relationship.relationshipName %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>'), field: '<%= relationship.relationshipName %>', sortable: true },
+<%_ } _%>
     ];
 
     function onRequest(props) {
