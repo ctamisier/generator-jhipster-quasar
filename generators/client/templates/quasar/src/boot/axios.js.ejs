@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Notify } from 'quasar';
 import { boot } from 'quasar/wrappers';
+import { i18n } from './i18n';
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -29,7 +30,7 @@ export default boot(({ app }) => {
       if (error.response.status >= 500) {
         Notify.create({
           type: 'negative',
-          message: app.__VUE_I18N__.global.t('error.internalServerError'),
+          message: i18n.global.t('error.internalServerError'),
         });
       }
       return Promise.reject(error);
