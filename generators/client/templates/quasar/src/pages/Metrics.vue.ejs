@@ -27,10 +27,18 @@
             </q-circular-progress>
           </q-card-section>
           <q-card-section>
-            <div
-              :key="detail"
-              v-for="detail in Object.entries(metric)"
-            >{{ detail[0] }} {{ humanStorageSize(detail[1]) }}</div>
+            <q-field
+              v-for="item in Object.entries(metric)"
+              :key="item"
+              :label="item[0]"
+              readonly
+              borderless
+              stack-label
+            >
+              <template v-slot:control>
+                {{ humanStorageSize(item[1]) }}
+              </template>
+            </q-field>
           </q-card-section>
         </q-card>
       </div>
@@ -78,20 +86,23 @@
         </q-card>
         <q-card>
           <q-card-section>
-            <q-list>
-              <q-item>
-                <q-item-section>
-                  <q-item-label>Classes loaded</q-item-label>
-                  <q-item-label caption>{{ metrics.garbageCollector['classesLoaded'] }}</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item>
-                <q-item-section>
-                  <q-item-label>Classes unloaded</q-item-label>
-                  <q-item-label caption>{{ metrics.garbageCollector['classesUnloaded'] }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
+            <div style="min-width: 100px">
+              <q-field
+                v-for="item in [
+                  { label: 'Classes loaded', valueField: 'classesLoaded' },
+                  { label: 'Classes unloaded', valueField: 'classesUnloaded' },
+                ]"
+                :key="item.label"
+                :label="item.label"
+                readonly
+                borderless
+                stack-label
+              >
+                <template v-slot:control>
+                  {{ metrics.garbageCollector[item.valueField] }}
+                </template>
+              </q-field>
+            </div>
           </q-card-section>
         </q-card>
         <q-markup-table>
@@ -157,44 +168,27 @@
         <div class="row items-start q-gutter-md">
           <q-card>
             <q-card-section>
-              <q-list>
-                <q-item>
-                  <q-item-section>
-                    <q-item-label>Uptime</q-item-label>
-                    <q-item-label caption>{{ formatDistanceStrict(metrics['processMetrics']['process.uptime']) }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>
-                    <q-item-label>Start Time</q-item-label>
-                    <q-item-label caption>{{ format(metrics['processMetrics']['process.start.time']) }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>
-                    <q-item-label>System CPU Count</q-item-label>
-                    <q-item-label caption>{{ metrics['processMetrics']['system.cpu.count'] }}</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>
-                    <q-item-label>System 1m Load Average</q-item-label>
-                    <q-item-label caption>{{ metrics['processMetrics']['system.load.average.1m'] }} </q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>
-                    <q-item-label>Process File Max</q-item-label>
-                    <q-item-label caption>{{ metrics['processMetrics']['process.files.max'] }} </q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>
-                    <q-item-label>Process File Open</q-item-label>
-                    <q-item-label caption>{{ metrics['processMetrics']['process.files.open'] }} </q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
+              <q-field
+                v-for="item in [
+                  { label: 'Uptime', valueField: 'process.uptime', transform: formatDistanceStrict },
+                  { label: 'Start Time', valueField: 'process.start.time', transform: format },
+                  { label: 'System CPU Count', valueField: 'system.cpu.count' },
+                  { label: 'System 1m Load Average', valueField: 'system.load.average.1m' },
+                  { label: 'Process File Max', valueField: 'process.files.max' },
+                  { label: 'Process File Open', valueField: 'process.files.open' },
+                ]"
+                :key="item.label"
+                :label="item.label"
+                readonly
+                borderless
+                stack-label
+              >
+                <template v-slot:control>
+                  {{
+                    item.transform ? item.transform(metrics['processMetrics'][item.valueField]) : metrics['processMetrics'][item.valueField]
+                  }}
+                </template>
+              </q-field>
             </q-card-section>
           </q-card>
           <q-card class="text-center">
@@ -313,22 +307,19 @@
       <div class="row items-start q-gutter-md">
         <q-card>
           <q-card-section>
-            <q-list>
-              <q-item>
-                <q-item-section>
-                  <q-item-label>Connection Pool Usage</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item
-                :key="entry"
-                v-for="entry in ['active', 'min', 'max', 'idle']"
-              >
-                <q-item-section>
-                  <q-item-label>{{ capitalize(entry) }}</q-item-label>
-                  <q-item-label caption>{{ metrics.databases[entry]['value'] }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
+            <div>Connection Pool Usage</div>
+            <q-field
+              v-for="item in ['active', 'min', 'max', 'idle']"
+              :key="item"
+              :label="capitalize(item)"
+              readonly
+              borderless
+              stack-label
+            >
+              <template v-slot:control>
+                {{ metrics.databases[item]['value'] }}
+              </template>
+            </q-field>
           </q-card-section>
         </q-card>
         <q-markup-table>
@@ -440,17 +431,20 @@
       <div class="row items-start q-gutter-md">
         <q-card>
           <q-card-section>
-            <q-list>
-              <q-item
-                :key="key"
+            <div style="min-width: 100px">
+              <q-field
                 v-for="(group, key) in threadsByState"
+                :key="key"
+                :label="key"
+                readonly
+                borderless
+                stack-label
               >
-                <q-item-section>
-                  <q-item-label>{{ key }}</q-item-label>
-                  <q-item-label caption>{{ group.length }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
+                <template v-slot:control>
+                  {{ group.length }}
+                </template>
+              </q-field>
+            </div>
           </q-card-section>
         </q-card>
         <q-table
