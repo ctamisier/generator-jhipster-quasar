@@ -1,14 +1,24 @@
 <%_
-function capitalizeFirstLetter(string) {
+const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
-} _%>
+}
 
-<%_
 const validators = {
   required: { value: 'required' },
   minlength: { value: 'minLength', lengthField: 'fieldValidateRulesMinlength' },
   maxlength: { value: 'maxLength', lengthField: 'fieldValidateRulesMaxlength' },
-} _%>
+}
+
+const applyValidators = (rules) => {
+  return rules
+    .filter(rule => validators[rule])
+    .map(rule => {
+        const validator = validators[rule];
+        const length = field[validator.lengthField] || ''
+        return `$rules.${validator.value}(${length})` })
+    .join(', ')
+}
+_%>
 <template>
   <q-page class="q-pa-md flex flex-center">
     <q-form
@@ -22,19 +32,14 @@ const validators = {
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
         :options="[null, <%- field.enumValues.map(item => `'${item.value}'`).join(', ') _%>]"
+        :rules="[<%- applyValidators(field.fieldValidateRules) _%>]"
       />
 <%_ } else { _%>
       <q-input
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
 <%_ if (field.fieldValidate) { _%>
-        :rules="[<%- field.fieldValidateRules
-            .filter(rule => validators[rule])
-            .map(rule => {
-                const validator = validators[rule];
-                const length = field[validator.lengthField] || ''
-                return `$rules.${validator.value}(${length})` })
-            .join(', ') _%>]"
+        :rules="[<%- applyValidators(field.fieldValidateRules) _%>]"
 <%_ } _%>
       />
 <%_ } _%>
