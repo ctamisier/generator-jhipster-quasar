@@ -83,7 +83,7 @@ _%>
       <q-select
         v-model="<%= entityInstance %>.data.<%= relationship.relationshipName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>')"
-        :options="<%= relationship.otherEntityNamePlural %>"
+        :options="[null].concat(<%= relationship.otherEntityNamePlural %>)"
         option-label="<%= relationship.otherEntityField %>"
 <%_ if (relationship.relationshipValidate) { _%>
         :rules="[<%- applyValidators(relationship.fieldType, relationship.relationshipValidateRules) _%>]"
