@@ -42,6 +42,14 @@ _%>
         :options="[null, <%- field.enumValues.map(item => `'${item.value}'`).join(', ') _%>]"
         :rules="[<%- applyValidators(field.fieldValidateRules) _%>]"
       />
+<%_ } else if (field.fieldType === 'Boolean') { _%>
+      <q-checkbox
+        v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
+        :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
+<%_ if (field.fieldValidate) { _%>
+        :rules="[<%- applyValidators(field.fieldValidateRules) _%>]"
+<%_ } _%>
+      />
 <%_ } else { _%>
       <q-input
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
@@ -50,8 +58,7 @@ _%>
         :rules="[<%- applyValidators(field.fieldValidateRules) _%>]"
 <%_ } _%>
       />
-<%_ } _%>
-<%_ } _%>
+<%_ } } _%>
 <%_ for (relationship of relationshipsToOneOwner) { _%>
       <q-select
         v-model="<%= entityInstance %>.data.<%= relationship.relationshipName %>"

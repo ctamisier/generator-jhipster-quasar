@@ -27,13 +27,20 @@
         <q-tr>
 <%_ for (field of fields) { _%>
           <q-td>
+<%_ if (field.fieldType === 'Boolean') { _%>
+            <q-icon
+              :name="`${props.row.<%= field.fieldName %> ? 'check_box' : 'check_box_outline_blank'}`"
+              size="sm"
+            />
+<%_ } else { _%>
             {{ props.row.<%= field.fieldName %> }}
+<%_ } _%>
           </q-td>
 <%_ } _%>
 <%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
-        <q-td>
-          {{ props.row.<%= relationship.relationshipName %> && props.row.<%= relationship.relationshipName %>.<%= relationship.otherEntityField %> }}
-        </q-td>
+          <q-td>
+            {{ props.row.<%= relationship.relationshipName %> && props.row.<%= relationship.relationshipName %>.<%= relationship.otherEntityField %> }}
+          </q-td>
 <%_ } _%>
           <q-td>
             <router-link
