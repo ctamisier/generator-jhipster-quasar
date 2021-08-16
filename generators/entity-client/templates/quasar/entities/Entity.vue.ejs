@@ -10,7 +10,7 @@ const validators = {
 }
 
 const applyValidators = (rules) => {
-  return rules
+  return ([].concat(rules))
     .filter(rule => validators[rule])
     .map(rule => {
         const validator = validators[rule];
@@ -18,6 +18,14 @@ const applyValidators = (rules) => {
         return `$rules.${validator.value}(${length})` })
     .join(', ')
 }
+
+const relationshipsToOneOwner = (relationships || [])
+  .filter(relationship => relationship.relationshipType.includes('-to-one'))
+  .filter(relationship => relationship.ownerSide)
+
+const relationshipsToManyOwner = (relationships || [])
+  .filter(relationship => relationship.relationshipType.includes('-to-many'))
+  .filter(relationship => relationship.ownerSide)
 _%>
 <template>
   <q-page class="q-pa-md flex flex-center">
@@ -44,13 +52,43 @@ _%>
       />
 <%_ } _%>
 <%_ } _%>
-<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+<%_ for (relationship of relationshipsToOneOwner) { _%>
       <q-select
         v-model="<%= entityInstance %>.data.<%= relationship.relationshipName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>')"
         :options="<%= relationship.otherEntityNamePlural %>"
-        option-label="id"
+        option-label="<%= relationship.otherEntityField %>"
+<%_ if (relationship.relationshipValidate) { _%>
+        :rules="[<%- applyValidators(relationship.relationshipValidateRules) _%>]"
+<%_ } _%>
       />
+<%_ } _%>
+<%_ for (relationship of relationshipsToManyOwner) { _%>
+      <q-select
+        v-model="<%= entityInstance %>.data.<%= relationship.relationshipNamePlural %>"
+        :label="$t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>')"
+        :options="<%= relationship.otherEntityNamePlural %>"
+        option-value="id"
+        option-label="<%= relationship.otherEntityField %>"
+<%_ if (relationship.relationshipValidate) { _%>
+        :rules="[<%- applyValidators(relationship.relationshipValidateRules) _%>]"
+<%_ } _%>
+        multiple
+      >
+        <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+          <q-item v-bind="itemProps">
+            <q-item-section>
+              <q-item-label v-html="opt.<%= relationship.otherEntityField %>"></q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle
+                :model-value="selected"
+                @update:modelValue="toggleOption(opt)"
+              />
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
 <%_ } _%>
       <div class="flex justify-between">
         <q-btn
@@ -86,8 +124,11 @@ export default defineComponent({
 <%_ for(field of fields) { _%>
         <%= field.fieldName %>: null,
 <%_} _%>
-<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+<%_ for (relationship of relationshipsToOneOwner) { _%>
         <%= relationship.relationshipName %>: null,
+<%_} _%>
+<%_ for (relationship of relationshipsToManyOwner) { _%>
+        <%= relationship.relationshipNamePlural %>: null,
 <%_} _%>
       },
     });
@@ -98,7 +139,7 @@ export default defineComponent({
       }
     })();
 
-<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+<%_ for (relationship of relationshipsToOneOwner.concat(relationshipsToManyOwner)) { _%>
     const <%= relationship.otherEntityNamePlural %> = ref([]);
     (async function fetch<%= capitalizeFirstLetter(relationship.otherEntityNamePlural) %>() {
       <%= relationship.otherEntityNamePlural %>.value = (await api.get(`/api/<%= relationship.otherEntityNamePlural %>`)).data;
@@ -116,7 +157,7 @@ export default defineComponent({
 
     return {
       <%= entityInstance %>,
-<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+<%_ for (relationship of relationshipsToOneOwner.concat(relationshipsToManyOwner)) { _%>
       <%= relationship.otherEntityNamePlural %>,
 <%_} _%>
       onSubmit,

@@ -32,7 +32,7 @@
 <%_ } _%>
 <%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
         <q-td>
-          {{ props.row.<%= relationship.relationshipName %> && props.row.<%= relationship.relationshipName %>.id }}
+          {{ props.row.<%= relationship.relationshipName %> && props.row.<%= relationship.relationshipName %>.<%= relationship.otherEntityField %> }}
         </q-td>
 <%_ } _%>
           <q-td>
