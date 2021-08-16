@@ -7,16 +7,31 @@ const validators = {
   required: { value: 'required' },
   minlength: { value: 'minLength', lengthField: 'fieldValidateRulesMinlength' },
   maxlength: { value: 'maxLength', lengthField: 'fieldValidateRulesMaxlength' },
+  min: { value: 'minValue', lengthField: 'fieldValidateRulesMin' },
+  max: { value: 'maxValue', lengthField: 'fieldValidateRulesMax' },
+  Integer: { value: 'integer' },
+  Long: { value: 'integer' },
+  BigDecimal: { value: 'decimal' },
+  Float: { value: 'decimal' },
+  Double: { value: 'decimal' },
 }
 
-const applyValidators = (rules) => {
-  return ([].concat(rules))
+const applyValidators = (fieldType, rules) => {
+  return ([fieldType].concat(rules))
     .filter(rule => validators[rule])
     .map(rule => {
         const validator = validators[rule];
         const length = field[validator.lengthField] || ''
         return `$rules.${validator.value}(${length})` })
     .join(', ')
+}
+
+const isNumber = (fieldType) => {
+    return isIntegerishNumber(fieldType) || ['BigDecimal', 'Float', 'Double'].includes(fieldType);
+}
+
+const isIntegerishNumber = (fieldType) => {
+    return ['Integer', 'Long'].includes(fieldType);
 }
 
 const relationshipsToOneOwner = (relationships || [])
@@ -40,22 +55,27 @@ _%>
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
         :options="[null, <%- field.enumValues.map(item => `'${item.value}'`).join(', ') _%>]"
-        :rules="[<%- applyValidators(field.fieldValidateRules) _%>]"
+<%_ if (field.fieldValidate) { _%>
+        :rules="[<%- applyValidators(field.fieldType, field.fieldValidateRules) _%>]"
+<%_ } _%>
       />
 <%_ } else if (field.fieldType === 'Boolean') { _%>
       <q-checkbox
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
 <%_ if (field.fieldValidate) { _%>
-        :rules="[<%- applyValidators(field.fieldValidateRules) _%>]"
+        :rules="[<%- applyValidators(field.fieldType, field.fieldValidateRules) _%>]"
 <%_ } _%>
       />
 <%_ } else { _%>
       <q-input
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
+<%_ if (isIntegerishNumber(field.fieldType)) { _%>
+        type="number"
+<%_ } _%>
         :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
-<%_ if (field.fieldValidate) { _%>
-        :rules="[<%- applyValidators(field.fieldValidateRules) _%>]"
+<%_ if ((field.fieldValidate) || isNumber(field.fieldType)) { _%>
+        :rules="[<%- applyValidators(field.fieldType, field.fieldValidateRules) _%>]"
 <%_ } _%>
       />
 <%_ } } _%>
@@ -66,7 +86,7 @@ _%>
         :options="<%= relationship.otherEntityNamePlural %>"
         option-label="<%= relationship.otherEntityField %>"
 <%_ if (relationship.relationshipValidate) { _%>
-        :rules="[<%- applyValidators(relationship.relationshipValidateRules) _%>]"
+        :rules="[<%- applyValidators(relationship.fieldType, relationship.relationshipValidateRules) _%>]"
 <%_ } _%>
       />
 <%_ } _%>
@@ -78,7 +98,7 @@ _%>
         option-value="id"
         option-label="<%= relationship.otherEntityField %>"
 <%_ if (relationship.relationshipValidate) { _%>
-        :rules="[<%- applyValidators(relationship.relationshipValidateRules) _%>]"
+        :rules="[<%- applyValidators(relationship.fieldType, relationship.relationshipValidateRules) _%>]"
 <%_ } _%>
         multiple
       >
