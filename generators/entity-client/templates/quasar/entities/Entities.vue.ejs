@@ -1,3 +1,6 @@
+<%_
+const hasInstant = (fields) => fields.some(field => field.fieldType === 'Instant');
+_%>
 <template>
   <div class="q-pa-md">
     <q-table
@@ -32,6 +35,11 @@
               :name="`${props.row.<%= field.fieldName %> ? 'check_box' : 'check_box_outline_blank'}`"
               size="sm"
             />
+<%_ } else if (field.fieldType === 'Instant') { _%>
+            <div class="column">
+              {{ props.row.<%= field.fieldName %> && format(parseISO(props.row.<%= field.fieldName %>)) }}
+              <small>({{ props.row.<%= field.fieldName %> }})</small>
+            </div>
 <%_ } else { _%>
             {{ props.row.<%= field.fieldName %> }}
 <%_ } _%>
@@ -66,6 +74,9 @@
 
 <script>
 import { api } from 'boot/axios';
+<%_ if (hasInstant(fields)) { _%>
+import { parseISO } from 'date-fns';
+<%_ } _%>
 import { useQuasar } from 'quasar';
 import { defineComponent, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -135,6 +146,9 @@ export default defineComponent({
       pagination,
       columns,
       rows,
+<%_ if (hasInstant(fields)) { _%>
+      parseISO,
+<%_ } _%>
       format,
       onRequest,
       delete<%= entityAngularName %>: id => {

@@ -1,7 +1,5 @@
 <%_
-const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 const validators = {
   required: { value: 'required' },
@@ -26,13 +24,9 @@ const applyValidators = (fieldType, rules) => {
     .join(', ')
 }
 
-const isNumber = (fieldType) => {
-    return isIntegerishNumber(fieldType) || ['BigDecimal', 'Float', 'Double'].includes(fieldType);
-}
+const isNumber = (fieldType) => isIntegerishNumber(fieldType) || ['BigDecimal', 'Float', 'Double'].includes(fieldType);
 
-const isIntegerishNumber = (fieldType) => {
-    return ['Integer', 'Long'].includes(fieldType);
-}
+const isIntegerishNumber = (fieldType) => ['Integer', 'Long'].includes(fieldType);
 
 const relationshipsToOneOwner = (relationships || [])
   .filter(relationship => relationship.relationshipType.includes('-to-one'))
@@ -66,6 +60,98 @@ _%>
         :rules="[<%- applyValidators(field.fieldType, field.fieldValidateRules) _%>]"
 <%_ } _%>
       />
+<%_ } else if (field.fieldType === 'LocalDate') { _%>
+      <q-input
+        v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
+        :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
+      >
+        <template v-slot:append>
+          <q-icon
+            name="event"
+            class="cursor-pointer"
+          >
+            <q-popup-proxy
+              ref="qDateProxy"
+              transition-show="scale"
+              transition-hide="scale"
+            >
+              <q-date
+                v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
+                mask="YYYY-MM-DD"
+              >
+                <div class="row items-center justify-end">
+                  <q-btn
+                    v-close-popup
+                    color="primary"
+                    flat
+                  >
+                    <q-icon name="close" />
+                  </q-btn>
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
+<%_ } else if (field.fieldType === 'Instant') { _%>
+      <q-input
+        v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
+        :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
+      >
+        <template v-slot:prepend>
+          <q-icon
+            name="event"
+            class="cursor-pointer"
+          >
+            <q-popup-proxy
+              transition-show="scale"
+              transition-hide="scale"
+            >
+              <q-date
+                v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
+                mask="YYYY-MM-DDTHH:mm:ssZ"
+              >
+                <div class="row items-center justify-end">
+                  <q-btn
+                    v-close-popup
+                    color="primary"
+                    flat
+                  >
+                    <q-icon name="close" />
+                  </q-btn>
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+        <template v-slot:append>
+          <q-icon
+            name="access_time"
+            class="cursor-pointer"
+          >
+            <q-popup-proxy
+              transition-show="scale"
+              transition-hide="scale"
+            >
+              <q-time
+                v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
+                mask="YYYY-MM-DDTHH:mm:ssZ"
+                format24h
+              >
+                <div class="row items-center justify-end">
+                  <q-btn
+                    v-close-popup
+                    color="primary"
+                    flat
+                  >
+                    <q-icon name="close" />
+                  </q-btn>
+                </div>
+              </q-time>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
 <%_ } else { _%>
       <q-input
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
