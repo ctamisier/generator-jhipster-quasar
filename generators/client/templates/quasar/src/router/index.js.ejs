@@ -42,7 +42,7 @@ export default route(function ({ store /*, ssrContext */ }) {
         {
           path: '/users/new',
           meta: { public: false },
-          component: () => import('pages/User.vue'),
+          component: () => import('pages/UserEdit.vue'),
           beforeEnter: () => store.getters['auth/hasRoleAdmin'],
         },
         {
