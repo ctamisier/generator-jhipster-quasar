@@ -46,8 +46,7 @@ _%>
   <q-page class="q-pa-md flex flex-center">
     <q-form
       @submit="onSubmit"
-      class="q-gutter-md"
-      style="min-width: 300px"
+      class="responsive-width q-gutter-md"
     >
 <%_ for (field of fields.filter(field => !field.id)) { _%>
 <%_ if (field.fieldIsEnum) { _%>

@@ -1,1 +1,9 @@
 // app global css in SCSS form
+.responsive-width {
+  @media (max-width: $breakpoint-xs-max) {
+    width: 300px;
+  }
+  @media (min-width: $breakpoint-sm-min) {
+    width: 500px;
+  }
+}
