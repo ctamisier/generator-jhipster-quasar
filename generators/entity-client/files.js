@@ -19,9 +19,9 @@ function writeFiles() {
                             `${QUASAR_PATH}/src/pages/entities/${generator.entityFolderName}/${generator.entityAngularNamePlural}.vue`
                     },
                     {
-                        file: `${QUASAR_PATH}/entities/Entity.vue`,
+                        file: `${QUASAR_PATH}/entities/EntityEdit.vue`,
                         renameTo: generator =>
-                            `${QUASAR_PATH}/src/pages/entities/${generator.entityFolderName}/${generator.entityAngularName}.vue`
+                            `${QUASAR_PATH}/src/pages/entities/${generator.entityFolderName}/${generator.entityAngularName}Edit.vue`
                     },
                     {
                         file: `${QUASAR_PATH}/entities/routeEntity.js`,

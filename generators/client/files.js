@@ -66,7 +66,7 @@ function writeFiles() {
                     `${QUASAR_PATH}/src/pages/ForgotPassword.vue`,
                     `${QUASAR_PATH}/src/pages/Register.vue`,
                     `${QUASAR_PATH}/src/pages/ResetPassword.vue`,
-                    `${QUASAR_PATH}/src/pages/User.vue`,
+                    `${QUASAR_PATH}/src/pages/UserEdit.vue`,
                     `${QUASAR_PATH}/src/pages/Users.vue`
                 ]
             },

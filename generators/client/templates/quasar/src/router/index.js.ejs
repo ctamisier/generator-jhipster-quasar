@@ -46,9 +46,9 @@ export default route(function ({ store /*, ssrContext */ }) {
           beforeEnter: () => store.getters['auth/hasRoleAdmin'],
         },
         {
-          path: '/users/:login',
+          path: '/users/:login/edit',
           meta: { public: false },
-          component: () => import('pages/User.vue'),
+          component: () => import('pages/UserEdit.vue'),
         },
 <%_ } _%>
         {
