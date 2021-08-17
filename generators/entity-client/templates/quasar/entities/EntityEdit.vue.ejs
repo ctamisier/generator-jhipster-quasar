@@ -41,6 +41,7 @@ _%>
     <q-form
       @submit="onSubmit"
       class="responsive-width q-gutter-md"
+      greedy
     >
 <%_ for (field of fields.filter(field => !field.id)) { _%>
 <%_ if (field.fieldIsEnum) { _%>
