@@ -282,5 +282,5 @@ function addSwagger() {
 }
 
 function addWebappBuildPackageJson() {
-    this.replaceContent('package.json', '"scripts": {', '  "scripts": {\n  "webapp:build": "./mvnw clean compile",\n');
+    this.replaceContent('package.json', '"scripts": {', '  "scripts": {\n  "webapp:build": "cd quasar && npx quasar build",\n');
 }

@@ -5,7 +5,8 @@ const QUASAR_PATH = 'quasar';
 module.exports = {
     writeFiles,
     addRoute,
-    addMenuEntry
+    addMenuEntry,
+    addWebappBuildPackageJson
 };
 
 function writeFiles() {
@@ -65,4 +66,8 @@ function addMenuEntry() {
     }
 
     this.replaceContent(`${QUASAR_PATH}/src/layouts/MainLayout.vue`, '...[]', `${entry},\n          ...[]`);
+}
+
+function addWebappBuildPackageJson() {
+    this.replaceContent('package.json', '"scripts": {', '  "scripts": {\n  "webapp:build": "cd quasar && npx quasar build",\n');
 }
