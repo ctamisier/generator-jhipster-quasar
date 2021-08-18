@@ -1,7 +1,7 @@
 {
   "name": "generator-jhipster-quasar",
   "version": "0.10.16",
-  "description": "",
+  "description": "Quasar for JHipster",
   "keywords": [
     "yeoman-generator",
     "quasar",
@@ -10,50 +10,47 @@
     "jhipster-7.1.0"
   ],
   "homepage": "https://github.com/ctamisier/generator-jhipster-quasar",
+  "bugs": {
+    "url": "https://github.com/ctamisier/generator-jhipster-quasar/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ctamisier/generator-jhipster-quasar.git"
+  },
+  "license": "Apache-2.0",
   "author": {
     "name": "Clément Tamisier",
     "email": "clement.tamisier@gmail.com",
     "url": "https://github.com/ctamisier"
   },
+  "main": "generators/app/index.js",
   "files": [
     "generators"
   ],
-  "main": "generators/app/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ctamisier/generator-jhipster-quasar.git"
-  },
-  "dependencies": {
-    "chalk": "2.4.1",
-    "generator-jhipster": "7.1.0"
-  },
-  "devDependencies": {
-    "chai": "4.1.2",
-    "ejs-lint": "0.3.0",
-    "eslint": "5.0.0",
-    "eslint-config-airbnb-base": "13.0.0",
-    "eslint-config-prettier": "3.1.0",
-    "eslint-plugin-import": "2.12.0",
-    "eslint-plugin-prettier": "3.0.0",
-    "fs-extra": "6.0.1",
-    "jsdoc": "3.5.5",
-    "mocha": "5.2.0",
-    "prettier": "1.14.3",
-    "sinon": "6.0.0",
-    "yeoman-assert": "3.1.1",
-    "yeoman-test": "1.7.2"
-  },
   "scripts": {
     "lint": "eslint .",
     "lint-fix": "npm run lint -- --fix",
-    "jsdoc": "jsdoc --configure jsdoc-conf.json",
     "release": "git push && git push --tags && npm publish",
     "release:patch": "npm version patch -a -m \"release %s\" && npm run release",
     "release:minor": "npm version minor -a -m \"release %s\" && npm run release",
     "release:major": "npm version major -a -m \"release %s\" && npm run release"
   },
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/ctamisier/generator-jhipster-quasar/issues"
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "generator-jhipster": "7.1.0"
+  },
+  "devDependencies": {
+    "ejs-lint": "^1.2.1",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "fs-extra": "^10.0.0",
+    "prettier": "^2.3.2",
+    "yeoman-assert": "^3.1.1",
+    "yeoman-environment": "^3.5.1",
+    "yeoman-generator": "^5.4.1",
+    "yeoman-test": "^6.2.0"
   }
 }

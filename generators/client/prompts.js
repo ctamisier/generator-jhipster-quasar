@@ -1,5 +1,5 @@
 module.exports = {
-    askForClient
+    askForClient,
 };
 
 function askForClient(meta) {
@@ -9,8 +9,8 @@ function askForClient(meta) {
     const choices = [
         {
             value: 'quasar',
-            name: 'Quasar'
-        }
+            name: 'Quasar',
+        },
     ];
 
     const PROMPT = {
@@ -19,7 +19,7 @@ function askForClient(meta) {
         when: () => applicationType !== 'microservice' && applicationType !== 'uaa',
         message: () => 'Which *Framework* would you like to use for the client?',
         choices,
-        default: 'quasar'
+        default: 'quasar',
     };
 
     if (meta) return PROMPT; // eslint-disable-line consistent-return

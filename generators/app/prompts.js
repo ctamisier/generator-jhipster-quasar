@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 
 module.exports = {
-    askForApplicationType
+    askForApplicationType,
 };
 
 async function askForApplicationType() {
@@ -15,11 +15,11 @@ async function askForApplicationType() {
             choices: [
                 {
                     value: 'monolith',
-                    name: 'Monolithic application'
-                }
+                    name: 'Monolithic application',
+                },
             ],
-            default: 'monolith'
-        }
+            default: 'monolith',
+        },
     ]);
 
     this.applicationType = this.jhipsterConfig.applicationType = answers.applicationType;

@@ -10,7 +10,7 @@ module.exports = {
     addYarnVersion,
     replaceNpmByYarn,
     addSwagger,
-    addWebappBuildPackageJson
+    addWebappBuildPackageJson,
 };
 
 function writeFiles() {
@@ -27,34 +27,34 @@ function writeFiles() {
                     `${QUASAR_PATH}/jsconfig.json`,
                     `${QUASAR_PATH}/package.json`,
                     `${QUASAR_PATH}/quasar.extensions.json`,
-                    `${QUASAR_PATH}/README.md`
-                ]
-            }
+                    `${QUASAR_PATH}/README.md`,
+                ],
+            },
         ],
         vscode: [
             {
-                templates: [`${QUASAR_PATH}/.vscode/extensions.json`, `${QUASAR_PATH}/.vscode/settings.json`]
-            }
+                templates: [`${QUASAR_PATH}/.vscode/extensions.json`, `${QUASAR_PATH}/.vscode/settings.json`],
+            },
         ],
         src: [
             {
-                templates: [`${QUASAR_PATH}/src/App.vue`]
-            }
+                templates: [`${QUASAR_PATH}/src/App.vue`],
+            },
         ],
         srcboot: [
             {
-                templates: [`${QUASAR_PATH}/src/boot/axios.js`, `${QUASAR_PATH}/src/boot/i18n.js`]
-            }
+                templates: [`${QUASAR_PATH}/src/boot/axios.js`, `${QUASAR_PATH}/src/boot/i18n.js`],
+            },
         ],
         srccss: [
             {
-                templates: [`${QUASAR_PATH}/src/css/app.scss`, `${QUASAR_PATH}/src/css/quasar.variables.scss`]
-            }
+                templates: [`${QUASAR_PATH}/src/css/app.scss`, `${QUASAR_PATH}/src/css/quasar.variables.scss`],
+            },
         ],
         srclayout: [
             {
-                templates: [`${QUASAR_PATH}/src/layouts/MainLayout.vue`]
-            }
+                templates: [`${QUASAR_PATH}/src/layouts/MainLayout.vue`],
+            },
         ],
         srcpages: [
             {
@@ -67,8 +67,8 @@ function writeFiles() {
                     `${QUASAR_PATH}/src/pages/Register.vue`,
                     `${QUASAR_PATH}/src/pages/ResetPassword.vue`,
                     `${QUASAR_PATH}/src/pages/UserEdit.vue`,
-                    `${QUASAR_PATH}/src/pages/Users.vue`
-                ]
+                    `${QUASAR_PATH}/src/pages/Users.vue`,
+                ],
             },
             {
                 templates: [
@@ -78,17 +78,17 @@ function writeFiles() {
                     `${QUASAR_PATH}/src/pages/Health.vue`,
                     {
                         file: () => `${QUASAR_PATH}/src/pages/_${this.authenticationType}/Index.vue`,
-                        renameTo: () => `${QUASAR_PATH}/src/pages/Index.vue`
+                        renameTo: () => `${QUASAR_PATH}/src/pages/Index.vue`,
                     },
                     `${QUASAR_PATH}/src/pages/Logs.vue`,
-                    `${QUASAR_PATH}/src/pages/Metrics.vue`
-                ]
-            }
+                    `${QUASAR_PATH}/src/pages/Metrics.vue`,
+                ],
+            },
         ],
         srcrouter: [
             {
-                templates: [`${QUASAR_PATH}/src/router/index.js`, `${QUASAR_PATH}/src/router/entityRoutes.js`]
-            }
+                templates: [`${QUASAR_PATH}/src/router/index.js`, `${QUASAR_PATH}/src/router/entityRoutes.js`],
+            },
         ],
         srcstore: [{ templates: [`${QUASAR_PATH}/src/store/index.js`, `${QUASAR_PATH}/src/store/store-flag.d.ts`] }],
         srcstoreauth: [
@@ -96,20 +96,20 @@ function writeFiles() {
                 templates: [
                     {
                         file: () => `${QUASAR_PATH}/src/store/auth/_${this.authenticationType}/actions.js`,
-                        renameTo: () => `${QUASAR_PATH}/src/store/auth/actions.js`
+                        renameTo: () => `${QUASAR_PATH}/src/store/auth/actions.js`,
                     },
                     `${QUASAR_PATH}/src/store/auth/getters.js`,
                     `${QUASAR_PATH}/src/store/auth/index.js`,
                     `${QUASAR_PATH}/src/store/auth/mutations.js`,
-                    `${QUASAR_PATH}/src/store/auth/state.js`
-                ]
-            }
+                    `${QUASAR_PATH}/src/store/auth/state.js`,
+                ],
+            },
         ],
         srcutil: [
             {
-                templates: [`${QUASAR_PATH}/src/util/format.js`]
-            }
-        ]
+                templates: [`${QUASAR_PATH}/src/util/format.js`],
+            },
+        ],
     };
 
     this.writeFilesToDisk(files, '.');
@@ -142,7 +142,7 @@ function addLanguages() {
         'uz-Cyrl-uz': { localeId: '', localeImport: '', quasarLang: '' },
         'uz-Latn-uz': { localeId: 'uz', localeImport: 'uz', quasarLang: '' },
         'zh-cn': { localeId: 'zhCN', localeImport: 'zh-CN', quasarLang: 'zh-CN' },
-        'zh-tw': { localeId: 'zhTW', localeImport: 'zh-TW', quasarLang: 'zh-TW' }
+        'zh-tw': { localeId: 'zhTW', localeImport: 'zh-TW', quasarLang: 'zh-TW' },
     };
 
     const datefnsMapping = Object.keys(i18nMapping)
@@ -274,9 +274,9 @@ function addSwagger() {
         swagger: [
             {
                 path: CLIENT_MAIN_SRC_DIR,
-                templates: ['swagger-ui/index.html', { file: 'swagger-ui/dist/images/throbber.gif', method: 'copy' }]
-            }
-        ]
+                templates: ['swagger-ui/index.html', { file: 'swagger-ui/dist/images/throbber.gif', method: 'copy' }],
+            },
+        ],
     };
     return this.writeFilesToDisk(files, 'common');
 }

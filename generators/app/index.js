@@ -33,14 +33,14 @@ module.exports = class extends AppGenerator {
                 );
 
                 this.log('\n');
-            }
+            },
         };
     }
 
     get prompting() {
         return {
             ...super._prompting(),
-            askForApplicationType: prompts.askForApplicationType
+            askForApplicationType: prompts.askForApplicationType,
         };
     }
 

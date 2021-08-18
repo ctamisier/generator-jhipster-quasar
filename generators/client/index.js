@@ -34,7 +34,7 @@ module.exports = class extends ClientGenerator {
 
             overrideConfigOptions() {
                 this.configOptions.clientFramework = this.jhipsterConfig.clientFramework = this.clientFramework = 'quasar';
-            }
+            },
         };
     }
 
@@ -69,7 +69,7 @@ module.exports = class extends ClientGenerator {
                 replaceNpmByYarn.call(this);
                 addSwagger.call(this);
                 addWebappBuildPackageJson.call(this);
-            }
+            },
         };
     }
 
@@ -83,7 +83,7 @@ module.exports = class extends ClientGenerator {
                 this.log(chalk.yellow.bold('cd quasar'));
                 this.log(chalk.yellow.bold('npx quasar dev\n'));
                 this.log(chalk.yellow.bold('Sign in with admin/admin or user/user\n'));
-            }
+            },
         };
     }
 };

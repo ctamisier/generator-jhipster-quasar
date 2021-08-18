@@ -53,7 +53,7 @@ module.exports = class extends EntityClientGenerator {
                 addRoute.call(this);
                 addMenuEntry.call(this);
                 addWebappBuildPackageJson.call(this);
-            }
+            },
         };
     }
 

@@ -49,7 +49,7 @@ module.exports = class extends ServerGenerator {
             ...super._writing(),
             writeAdditionalFile() {
                 writeFiles.call(this);
-            }
+            },
         };
     }
 

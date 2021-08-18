@@ -1,9 +1,9 @@
 const commonFiles = {
     global: [
         {
-            templates: ['src/main/resources/banner.txt']
-        }
-    ]
+            templates: ['src/main/resources/banner.txt'],
+        },
+    ],
 };
 
 function writeFiles() {
@@ -11,5 +11,5 @@ function writeFiles() {
 }
 
 module.exports = {
-    writeFiles
+    writeFiles,
 };
