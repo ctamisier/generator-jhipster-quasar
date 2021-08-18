@@ -138,35 +138,56 @@ export default defineComponent({
       { name: 'activated', align: 'left', label: t('userManagement.activated'), field: 'activated', sortable: true },
     ];
 
-    function onRequest(props) {
+    const fetchUsers = async (page, rowsPerPage, sortBy, descending) => {
+      const response = await api.get('/api/admin/users', {
+        params: {
+          page: page - 1,
+          size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
+          sort: `${sortBy},${descending ? 'desc' : 'asc'}`,
+        },
+      });
+      pagination.value.rowsNumber = response.headers['x-total-count'];
+      rows.value = response.data;
+      loading.value = false;
+    };
+
+    const onRequest = props => {
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
 
       loading.value = true;
-
-      const fetchUsers = async () => {
-        const response = await api.get('/api/admin/users', {
-          params: {
-            page: page - 1,
-            size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
-            sort: `${sortBy},${descending ? 'desc' : 'asc'}`,
-          },
-        });
-        pagination.value.rowsNumber = response.headers['x-total-count'];
-        rows.value = response.data;
-        loading.value = false;
-      };
-
-      fetchUsers();
+      fetchUsers(page, rowsPerPage, sortBy, descending);
 
       pagination.value.page = page;
       pagination.value.rowsPerPage = rowsPerPage;
       pagination.value.sortBy = sortBy;
       pagination.value.descending = descending;
-    }
+    };
 
     onMounted(() => {
       onRequest({ pagination: pagination.value });
     });
+
+    const deleteUser = async login => {
+      $q.dialog({
+        message: t('userManagement.delete.question', { login: login }),
+        cancel: true,
+      }).onOk(async () => {
+        await api.delete(`/api/admin/users/${login}`);
+        onRequest({ pagination: pagination.value });
+      });
+    };
+
+    const handleActivation = async row => {
+      if (row.login !== currentLogin) {
+        loadingActivation.value[row.login] = true;
+        try {
+          await api.put('/api/admin/users', row);
+          onRequest({ pagination: pagination.value });
+        } finally {
+          loadingActivation.value[row.login] = false;
+        }
+      }
+    };
 
     return {
       store,
@@ -179,26 +200,8 @@ export default defineComponent({
       format,
       loadingActivation,
       onRequest,
-      deleteUser: login => {
-        $q.dialog({
-          message: t('userManagement.delete.question', { login: login }),
-          cancel: true,
-        }).onOk(async () => {
-          await api.delete(`/api/admin/users/${login}`);
-          onRequest({ pagination: pagination.value });
-        });
-      },
-      handleActivation: async row => {
-        if (row.login !== currentLogin) {
-          loadingActivation.value[row.login] = true;
-          try {
-            await api.put('/api/admin/users', row);
-            onRequest({ pagination: pagination.value });
-          } finally {
-            loadingActivation.value[row.login] = false;
-          }
-        }
-      },
+      deleteUser,
+      handleActivation,
     };
   },
 });
