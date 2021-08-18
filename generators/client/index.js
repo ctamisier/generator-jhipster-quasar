@@ -13,7 +13,7 @@ const prompts = require('./prompts');
 
 module.exports = class extends ClientGenerator {
     constructor(args, opts) {
-        super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
+        super(args, { fromBlueprint: true, ...opts });
 
         const jhContext = (this.jhipsterContext = this.options.jhipsterContext);
 
