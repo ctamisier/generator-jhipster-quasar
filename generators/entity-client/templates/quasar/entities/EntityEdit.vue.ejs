@@ -272,6 +272,7 @@ export default defineComponent({
         });
         router.push('/<%= entityApiUrl %>');
       } catch (e) {
+        if (e.response.status !== 400) return;
         $q.notify({
           type: 'negative',
           message: t(e.response.data.message),
