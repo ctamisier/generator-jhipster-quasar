@@ -3,6 +3,10 @@ const relationshipsToOneOwner = (relationships || [])
   .filter(relationship => relationship.relationshipType.includes('-to-one'))
   .filter(relationship => relationship.ownerSide)
 
+const relationshipsToManyOwner = (relationships || [])
+  .filter(relationship => relationship.relationshipType.includes('-to-many'))
+  .filter(relationship => relationship.ownerSide)
+
 const hasInstant = (fields) => fields.some(field => field.fieldType === 'Instant');
 _%>
 <template>
@@ -51,6 +55,26 @@ _%>
         </template>
       </q-field>
 <%_ } _%>
+<%_ for (relationship of relationshipsToManyOwner) { _%>
+      <q-field
+        :label="$t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+          <q-list dense>
+            <q-item
+              :key="<%= relationship.relationshipName %>.id"
+              v-for="<%= relationship.relationshipName %> in <%= entityInstance %>.data.<%= relationship.relationshipNamePlural %>"
+            >
+              <q-item-section>
+                {{ <%= relationship.relationshipName %>.<%= relationship.otherEntityField %> }}
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </template>
+      </q-field>
+<%_ } _%>
       <div class="flex justify-end">
         <router-link
           :to="`/<%= entityApiUrl %>/${<%= entityInstance %>.data.id}/edit`"
@@ -92,6 +116,9 @@ export default defineComponent({
 <%_} _%>
 <%_ for (relationship of relationshipsToOneOwner) { _%>
         <%= relationship.relationshipName %>: null,
+<%_} _%>
+<%_ for (relationship of relationshipsToManyOwner) { _%>
+        <%= relationship.relationshipNamePlural %>: null,
 <%_} _%>
       },
     });
