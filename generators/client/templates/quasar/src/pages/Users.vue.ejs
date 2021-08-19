@@ -111,6 +111,7 @@ import { parseISO } from 'date-fns';
 import { useQuasar } from 'quasar';
 import { defineComponent, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { format } from '../util/format';
 
@@ -121,15 +122,20 @@ export default defineComponent({
     const $q = useQuasar();
     const { t } = useI18n();
     const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
+
     const rows = ref([]);
     const loading = ref(false);
+
     const pagination = ref({
-      sortBy: 'login',
-      descending: false,
-      page: 1,
-      rowsPerPage: 10,
+      sortBy: route.query.sortBy || 'login',
+      descending: route.query.descending === 'true',
+      page: Number.parseInt(route.query.page || 1),
+      rowsPerPage: Number.parseInt(route.query.rowsPerPage) || 10,
       rowsNumber: 10,
     });
+
     const loadingActivation = ref([]);
 
     const currentLogin = store.state.auth.account.login;
@@ -148,29 +154,31 @@ export default defineComponent({
       { name: 'activated', align: 'left', label: t('userManagement.activated'), field: 'activated', sortable: true },
     ];
 
-    const fetchUsers = async (page, rowsPerPage, sortBy, descending) => {
-      const response = await api.get('/api/admin/users', {
-        params: {
-          page: page - 1,
-          size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
-          sort: `${sortBy},${descending ? 'desc' : 'asc'}`,
-        },
-      });
-      pagination.value.rowsNumber = response.headers['x-total-count'];
-      rows.value = response.data;
-      loading.value = false;
-    };
-
-    const onRequest = props => {
+    const onRequest = async props => {
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
 
       loading.value = true;
-      fetchUsers(page, rowsPerPage, sortBy, descending);
+
+      try {
+        const response = await api.get('/api/admin/users', {
+          params: {
+            page: page - 1,
+            size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
+            sort: `${sortBy},${descending ? 'desc' : 'asc'}`,
+          },
+        });
+        pagination.value.rowsNumber = response.headers['x-total-count'];
+        rows.value = response.data;
+      } finally {
+        loading.value = false;
+      }
 
       pagination.value.page = page;
       pagination.value.rowsPerPage = rowsPerPage;
       pagination.value.sortBy = sortBy;
       pagination.value.descending = descending;
+
+      router.replace({ query: { page, sortBy, descending, rowsPerPage } });
     };
 
     onMounted(() => onRequest({ pagination: pagination.value }));

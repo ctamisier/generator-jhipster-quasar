@@ -90,6 +90,7 @@ import { parseISO } from 'date-fns';
 import { useQuasar } from 'quasar';
 import { defineComponent, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 <%_ if (hasInstant(fields)) { _%>
 import { format } from '../../../util/format';
@@ -102,14 +103,17 @@ export default defineComponent({
     const $q = useQuasar();
     const { t } = useI18n();
     const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
+
     const rows = ref([]);
-    const filter = ref('');
     const loading = ref(false);
+
     const pagination = ref({
-      sortBy: 'id',
-      descending: false,
-      page: 1,
-      rowsPerPage: 10,
+      sortBy: route.query.sortBy || 'id',
+      descending: route.query.descending === 'true',
+      page: Number.parseInt(route.query.page || 1),
+      rowsPerPage: Number.parseInt(route.query.rowsPerPage) || 10,
       rowsNumber: 10,
     });
 
@@ -118,42 +122,41 @@ export default defineComponent({
       { name: '<%= field.fieldName %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= field.fieldName %>'), field: '<%= field.fieldName %>', sortable: true },
 <%_ } _%>
 <%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
-      { name: '<%= relationship.relationshipName %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>'), field: '<%= relationship.relationshipName %>', sortable: true },
+      { name: '<%= relationship.relationshipName %>.<%= relationship.otherEntityField %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>'), field: '<%= relationship.relationshipName %>', sortable: true },
 <%_ } _%>
     ];
 
-    function onRequest(props) {
+    const onRequest = async props => {
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
 
       loading.value = true;
 
-      api
-        .get('/api/<%= entityApiUrl %>', {
+      try {
+        const response = await api.get('/api/<%= entityApiUrl %>', {
           params: {
             page: page - 1,
             size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
             sort: `${sortBy},${descending ? 'desc' : 'asc'}`,
           },
-        })
-        .then(response => {
-          pagination.value.rowsNumber = response.headers['x-total-count'];
-          rows.value = response.data;
-          loading.value = false;
         });
+        pagination.value.rowsNumber = response.headers['x-total-count'];
+        rows.value = response.data;
+      } finally {
+        loading.value = false;
+      }
 
       pagination.value.page = page;
       pagination.value.rowsPerPage = rowsPerPage;
       pagination.value.sortBy = sortBy;
       pagination.value.descending = descending;
-    }
 
-    onMounted(() => {
-      onRequest({ pagination: pagination.value });
-    });
+      router.replace({ query: { page, sortBy, descending, rowsPerPage } });
+    };
+
+    onMounted(() => onRequest({ pagination: pagination.value }));
 
     return {
       store,
-      filter,
       loading,
       pagination,
       columns,
