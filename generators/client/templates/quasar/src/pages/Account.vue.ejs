@@ -2,18 +2,27 @@
   <q-page class="q-pa-md flex flex-center">
     <q-form
       @submit="onSubmit"
-      class="responsive-width q-gutter-md"
+      class="responsive-width q-gutter-y-md"
       greedy
     >
-      <div class="q-pa-md q-gutter-md">
-        <q-badge
-          :key="authority"
-          v-for="authority in account.data.authorities"
-          color="primary"
-        >
-          {{ authority }}
-        </q-badge>
-      </div>
+
+      <q-field
+        :label="$t('userManagement.profiles')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+          <div class="q-gutter-md">
+            <q-badge
+              :key="authority"
+              v-for="authority in account.data.authorities"
+              color="primary"
+            >
+              {{ authority }}
+            </q-badge>
+          </div>
+        </template>
+      </q-field>
       <q-input
         v-model="account.data.firstName"
         :label="$t('userManagement.firstName')"

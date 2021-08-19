@@ -1,0 +1,114 @@
+<%_
+const relationshipsToOneOwner = (relationships || [])
+  .filter(relationship => relationship.relationshipType.includes('-to-one'))
+  .filter(relationship => relationship.ownerSide)
+
+const hasInstant = (fields) => fields.some(field => field.fieldType === 'Instant');
+_%>
+<template>
+  <q-page class="q-pa-md flex flex-center">
+    <div class="responsive-width q-gutter-md">
+<%_ for (field of fields.filter(field => !field.id)) { _%>
+<%_ if (field.fieldType === 'Boolean') { _%>
+      <q-field
+        :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+          <q-icon
+            :name="`${<%= entityInstance %>.data.<%= field.fieldName %> ? 'check_box' : 'check_box_outline_blank'}`"
+            size="sm"
+          />
+        </template>
+      </q-field>
+<%_ } else { _%>
+      <q-field
+        :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+<%_ if (field.fieldType === 'Instant') { _%>
+          <div>
+            <div>{{ <%= entityInstance %>.data.<%= field.fieldName %> && format(parseISO(<%= entityInstance %>.data.<%= field.fieldName %>)) }}</div>
+            <div><small>{{ <%= entityInstance %>.data.<%= field.fieldName %> }}</small></div>
+          </div>
+<%_ } else { _%>
+          {{ <%= entityInstance %>.data.<%= field.fieldName %> }}
+<%_ } _%>
+        </template>
+      </q-field>
+<%_ } } _%>
+<%_ for (relationship of relationshipsToOneOwner) { _%>
+      <q-field
+        :label="$t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+          {{ <%= entityInstance %>.data.<%= relationship.relationshipName %> && <%= entityInstance %>.data.<%= relationship.relationshipName %>.<%= relationship.otherEntityField %> }}
+        </template>
+      </q-field>
+<%_ } _%>
+      <div class="flex justify-end">
+        <router-link
+          :to="`/<%= entityApiUrl %>/${<%= entityInstance %>.data.id}/edit`"
+          v-slot="{ navigate }"
+          custom
+        >
+          <q-btn
+            icon="edit"
+            @click="navigate"
+            color="primary"
+          />
+        </router-link>
+      </div>
+    </div>
+  </q-page>
+</template>
+
+<script>
+import { api } from 'boot/axios';
+<%_ if (hasInstant(fields)) { _%>
+import { parseISO } from 'date-fns';
+<%_ } _%>
+import { defineComponent, reactive } from 'vue';
+import { useRoute } from 'vue-router';
+<%_ if (hasInstant(fields)) { _%>
+import { format } from '../../../util/format';
+<%_ } _%>
+
+export default defineComponent({
+  name: 'Page<%= entityAngularName %>View',
+
+  setup() {
+    const route = useRoute();
+
+    const <%= entityInstance %> = reactive({
+      data: {
+<%_ for(field of fields) { _%>
+        <%= field.fieldName %>: null,
+<%_} _%>
+<%_ for (relationship of relationshipsToOneOwner) { _%>
+        <%= relationship.relationshipName %>: null,
+<%_} _%>
+      },
+    });
+
+    (async function fetch<%= entityAngularName %>() {
+      if (route.params.id) {
+        <%= entityInstance %>.data = (await api.get(`/api/<%= entityApiUrl %>/${route.params.id}`)).data;
+      }
+    })();
+
+    return {
+<%_ if (hasInstant(fields)) { _%>
+      parseISO,
+      format,
+<%_ } _%>
+      <%= entityInstance %>,
+    };
+  },
+});
+</script>

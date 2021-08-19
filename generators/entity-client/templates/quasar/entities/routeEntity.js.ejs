@@ -10,6 +10,11 @@ export const <%= entityInstance %>Routes = [
     component: () => import('pages/entities/<%= entityFolderName %>/<%= entityAngularName %>Edit.vue'),
   },
   {
+    path: '/<%= entityApiUrl %>/:id',
+    meta: { public: false },
+    component: () => import('pages/entities/<%= entityFolderName %>/<%= entityAngularName %>View.vue'),
+  },
+  {
     path: '/<%= entityApiUrl %>/:id/edit',
     meta: { public: false },
     component: () => import('pages/entities/<%= entityFolderName %>/<%= entityAngularName %>Edit.vue'),

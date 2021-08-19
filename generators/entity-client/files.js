@@ -20,6 +20,11 @@ function writeFiles() {
                             `${QUASAR_PATH}/src/pages/entities/${generator.entityFolderName}/${generator.entityAngularNamePlural}.vue`,
                     },
                     {
+                        file: `${QUASAR_PATH}/entities/EntityView.vue`,
+                        renameTo: generator =>
+                            `${QUASAR_PATH}/src/pages/entities/${generator.entityFolderName}/${generator.entityAngularName}View.vue`,
+                    },
+                    {
                         file: `${QUASAR_PATH}/entities/EntityEdit.vue`,
                         renameTo: generator =>
                             `${QUASAR_PATH}/src/pages/entities/${generator.entityFolderName}/${generator.entityAngularName}Edit.vue`,

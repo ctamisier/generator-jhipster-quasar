@@ -38,7 +38,7 @@ _%>
 <%_ } else if (field.fieldType === 'Instant') { _%>
             <div class="column">
               {{ props.row.<%= field.fieldName %> && format(parseISO(props.row.<%= field.fieldName %>)) }}
-              <small>({{ props.row.<%= field.fieldName %> }})</small>
+              <small>{{ props.row.<%= field.fieldName %> }}</small>
             </div>
 <%_ } else { _%>
             {{ props.row.<%= field.fieldName %> }}
@@ -51,6 +51,16 @@ _%>
           </q-td>
 <%_ } _%>
           <q-td>
+            <router-link
+              :to="`/<%= entityApiUrl %>/${props.row.id}`"
+              v-slot="{ navigate }"
+              custom
+            >
+              <q-btn
+                icon="visibility"
+                @click="navigate"
+              />
+            </router-link>
             <router-link
               :to="`/<%= entityApiUrl %>/${props.row.id}/edit`"
               v-slot="{ navigate }"
@@ -81,7 +91,9 @@ import { useQuasar } from 'quasar';
 import { defineComponent, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+<%_ if (hasInstant(fields)) { _%>
 import { format } from '../../../util/format';
+<%_ } _%>
 
 export default defineComponent({
   name: 'Page<%= entityAngularNamePlural %>',
@@ -148,8 +160,8 @@ export default defineComponent({
       rows,
 <%_ if (hasInstant(fields)) { _%>
       parseISO,
-<%_ } _%>
       format,
+<%_ } _%>
       onRequest,
       delete<%= entityAngularName %>: id => {
         $q.dialog({

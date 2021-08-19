@@ -26,7 +26,6 @@ export default route(function ({ store /*, ssrContext */ }) {
       component: () => import('layouts/MainLayout.vue'),
       children: [
         { path: '', meta: { public: true }, component: () => import('pages/Index.vue') },
-<%_ if (authenticationType !== 'oauth2' ) { _%>
         { path: '/register', meta: { public: true }, component: () => import('pages/Register.vue') },
         { path: '/account', meta: { public: false }, component: () => import('pages/Account.vue') },
         { path: '/account/activate', meta: { public: true }, component: () => import('pages/Activation.vue') },
@@ -50,7 +49,11 @@ export default route(function ({ store /*, ssrContext */ }) {
           meta: { public: false },
           component: () => import('pages/UserEdit.vue'),
         },
-<%_ } _%>
+        {
+          path: '/users/:login/view',
+          meta: { public: false },
+          component: () => import('pages/UserView.vue'),
+        },
         {
           path: '/configuration',
           meta: { public: false },

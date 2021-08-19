@@ -209,12 +209,6 @@ _%>
           color="primary"
           :label="$t('entity.action.save')"
         />
-        <q-btn
-          to="/<%= entityApiUrl %>"
-          flat
-          color="primary"
-          :label="$t('entity.action.cancel')"
-        />
       </div>
     </q-form>
   </q-page>
@@ -228,7 +222,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
-  name: 'Page<%= entityAngularName %>',
+  name: 'Page<%= entityAngularName %>Edit',
 
   setup() {
     const { t } = useI18n();

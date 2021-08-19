@@ -1,0 +1,134 @@
+<template>
+  <q-page class="q-pa-md flex flex-center">
+    <div  class="responsive-width q-gutter-md">
+      <q-field
+        :label="$t('userManagement.login')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+          {{ user.data.login }}
+        </template>
+      </q-field>
+      <q-field
+        :label="$t('userManagement.firstName')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+          {{ user.data.firstName }}
+        </template>
+      </q-field>
+      <q-field
+        :label="$t('userManagement.lastName')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+          {{ user.data.lastName }}
+        </template>
+      </q-field>
+      <q-field
+        :label="$t('userManagement.email')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+          {{ user.data.email }}
+        </template>
+      </q-field>
+      <q-field
+        :label="$t('userManagement.activated')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+           <q-icon
+             :name="`${user.data.activated ? 'check_box' : 'check_box_outline_blank'}`"
+             size="sm"
+           />
+        </template>
+      </q-field>
+      <q-field
+        :label="$t('userManagement.langKey')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+          {{ user.data.langKey }}
+        </template>
+      </q-field>
+      <q-field
+        :label="$t('userManagement.profiles')"
+        readonly
+        stack-label
+      >
+        <template v-slot:control>
+          <div class="q-gutter-md">
+            <q-badge
+              :key="authority"
+              v-for="authority in user.data.authorities"
+              color="primary"
+            >
+              {{ authority }}
+            </q-badge>
+          </div>
+        </template>
+      </q-field>
+      <div class="flex justify-end">
+        <router-link
+          :to="`/users/${user.data.login}/edit`"
+          v-slot="{ navigate }"
+          custom
+        >
+          <q-btn
+            icon="edit"
+            @click="navigate"
+            color="primary"
+          />
+        </router-link>
+      </div>
+    </div>
+  </q-page>
+</template>
+
+<script>
+import { api } from 'boot/axios';
+import { defineComponent, reactive } from 'vue';
+import { useRoute } from 'vue-router';
+import { langObjects } from '../constants/i18nConstants';
+
+export default defineComponent({
+  name: 'PageUserView',
+
+  setup() {
+    const route = useRoute();
+
+    const user = reactive({
+      data: {
+        id: null,
+        login: null,
+        firstName: null,
+        lastName: null,
+        email: null,
+        activated: null,
+        langKey: null,
+        authorities: null,
+      },
+    });
+
+    const fetchUser = async () => {
+      if (route.params.login) {
+        user.data = (await api.get(`/api/admin/users/${route.params.login}`)).data;
+        user.data.langKey = langObjects.find(lang => lang.key === user.data.langKey).value;
+      }
+    };
+
+    fetchUser();
+
+    return {
+      user,
+    };
+  },
+});
+</script>

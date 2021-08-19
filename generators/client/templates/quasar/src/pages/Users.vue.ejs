@@ -74,6 +74,16 @@
           </q-td>
           <q-td>
             <router-link
+              :to="`/users/${props.row.login}/view`"
+              v-slot="{ navigate }"
+              custom
+            >
+              <q-btn
+                icon="visibility"
+                @click="navigate"
+              />
+            </router-link>
+            <router-link
               :to="`/users/${props.row.login}/edit`"
               v-slot="{ navigate }"
               custom
@@ -163,9 +173,7 @@ export default defineComponent({
       pagination.value.descending = descending;
     };
 
-    onMounted(() => {
-      onRequest({ pagination: pagination.value });
-    });
+    onMounted(() => onRequest({ pagination: pagination.value }));
 
     const deleteUser = async login => {
       $q.dialog({

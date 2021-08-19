@@ -6,32 +6,37 @@
       greedy
     >
       <q-input
-        v-model="account.data.login"
+        v-model="user.data.login"
         :label="$t('userManagement.login')"
         lazy-rules
         :rules="[$rules.required(), $rules.maxLength(50)]"
       />
       <q-input
-        v-model="account.data.firstName"
+        v-model="user.data.firstName"
         :label="$t('userManagement.firstName')"
         lazy-rules
         :rules="[$rules.maxLength(50)]"
       />
       <q-input
-        v-model="account.data.lastName"
+        v-model="user.data.lastName"
         :label="$t('userManagement.lastName')"
         lazy-rules
         :rules="[$rules.maxLength(50)]"
       />
       <q-input
-        v-model="account.data.email"
+        v-model="user.data.email"
         type="email"
         :label="$t('userManagement.email')"
         lazy-rules
         :rules="[$rules.required(), $rules.minLength(5), $rules.maxLength(254)]"
       />
+      <q-checkbox
+        v-if="route.params.login"
+        v-model="user.data.activated"
+        :label="$t('userManagement.activated')"
+      />
       <q-select
-        v-model="account.data.langKey"
+        v-model="user.data.langKey"
         :options="langObjects"
         option-value="key"
         option-label="value"
@@ -41,7 +46,7 @@
         :rules="[$rules.required()]"
       />
       <q-select
-        v-model="account.data.authorities"
+        v-model="user.data.authorities"
         :options="availableRoles"
         :label="$t('userManagement.profiles')"
         multiple
@@ -80,7 +85,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { langObjects } from '../constants/i18nConstants';
 
 export default defineComponent({
-  name: 'PageUser',
+  name: 'PageUserEdit',
 
   setup() {
     const { t } = useI18n();
@@ -88,13 +93,14 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
-    const account = reactive({
+    const user = reactive({
       data: {
         id: null,
         login: null,
         firstName: null,
         lastName: null,
         email: null,
+        activated: false,
         langKey: null,
         authorities: null,
       },
@@ -102,7 +108,7 @@ export default defineComponent({
 
     const fetchUser = async () => {
       if (route.params.login) {
-        account.data = (await api.get(`/api/admin/users/${route.params.login}`)).data;
+        user.data = (await api.get(`/api/admin/users/${route.params.login}`)).data;
       }
     };
 
@@ -111,9 +117,9 @@ export default defineComponent({
     const onSubmit = async () => {
       try {
         await api({
-          method: account.data.id ? 'put' : 'post',
+          method: user.data.id ? 'put' : 'post',
           url: '/api/admin/users',
-          data: account.data,
+          data: user.data,
         });
         router.push('/users');
       } catch (e) {
@@ -125,8 +131,9 @@ export default defineComponent({
     };
 
     return {
-      account,
+      user,
       langObjects,
+      route,
       availableRoles: ['ROLE_ADMIN', 'ROLE_USER'],
       onSubmit,
     };
