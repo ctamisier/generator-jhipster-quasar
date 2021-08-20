@@ -1,5 +1,13 @@
 <%_
 const hasInstant = (fields) => fields.some(field => field.fieldType === 'Instant');
+
+const relationshipsToOneOwner = (relationships || [])
+  .filter(relationship => relationship.relationshipType.includes('-to-one'))
+  .filter(relationship => relationship.ownerSide)
+
+const relationshipsToManyOwner = (relationships || [])
+  .filter(relationship => relationship.relationshipType.includes('-to-many'))
+  .filter(relationship => relationship.ownerSide)
 _%>
 <template>
   <div class="q-pa-md">
@@ -45,9 +53,25 @@ _%>
 <%_ } _%>
           </q-td>
 <%_ } _%>
-<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+<%_ for (relationship of relationshipsToOneOwner) { _%>
           <q-td>
             {{ props.row.<%= relationship.relationshipName %> && props.row.<%= relationship.relationshipName %>.<%= relationship.otherEntityField %> }}
+          </q-td>
+<%_ } _%>
+<%_ for (relationship of relationshipsToManyOwner) { _%>
+          <q-td>
+            <div>
+              <q-list dense>
+                <q-item
+                  :key="<%= relationship.relationshipName %>.id"
+                  v-for="<%= relationship.relationshipName %> in props.row.<%= relationship.relationshipNamePlural %>"
+                >
+                  <q-item-section>
+                    {{ <%= relationship.relationshipName %>.<%= relationship.otherEntityField %> }}
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </div>
           </q-td>
 <%_ } _%>
           <q-td>
@@ -121,9 +145,12 @@ export default defineComponent({
 <%_ for (field of fields) { _%>
       { name: '<%= field.fieldName %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= field.fieldName %>'), field: '<%= field.fieldName %>', sortable: true },
 <%_ } _%>
-<%_ for (relationship of relationships.filter(r => r.relationshipType.includes('-to-one')).filter(r => r.ownerSide)) { _%>
+<%_ for (relationship of relationshipsToOneOwner) { _%>
       { name: '<%= relationship.relationshipName %>.<%= relationship.otherEntityField %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>'), field: '<%= relationship.relationshipName %>', sortable: true },
 <%_ } _%>
+<%_ for (relationship of relationshipsToManyOwner) { _%>
+      { name: '<%= relationship.relationshipNamePlural %>.<%= relationship.otherEntityField %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>'), field: '<%= relationship.relationshipNamePlural %>', sortable: false },
+<%_} _%>
     ];
 
     const onRequest = async props => {
