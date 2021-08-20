@@ -99,6 +99,41 @@ To use this blueprint, run the below command
 jhipster --blueprints quasar
 ```
 
+## Using Docker
+
+Download the Dockerfile:
+
+```bash
+mkdir docker
+cd docker
+wget https://github.com/ctamisier/generator-jhipster-quasar/raw/main/Dockerfile
+```
+
+Build the Docker images:
+
+```bash
+docker build -t generator-jhipster-quasar-blueprint:latest .
+```
+
+Make a folder where you want to generate the Service:
+
+```bash
+mkdir service
+cd service
+```
+
+Run the generator from image to generate service:
+
+```bash
+docker run -it --rm -v $PWD:/home/jhipster/app generator-jhipster-quasar-blueprint
+```
+
+Run and attach interactive shell to the generator docker container to work from inside the running container:
+
+```bash
+docker run -it --rm -v $PWD:/home/jhipster/app generator-jhipster-quasar-blueprint /bin/bash
+```
+
 ## Running local Blueprint version for development
 
 During development of blueprint, please note the below steps. They are very important.
