@@ -15,41 +15,32 @@ https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 # Features
 
 - JHipster 7 with Quasar v2 (Vue.js 3)
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/home.png)
 - Users (List, Create, Update, Delete)
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/users.png)
+- Entity
 - Configuration
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/configuration.png)
 - Health
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/health.png)
 - Metrics
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/metrics.png)
 - Log level runtime update
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/loggers.png)
 - API Documentation
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/apidocs.png)
-
 - Sign in
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/signin.png)
-
 - Sign up
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/signup.png)
-
 - Account
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/account.png)
-
 - Change password
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/changepassword.png)
-
 - Reset password
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/resetpassword.png)
-
-- Dark Mode
-  ![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/darkmode.png)
 - JWT / OAuth 2.0 / ~~Session~~
 - Maven / ~~Gradle~~
 - i18n
-- Entity
+- Dark Mode
+
+|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/home.png)|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/users.png)|
+|---|---|
+|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/configuration.png)|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/health.png)|
+|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/metrics.png)|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/loggers.png)|
+|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/apidocs.png)|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/signin.png)|
+|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/signup.png)|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/account.png)|
+|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/changepassword.png)|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/resetpassword.png)|
+|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/darkmode.png)||
+
 
 # Introduction
 
