@@ -7,8 +7,7 @@ module.exports = {
     addLanguages,
     addLanguagesInQuasarConf,
     addForwardOnRoot,
-    addYarnVersion,
-    replaceNpmByYarn,
+    addCopyResources,
     addSwagger,
     addWebappBuildPackageJson,
 };
@@ -206,66 +205,36 @@ function addForwardOnRoot() {
         `public class ClientForwardController {
          @GetMapping(value = "/")
          public String forwardRoot() {
-              return "forward:/${QUASAR_PATH}/index.html";
+              return "forward:/spa/index.html";
          }`
     );
 }
 
-function addYarnVersion() {
+function addCopyResources() {
     this.replaceContent(
         'pom.xml',
-        /<npm.version>(.*)<\/npm.version>/,
-        `<npm.version>$1</npm.version>
-        <yarn.version>v1.22.10</yarn.version>`
-    );
-}
-
-function replaceNpmByYarn() {
-    this.replaceContent(
-        'pom.xml',
-        /<plugin>[\s]*<groupId>com.github.eirslett<\/groupId>[\s]*<artifactId>frontend-maven-plugin<\/artifactId>[\s]*<executions>[\s\S]+?<\/plugin>/g,
+        /<plugin>[\s]*<groupId>org.apache.maven.plugins<\/groupId>[\s]*<artifactId>maven-resources-plugin<\/artifactId>[\s]*<version>\${maven-resources-plugin.version}<\/version>[\s]*<executions>/g,
         `<plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <configuration>
-                            <workingDirectory>quasar</workingDirectory>
-                            <nodeVersion>\${node.version}</nodeVersion>
-                            <yarnVersion>\${yarn.version}</yarnVersion>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>install node and npm for quasar</id>
-                                <goals>
-                                    <goal>install-node-and-npm</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>install node and yarn for quasar</id>
-                                <goals>
-                                    <goal>install-node-and-yarn</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>quasar install</id>
-                                <goals>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <configuration>
-                                    <arguments>install</arguments>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>quasar build</id>
-                                <goals>
-                                    <goal>yarn</goal>
-                                </goals>
-                                <configuration>
-                                    <arguments>build</arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>`
-    );
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>\${maven-resources-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>quasar-resources</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>\${project.build.directory}/classes/static</outputDirectory>
+                                <resources>
+                                    <resource>
+                                        <directory>quasar/dist</directory>
+                                        <filtering>false</filtering>
+                                    </resource>
+                                </resources>
+                            </configuration>
+                        </execution>`);
 }
 
 function addSwagger() {
@@ -283,5 +252,5 @@ function addSwagger() {
 }
 
 function addWebappBuildPackageJson() {
-    this.replaceContent('package.json', '"scripts": {', '  "scripts": {\n  "webapp:build": "cd quasar && npx quasar build",\n');
+    this.replaceContent('package.json', '"scripts": {', '  "scripts": {\n  "webapp:build": "cd quasar && npx yarn build",\n  "webapp:prod": "cd quasar && npx yarn build",\n  "webapp:test": "",\n');
 }

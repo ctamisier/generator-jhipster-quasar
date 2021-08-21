@@ -6,9 +6,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "prebuild": "shx mkdir -p ../target/classes/public/quasar && shx mkdir -p ../target/classes/static",
-    "build": "npx quasar build",
-    "postbuild": "shx cp -r dist/spa/* ../target/classes/public/quasar && shx cp -r dist/i18n dist/swagger-ui ../target/classes/static"
+    "build": "npx quasar build"
   },
   "browserslist": [
     "last 10 Chrome versions",

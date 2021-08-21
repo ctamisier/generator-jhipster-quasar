@@ -3,7 +3,6 @@ const EntityClientGenerator = require('generator-jhipster/generators/entity-clie
 const writeFiles = require('./files').writeFiles;
 const addRoute = require('./files').addRoute;
 const addMenuEntry = require('./files').addMenuEntry;
-const addWebappBuildPackageJson = require('./files').addWebappBuildPackageJson;
 
 module.exports = class extends EntityClientGenerator {
     constructor(args, opts) {
@@ -52,7 +51,6 @@ module.exports = class extends EntityClientGenerator {
                 writeFiles.call(this);
                 addRoute.call(this);
                 addMenuEntry.call(this);
-                addWebappBuildPackageJson.call(this);
             },
         };
     }

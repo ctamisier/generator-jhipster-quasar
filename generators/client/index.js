@@ -5,8 +5,7 @@ const writeFiles = require('./files').writeFiles;
 const addLanguages = require('./files').addLanguages;
 const addLanguagesInQuasarConf = require('./files').addLanguagesInQuasarConf;
 const addForwardOnRoot = require('./files').addForwardOnRoot;
-const addYarnVersion = require('./files').addYarnVersion;
-const replaceNpmByYarn = require('./files').replaceNpmByYarn;
+const addCopyResources = require('./files').addCopyResources;
 const addSwagger = require('./files').addSwagger;
 const addWebappBuildPackageJson = require('./files').addWebappBuildPackageJson;
 const prompts = require('./prompts');
@@ -65,9 +64,15 @@ module.exports = class extends ClientGenerator {
                 addLanguages.call(this);
                 addLanguagesInQuasarConf.call(this);
                 addForwardOnRoot.call(this);
-                addYarnVersion.call(this);
-                replaceNpmByYarn.call(this);
+                addCopyResources.call(this);
                 addSwagger.call(this);
+            },
+        };
+    }
+
+    get postWriting() {
+        return {
+            write() {
                 addWebappBuildPackageJson.call(this);
             },
         };
