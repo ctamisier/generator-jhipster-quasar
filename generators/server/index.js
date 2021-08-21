@@ -53,6 +53,10 @@ module.exports = class extends ServerGenerator {
         };
     }
 
+    get postWriting() {
+        return super._postWriting();
+    }
+
     get end() {
         return super._end();
     }
