@@ -10,18 +10,21 @@
         :label="$t('userManagement.login')"
         lazy-rules
         :rules="[$rules.required(), $rules.maxLength(50)]"
+        @keydown.enter.prevent
       />
       <q-input
         v-model="user.data.firstName"
         :label="$t('userManagement.firstName')"
         lazy-rules
         :rules="[$rules.maxLength(50)]"
+        @keydown.enter.prevent
       />
       <q-input
         v-model="user.data.lastName"
         :label="$t('userManagement.lastName')"
         lazy-rules
         :rules="[$rules.maxLength(50)]"
+        @keydown.enter.prevent
       />
       <q-input
         v-model="user.data.email"
@@ -29,6 +32,7 @@
         :label="$t('userManagement.email')"
         lazy-rules
         :rules="[$rules.required(), $rules.minLength(5), $rules.maxLength(254)]"
+        @keydown.enter.prevent
       />
       <q-checkbox
         v-if="route.params.login"

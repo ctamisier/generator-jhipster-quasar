@@ -65,6 +65,7 @@ _%>
       <q-input
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
+        @keydown.enter.prevent
       >
         <template v-slot:append>
           <q-icon
@@ -98,6 +99,7 @@ _%>
       <q-input
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
+        @keydown.enter.prevent
       >
         <template v-slot:prepend>
           <q-icon
@@ -163,6 +165,7 @@ _%>
 <%_ if ((field.fieldValidate) || isNumber(field.fieldType)) { _%>
         :rules="[<%- applyValidators(field.fieldType, field.fieldValidateRules) _%>]"
 <%_ } _%>
+        @keydown.enter.prevent
       />
 <%_ } } _%>
 <%_ for (relationship of relationshipsToOneOwner) { _%>
