@@ -19,7 +19,10 @@
           @click="toggleLeftDrawer"
         />
         <q-toolbar-title>
-          <%= baseName %>
+          <div class="q-gutter-x-sm">
+            <span class="text-uppercase"><%= baseName %></span>
+            <small>{{ appVersion }}</small>
+          </div>
         </q-toolbar-title>
         <q-btn
           flat
@@ -126,6 +129,7 @@ export default defineComponent({
       data,
       link,
       store,
+      appVersion: process.env.APP_VERSION,
       menuItems() {
         return [
 <%_ if (authenticationType !== 'oauth2' ) { _%>
