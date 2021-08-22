@@ -236,7 +236,11 @@ export default defineComponent({
     const <%= entityInstance %> = reactive({
       data: {
 <%_ for(field of fields) { _%>
+<%_ if (field.fieldType === 'Boolean') { _%>
+        <%= field.fieldName %>: false,
+<%_} else {_%>
         <%= field.fieldName %>: null,
+<%_} _%>
 <%_} _%>
 <%_ for (relationship of relationshipsToOneOwner) { _%>
         <%= relationship.relationshipName %>: null,
