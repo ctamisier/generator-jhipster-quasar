@@ -9,7 +9,6 @@ module.exports = {
     addForwardOnRoot,
     addCopyResources,
     addSwagger,
-    addWebappBuildPackageJson,
 };
 
 function writeFiles() {
@@ -234,7 +233,8 @@ function addCopyResources() {
                                     </resource>
                                 </resources>
                             </configuration>
-                        </execution>`);
+                        </execution>`
+    );
 }
 
 function addSwagger() {
@@ -249,8 +249,4 @@ function addSwagger() {
         ],
     };
     return this.writeFilesToDisk(files, 'common');
-}
-
-function addWebappBuildPackageJson() {
-    this.replaceContent('package.json', '"scripts": {', '  "scripts": {\n  "webapp:build": "cd quasar && npx yarn build",\n  "webapp:prod": "cd quasar && npx yarn build",\n  "webapp:test": "",\n');
 }

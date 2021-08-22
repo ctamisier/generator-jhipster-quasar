@@ -54,7 +54,15 @@ module.exports = class extends ServerGenerator {
     }
 
     get postWriting() {
-        return super._postWriting();
+        return {
+            ...super._postWriting(),
+            packageJsonScripts() {
+                const scriptsStorage = this.packageJson.createStorage('scripts');
+                scriptsStorage.set('webapp:build', 'cd quasar && npx yarn build');
+                scriptsStorage.set('webapp:prod', 'cd quasar && npx yarn build');
+                scriptsStorage.set('webapp:test', '');
+            },
+        };
     }
 
     get end() {

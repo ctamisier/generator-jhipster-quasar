@@ -7,7 +7,6 @@ const addLanguagesInQuasarConf = require('./files').addLanguagesInQuasarConf;
 const addForwardOnRoot = require('./files').addForwardOnRoot;
 const addCopyResources = require('./files').addCopyResources;
 const addSwagger = require('./files').addSwagger;
-const addWebappBuildPackageJson = require('./files').addWebappBuildPackageJson;
 const prompts = require('./prompts');
 
 module.exports = class extends ClientGenerator {
@@ -71,11 +70,7 @@ module.exports = class extends ClientGenerator {
     }
 
     get postWriting() {
-        return {
-            write() {
-                addWebappBuildPackageJson.call(this);
-            },
-        };
+        return super._postWriting();
     }
 
     get end() {
