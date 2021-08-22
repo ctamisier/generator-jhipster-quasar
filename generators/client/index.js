@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 const chalk = require('chalk');
 const ClientGenerator = require('generator-jhipster/generators/client');
 const writeFiles = require('./files').writeFiles;
@@ -64,9 +63,13 @@ module.exports = class extends ClientGenerator {
                 addLanguages.call(this);
                 addLanguagesInQuasarConf.call(this);
                 addForwardOnRoot.call(this);
-                addMavenCopyResources.call(this);
-                addGradleTask.call(this);
                 addSwagger.call(this);
+
+                if (this.buildTool === 'maven') {
+                    addMavenCopyResources.call(this);
+                } else if (this.buildTool === 'gradle') {
+                    addGradleTask.call(this);
+                }
             },
         };
     }
