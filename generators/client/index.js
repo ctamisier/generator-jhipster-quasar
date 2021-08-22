@@ -5,7 +5,8 @@ const writeFiles = require('./files').writeFiles;
 const addLanguages = require('./files').addLanguages;
 const addLanguagesInQuasarConf = require('./files').addLanguagesInQuasarConf;
 const addForwardOnRoot = require('./files').addForwardOnRoot;
-const addCopyResources = require('./files').addCopyResources;
+const addMavenCopyResources = require('./files').addMavenCopyResources;
+const addGradleTask = require('./files').addGradleTask;
 const addSwagger = require('./files').addSwagger;
 const prompts = require('./prompts');
 
@@ -63,7 +64,8 @@ module.exports = class extends ClientGenerator {
                 addLanguages.call(this);
                 addLanguagesInQuasarConf.call(this);
                 addForwardOnRoot.call(this);
-                addCopyResources.call(this);
+                addMavenCopyResources.call(this);
+                addGradleTask.call(this);
                 addSwagger.call(this);
             },
         };

@@ -7,7 +7,8 @@ module.exports = {
     addLanguages,
     addLanguagesInQuasarConf,
     addForwardOnRoot,
-    addCopyResources,
+    addMavenCopyResources,
+    addGradleTask,
     addSwagger,
 };
 
@@ -209,7 +210,7 @@ function addForwardOnRoot() {
     );
 }
 
-function addCopyResources() {
+function addMavenCopyResources() {
     this.replaceContent(
         'pom.xml',
         /<plugin>[\s]*<groupId>org.apache.maven.plugins<\/groupId>[\s]*<artifactId>maven-resources-plugin<\/artifactId>[\s]*<version>\${maven-resources-plugin.version}<\/version>[\s]*<executions>/g,
@@ -234,6 +235,24 @@ function addCopyResources() {
                                 </resources>
                             </configuration>
                         </execution>`
+    );
+}
+
+function addGradleTask() {
+    this.replaceContent(
+        'gradle/profile_dev.gradle',
+        'task webapp(type: NpmTask) {',
+        `task copyQuasar(type: Copy) {
+    from("quasar/dist")
+    into("build/resources/main/static")
+}\n
+task webapp(type: NpmTask) {`
+    );
+
+    this.replaceContent(
+        'gradle/profile_dev.gradle',
+        'processResources.dependsOn webapp',
+        'copyQuasar.dependsOn webapp\nprocessResources.dependsOn copyQuasar'
     );
 }
 

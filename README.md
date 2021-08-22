@@ -28,7 +28,7 @@ https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 - Change password
 - Reset password
 - JWT / OAuth 2.0 / ~~Session~~
-- Maven / ~~Gradle~~
+- Maven / Gradle
 - i18n
 - Dark Mode
 
