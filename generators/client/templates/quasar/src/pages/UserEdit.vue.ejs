@@ -125,7 +125,7 @@ export default defineComponent({
           url: '/api/admin/users',
           data: user.data,
         });
-        router.push('/users');
+        router.back();
       } catch (e) {
         $q.notify({
           type: 'negative',

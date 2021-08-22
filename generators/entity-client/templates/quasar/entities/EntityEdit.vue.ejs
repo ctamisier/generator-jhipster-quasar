@@ -271,7 +271,7 @@ export default defineComponent({
           url: `/api/<%= entityApiUrl %>/${<%= entityInstance %>.data.id ? <%= entityInstance %>.data.id : ''}`,
           data: <%= entityInstance %>.data,
         });
-        router.push('/<%= entityApiUrl %>');
+        router.back();
       } catch (e) {
         if (e.response.status !== 400) return;
         $q.notify({
