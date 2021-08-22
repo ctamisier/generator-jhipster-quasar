@@ -48,6 +48,7 @@ module.exports = configure(function (ctx) {
 
       env: {
         APP_VERSION: process.env.APP_VERSION ? `v${process.env.APP_VERSION}` : 'DEV',
+        BUILD_TIME: new Date().getTime(),
       },
 
       // transpile: false,

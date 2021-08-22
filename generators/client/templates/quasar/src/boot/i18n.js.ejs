@@ -12,7 +12,7 @@ export default boot(({ app }) => {
 const defaultLangKey = langObjects[0].key;
 
 const loadTranslation = async langKey => {
-  const response = await fetch(`/i18n/${langKey}.json?cache=${new Date().getTime()}`);
+  const response = await fetch(`/i18n/${langKey}.json?cache=${process.env.BUILD_TIME}`);
   const data = await response.json();
   const mapping = datefnsMapping[langKey];
   window.__localeId__ = mapping || langKey;
