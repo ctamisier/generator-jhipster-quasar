@@ -1,3 +1,4 @@
+import intersectionBy from 'lodash/intersectionBy';
 import { Quasar } from 'quasar';
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
@@ -8,8 +9,6 @@ const i18n = createI18n();
 export default boot(({ app }) => {
   app.use(i18n);
 });
-
-const defaultLangKey = langObjects[0].key;
 
 const loadTranslation = async langKey => {
   const response = await fetch(`/i18n/${langKey}.json?cache=${process.env.BUILD_TIME}`);
@@ -33,6 +32,14 @@ const loadTranslation = async langKey => {
   }
 };
 
-loadTranslation(defaultLangKey);
+const availableLanguages = intersectionBy(
+  navigator.languages.map(lang => {
+    return { key: lang.toLowerCase() };
+  }),
+  langObjects,
+  'key'
+);
+
+loadTranslation(availableLanguages[0]?.key || langObjects[0].key);
 
 export { i18n, loadTranslation };
