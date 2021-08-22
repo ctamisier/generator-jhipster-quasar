@@ -2,19 +2,6 @@
   <q-page v-if="health">
     <div class="q-pa-md">
       <div class="row items-start q-gutter-md">
-        <q-card
-          :key="item"
-          v-for="item in ['ping', 'livenessState', 'readinessState']"
-        >
-          <q-card-section class="text-center">
-            {{ $t(`health.indicator.${item}`) }}
-          </q-card-section>
-          <q-card-section class="text-center">
-            <q-badge :color="badgeColor(health.components[item].status)">
-              {{ health.components[item].status }}
-            </q-badge>
-          </q-card-section>
-        </q-card>
         <q-card>
           <q-card-section class="text-center">
             {{ $t('health.indicator.diskSpace') }}
@@ -25,17 +12,19 @@
             </q-badge>
           </q-card-section>
           <q-card-section>
-            <div
-              :key="item"
+            <q-field
               v-for="item in ['total', 'free', 'threshold']"
+              :key="item"
+              :label="item"
+              readonly
+              borderless
+              stack-label
+              style="width: 100px"
             >
-              {{ item }}
-              <q-badge
-                outline
-                color="primary"
-                :label="humanStorageSize(health.components.diskSpace.details[item])"
-              />
-            </div>
+              <template v-slot:control>
+                {{ humanStorageSize(health.components.diskSpace.details[item]) }}
+              </template>
+            </q-field>
           </q-card-section>
         </q-card>
         <q-card>
@@ -48,17 +37,32 @@
             </q-badge>
           </q-card-section>
           <q-card-section>
-            <div
-              :key="item"
+            <q-field
               v-for="item in ['database', 'validationQuery']"
+              :key="item"
+              :label="item"
+              readonly
+              borderless
+              stack-label
+              style="width: 100px"
             >
-              {{ item }}
-              <q-badge
-                outline
-                color="primary"
-                :label="health.components.db.details[item]"
-              />
-            </div>
+              <template v-slot:control>
+                {{ health.components.db.details[item] }}
+              </template>
+            </q-field>
+          </q-card-section>
+        </q-card>
+        <q-card
+          :key="item"
+          v-for="item in ['ping', 'livenessState', 'readinessState']"
+        >
+          <q-card-section class="text-center">
+            {{ $t(`health.indicator.${item}`) }}
+          </q-card-section>
+          <q-card-section class="text-center">
+            <q-badge :color="badgeColor(health.components[item].status)">
+              {{ health.components[item].status }}
+            </q-badge>
           </q-card-section>
         </q-card>
       </div>
