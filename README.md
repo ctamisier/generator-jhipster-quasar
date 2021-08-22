@@ -15,12 +15,12 @@ https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 # Features
 
 - JHipster 7 with Quasar v2 (Vue.js 3)
-- Users (List, Create, Update, Delete)
-- Entity
+- Users (CRUD)
+- Entities (CRUD)
 - Configuration
 - Health
 - Metrics
-- Log level runtime update
+- Log level
 - API Documentation
 - Sign in
 - Sign up
