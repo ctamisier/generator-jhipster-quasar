@@ -3,10 +3,13 @@
     <div class="q-pa-md flex flex-left">
       <q-input
         v-model="filterValue"
-        label="Filter"
-        style="min-width: 300px"
+        style="width: 300px"
         @keyup="filter(filterValue)"
-      />
+      >
+        <template v-slot:prepend>
+          <q-icon name="search" />
+        </template>
+      </q-input>
     </div>
     <q-virtual-scroll
       type="table"
