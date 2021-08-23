@@ -51,10 +51,12 @@ npm install -g generator-jhipster-quasar
 # Usage
 
 ```bash
+mkdir my-app
+cd my-app
 jhipster-quasar
 ```
 
-## Running local Blueprint version for development
+# Running local Blueprint version for development
 
 ```bash
 git clone https://github.com/ctamisier/generator-jhipster-quasar
