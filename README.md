@@ -31,6 +31,7 @@ https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 - Maven / Gradle
 - i18n
 - Dark Mode
+![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/cli.png)
 
 |![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/home.png)|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/users.png)|
 |---|---|
