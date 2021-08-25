@@ -46,7 +46,6 @@ https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 
 ```bash
 npm install -g generator-jhipster-quasar
-npm install -g yarn
 ```
 
 # Usage
