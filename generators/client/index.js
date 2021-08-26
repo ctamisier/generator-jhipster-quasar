@@ -7,7 +7,6 @@ const addForwardOnRoot = require('./files').addForwardOnRoot;
 const addMavenCopyResources = require('./files').addMavenCopyResources;
 const addGradleTask = require('./files').addGradleTask;
 const addSwagger = require('./files').addSwagger;
-const prompts = require('./prompts');
 
 module.exports = class extends ClientGenerator {
     constructor(args, opts) {
@@ -20,6 +19,9 @@ module.exports = class extends ClientGenerator {
         }
 
         this.configOptions = jhContext.configOptions || {};
+
+        this.blueish = chalk.hex('#00b4ff');
+        this.blueishBold = this.blueish.bold;
     }
 
     get initializing() {
@@ -28,10 +30,9 @@ module.exports = class extends ClientGenerator {
 
     get prompting() {
         return {
-            askForClient: prompts.askForClient,
-
             overrideConfigOptions() {
-                this.configOptions.clientFramework = this.jhipsterConfig.clientFramework = this.clientFramework = 'quasar';
+                if (this.existingProject) return;
+                this.clientFramework = this.jhipsterConfig.clientFramework = 'quasar';
             },
         };
     }

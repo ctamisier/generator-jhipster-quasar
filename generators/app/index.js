@@ -1,7 +1,6 @@
 const chalk = require('chalk');
 const AppGenerator = require('generator-jhipster/generators/app');
 
-const prompts = require('./prompts');
 const blueprintPackageJson = require('../../package.json');
 
 module.exports = class extends AppGenerator {
@@ -9,6 +8,9 @@ module.exports = class extends AppGenerator {
         super(args, { ...opts, fromBlueprint: true, skipClient: false });
 
         this.blueprintjs = blueprintPackageJson;
+
+        this.blueish = chalk.hex('#00b4ff');
+        this.blueishBold = this.blueish.bold;
     }
 
     get initializing() {
@@ -18,20 +20,17 @@ module.exports = class extends AppGenerator {
             ...initPhaseFromJHipster,
             displayLogo() {
                 this.log('\n');
-                const blueish = chalk.hex('#00b4ff');
-                const blueishBold = blueish.bold;
-                this.log(blueish('      ██╗ ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗'));
-                this.log(blueish('      ██║ ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗'));
-                this.log(blueish('      ██║ ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝'));
-                this.log(blueish('██╗   ██║ ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║'));
-                this.log(blueish('╚██████╔╝ ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗'));
-                this.log(blueish(' ╚═════╝  ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝'));
+                this.log(this.blueish('      ██╗ ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗'));
+                this.log(this.blueish('      ██║ ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗'));
+                this.log(this.blueish('      ██║ ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝'));
+                this.log(this.blueish('██╗   ██║ ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║'));
+                this.log(this.blueish('╚██████╔╝ ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗'));
+                this.log(this.blueish(' ╚═════╝  ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝'));
                 this.log(
-                    `https://github.com/ctamisier/generator-jhipster-quasar ${chalk.bold('JHipster Quasar')} ${blueishBold(
+                    `https://github.com/ctamisier/generator-jhipster-quasar ${chalk.bold('JHipster Quasar')} ${this.blueishBold(
                         this.blueprintjs.version
                     )}`
                 );
-
                 this.log('\n');
             },
         };
@@ -40,7 +39,11 @@ module.exports = class extends AppGenerator {
     get prompting() {
         return {
             ...super._prompting(),
-            askForApplicationType: prompts.askForApplicationType,
+            askForApplicationType() {
+                if (this.existingProject) return;
+                this.applicationType = this.jhipsterConfig.applicationType = 'monolith';
+                this.info(`Application type set to ${this.blueishBold('monolith')}`);
+            },
         };
     }
 
