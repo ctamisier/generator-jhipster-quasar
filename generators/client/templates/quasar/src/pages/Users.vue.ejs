@@ -20,6 +20,7 @@
             color="primary"
             :label="$t('userManagement.home.createLabel')"
             @click="navigate"
+            data-cy="new"
           />
         </router-link>
       </template>
@@ -81,6 +82,7 @@
               <q-btn
                 icon="visibility"
                 @click="navigate"
+                data-cy="view"
               />
             </router-link>
             <router-link
@@ -91,12 +93,14 @@
               <q-btn
                 icon="edit"
                 @click="navigate"
+                data-cy="edit"
               />
             </router-link>
             <q-btn
               v-bind:disable="currentLogin === props.row.login"
               icon="delete_forever"
               @click="deleteUser(props.row.login)"
+              data-cy="delete"
             />
           </q-td>
         </q-tr>

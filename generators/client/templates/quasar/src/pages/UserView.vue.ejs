@@ -5,6 +5,7 @@
         :label="$t('userManagement.login')"
         readonly
         stack-label
+        data-cy="login"
       >
         <template v-slot:control>
           {{ user.data.login }}
@@ -14,6 +15,7 @@
         :label="$t('userManagement.firstName')"
         readonly
         stack-label
+        data-cy="firstName"
       >
         <template v-slot:control>
           {{ user.data.firstName }}
@@ -23,6 +25,7 @@
         :label="$t('userManagement.lastName')"
         readonly
         stack-label
+        data-cy="lastName"
       >
         <template v-slot:control>
           {{ user.data.lastName }}
@@ -32,6 +35,7 @@
         :label="$t('userManagement.email')"
         readonly
         stack-label
+        data-cy="email"
       >
         <template v-slot:control>
           {{ user.data.email }}
@@ -41,6 +45,7 @@
         :label="$t('userManagement.activated')"
         readonly
         stack-label
+        data-cy="activated"
       >
         <template v-slot:control>
           <q-icon
@@ -53,6 +58,7 @@
         :label="$t('userManagement.langKey')"
         readonly
         stack-label
+        data-cy="langKey"
       >
         <template v-slot:control>
           {{ user.data.langKey }}
@@ -62,6 +68,7 @@
         :label="$t('userManagement.profiles')"
         readonly
         stack-label
+        data-cy="profiles"
       >
         <template v-slot:control>
           <div class="q-gutter-md">

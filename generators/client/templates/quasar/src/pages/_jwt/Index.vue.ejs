@@ -12,6 +12,7 @@
         :label="$t('global.form[\'username.label\']')"
         lazy-rules
         :rules="[$rules.required(), $rules.minLength(4)]"
+        data-cy="username"
       />
       <q-input
         autocomplete="current-password"
@@ -20,16 +21,19 @@
         :label="$t('login.form.password')"
         lazy-rules
         :rules="[$rules.required(), $rules.minLength(4)]"
+        data-cy="password"
       />
       <q-checkbox
         v-model="credentials.rememberMe"
         :label="$t('login.form.rememberme')"
+        data-cy="rememberme"
       />
       <div class="flex column">
         <q-btn
           type="submit"
           color="primary"
           :label="$t('login.form.button')"
+          data-cy="submit"
         />
         <q-btn
           to="/account/reset/init"

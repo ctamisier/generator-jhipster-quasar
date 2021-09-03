@@ -29,6 +29,7 @@
         lazy-rules
         :rules="[$rules.maxLength(50)]"
         @keydown.enter.prevent
+        data-cy="firstName"
       />
       <q-input
         v-model="account.data.lastName"
@@ -36,6 +37,7 @@
         lazy-rules
         :rules="[$rules.maxLength(50)]"
         @keydown.enter.prevent
+        data-cy="lastName"
       />
       <q-input
         v-model="account.data.email"
@@ -44,6 +46,7 @@
         lazy-rules
         :rules="[$rules.required(), $rules.minLength(5), $rules.maxLength(254)]"
         @keydown.enter.prevent
+        data-cy="email"
       />
       <q-select
         v-model="account.data.langKey"
@@ -54,6 +57,7 @@
         map-options
         :label="$t('userManagement.langKey')"
         :rules="[$rules.required()]"
+        data-cy="langKey"
       />
       <div class="flex justify-between">
         <q-btn

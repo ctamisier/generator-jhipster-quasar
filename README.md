@@ -56,6 +56,14 @@ cd my-app
 jhipster-quasar
 ```
 
+### Run tests
+
+```bash
+cd my-app
+cd quasar # Cypress is configured in 'quasar' directory (not in root directory)
+npx cypress open
+```
+
 ### Running local Blueprint version for development
 
 ```bash

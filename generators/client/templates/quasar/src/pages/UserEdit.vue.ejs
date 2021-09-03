@@ -11,6 +11,7 @@
         lazy-rules
         :rules="[$rules.required(), $rules.maxLength(50)]"
         @keydown.enter.prevent
+        data-cy="login"
       />
       <q-input
         v-model="user.data.firstName"
@@ -18,6 +19,7 @@
         lazy-rules
         :rules="[$rules.maxLength(50)]"
         @keydown.enter.prevent
+        data-cy="firstName"
       />
       <q-input
         v-model="user.data.lastName"
@@ -25,6 +27,7 @@
         lazy-rules
         :rules="[$rules.maxLength(50)]"
         @keydown.enter.prevent
+        data-cy="lastName"
       />
       <q-input
         v-model="user.data.email"
@@ -33,11 +36,13 @@
         lazy-rules
         :rules="[$rules.required(), $rules.minLength(5), $rules.maxLength(254)]"
         @keydown.enter.prevent
+        data-cy="email"
       />
       <q-checkbox
         v-if="route.params.login"
         v-model="user.data.activated"
         :label="$t('userManagement.activated')"
+        data-cy="activated"
       />
       <q-select
         v-model="user.data.langKey"
@@ -48,12 +53,14 @@
         map-options
         :label="$t('userManagement.langKey')"
         :rules="[$rules.required()]"
+        data-cy="langKey"
       />
       <q-select
         v-model="user.data.authorities"
         :options="availableRoles"
         :label="$t('userManagement.profiles')"
         multiple
+        data-cy="authorities"
       >
         <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
           <q-item v-bind="itemProps">
@@ -64,6 +71,7 @@
               <q-toggle
                 :model-value="selected"
                 @update:modelValue="toggleOption(opt)"
+                data-cy="toggle"
               />
             </q-item-section>
           </q-item>
@@ -74,6 +82,7 @@
           type="submit"
           color="primary"
           :label="$t('entity.action.save')"
+          data-cy="submit"
         />
       </div>
     </q-form>

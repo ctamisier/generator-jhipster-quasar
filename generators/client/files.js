@@ -35,6 +35,22 @@ function writeFiles() {
                 templates: [`${QUASAR_PATH}/.vscode/extensions.json`, `${QUASAR_PATH}/.vscode/settings.json`],
             },
         ],
+        cypress: [
+            {
+                templates: [
+                    `${QUASAR_PATH}/cypress/fixtures/usersPage1Size10.json`,
+                    `${QUASAR_PATH}/cypress/fixtures/usersPage2Size10.json`,
+                    `${QUASAR_PATH}/cypress/fixtures/userView.json`,
+                    `${QUASAR_PATH}/cypress/integration/authentication.spec.js`,
+                    `${QUASAR_PATH}/cypress/integration/users.spec.js`,
+                    `${QUASAR_PATH}/cypress/plugins/index.js`,
+                    `${QUASAR_PATH}/cypress/support/commands.js`,
+                    `${QUASAR_PATH}/cypress/support/index.js`,
+                    `${QUASAR_PATH}/cypress/support/index.js`,
+                    `${QUASAR_PATH}/cypress.json`,
+                ],
+            },
+        ],
         src: [
             {
                 templates: [`${QUASAR_PATH}/src/App.vue`],
