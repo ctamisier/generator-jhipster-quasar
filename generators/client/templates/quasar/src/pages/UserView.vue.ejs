@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md flex flex-center">
-    <div  class="responsive-width q-gutter-md">
+    <div class="responsive-width q-gutter-md">
       <q-field
         :label="$t('userManagement.login')"
         readonly
@@ -43,10 +43,10 @@
         stack-label
       >
         <template v-slot:control>
-           <q-icon
-             :name="`${user.data.activated ? 'check_box' : 'check_box_outline_blank'}`"
-             size="sm"
-           />
+          <q-icon
+            :name="`${user.data.activated ? 'check_box' : 'check_box_outline_blank'}`"
+            size="sm"
+          />
         </template>
       </q-field>
       <q-field
