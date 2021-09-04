@@ -8,11 +8,11 @@
 <br />
 <img src="https://raw.githubusercontent.com/jhipster/jhipster-artwork/main/logos/JHipster%20RGB-small100x25px.png" width="300">
 
-# Demo
+### Demo
 
 https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 
-# Features
+### Features
 
 - JHipster 7 with Quasar v2 (Vue.js 3)
 - Users (CRUD)
@@ -42,13 +42,13 @@ https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
 |![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/changepassword.png)|![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/resetpassword.png)|
 |![](https://raw.githubusercontent.com/ctamisier/generator-jhipster-quasar-assets/main/screenshots/darkmode.png)||
 
-# Installation
+### Installation
 
 ```bash
 npm install -g generator-jhipster-quasar
 ```
 
-# Usage
+### Usage
 
 ```bash
 mkdir my-app
@@ -56,7 +56,7 @@ cd my-app
 jhipster-quasar
 ```
 
-# Running local Blueprint version for development
+### Running local Blueprint version for development
 
 ```bash
 git clone https://github.com/ctamisier/generator-jhipster-quasar
@@ -81,7 +81,7 @@ cd my-app
 jhipster-quasar
 ```
 
-# License
+### License
 
 Apache-2.0 © [Clément Tamisier]()
 
