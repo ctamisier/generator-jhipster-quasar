@@ -46,7 +46,6 @@ function writeFiles() {
                     `${QUASAR_PATH}/cypress/plugins/index.js`,
                     `${QUASAR_PATH}/cypress/support/commands.js`,
                     `${QUASAR_PATH}/cypress/support/index.js`,
-                    `${QUASAR_PATH}/cypress/support/index.js`,
                     `${QUASAR_PATH}/cypress.json`,
                 ],
             },
