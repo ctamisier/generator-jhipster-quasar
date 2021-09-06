@@ -42,6 +42,8 @@
           type="submit"
           color="primary"
           :label="$t('register.form.button')"
+          :loading="loading"
+          :disable="loading"
         />
       </div>
     </q-form>
@@ -51,7 +53,7 @@
 <script>
 import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
@@ -73,7 +75,10 @@ export default defineComponent({
       },
     });
 
+    const loading = ref(false);
+
     const onSubmit = async () => {
+      loading.value = true;
       try {
         await api.post('/api/register', account.data);
         router.push('/');
@@ -82,12 +87,14 @@ export default defineComponent({
           type: 'negative',
           message: t(e.response.data.message),
         });
+        loading.value = false;
       }
     };
 
     return {
       account,
       onSubmit,
+      loading,
     };
   },
 });

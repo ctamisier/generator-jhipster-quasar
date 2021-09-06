@@ -211,6 +211,8 @@ _%>
           type="submit"
           color="primary"
           :label="$t('entity.action.save')"
+          :loading="loading"
+          :disable="loading"
         />
       </div>
     </q-form>
@@ -251,6 +253,8 @@ export default defineComponent({
       },
     });
 
+    const loading = ref(false);
+
     (async function fetch<%= entityAngularName %>() {
       if (route.params.id) {
         <%= entityInstance %>.data = (await api.get(`/api/<%= entityApiUrl %>/${route.params.id}`)).data;
@@ -265,6 +269,7 @@ export default defineComponent({
 
 <%_} _%>
     const onSubmit = async () => {
+      loading.value = true;
       try {
         await api({
           method: <%= entityInstance %>.data.id ? 'put' : 'post',
@@ -278,6 +283,7 @@ export default defineComponent({
           type: 'negative',
           message: t(e.response.data.message),
         });
+        loading.value = false;
       }
     };
 
@@ -287,6 +293,7 @@ export default defineComponent({
       <%= relationship.otherEntityNamePlural %>,
 <%_} _%>
       onSubmit,
+      loading,
     };
   },
 });

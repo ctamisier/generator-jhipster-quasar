@@ -33,6 +33,8 @@
           type="submit"
           color="primary"
           :label="$t('login.form.button')"
+          :loading="loading"
+          :disable="loading"
           data-cy="submit"
         />
         <q-btn
@@ -63,7 +65,8 @@
 </template>
 
 <script>
-import { computed, defineComponent, reactive } from 'vue';
+import { useQuasar } from 'quasar';
+import { computed, defineComponent, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { authLogin } from '../auth/authentication';
@@ -72,6 +75,7 @@ export default defineComponent({
   name: 'PageIndex',
 
   setup() {
+    const $q = useQuasar();
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -82,8 +86,20 @@ export default defineComponent({
       rememberMe: false,
     });
 
-    const onSubmit = () => {
-      authLogin(store, router, route, credentials);
+    const loading = ref(false);
+
+    const onSubmit = async () => {
+      loading.value = true;
+      try {
+        await authLogin(store, router, route, credentials);
+      } catch (e) {
+        store.dispatch('auth/logout');
+        $q.notify({
+          type: 'negative',
+          message: 'Operation failed',
+        });
+        loading.value = false;
+      }
     };
 
     const isAuthenticated = computed(() => store.getters['auth/isAuthenticated']);
@@ -92,6 +108,7 @@ export default defineComponent({
       credentials,
       isAuthenticated,
       onSubmit,
+      loading,
     };
   },
 });

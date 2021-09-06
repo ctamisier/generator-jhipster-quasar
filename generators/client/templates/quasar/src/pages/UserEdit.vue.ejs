@@ -83,6 +83,8 @@
           color="primary"
           :label="$t('entity.action.save')"
           data-cy="submit"
+          :loading="loading"
+          :disable="loading"
         />
       </div>
     </q-form>
@@ -92,7 +94,7 @@
 <script>
 import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { langObjects } from '../constants/i18nConstants';
@@ -119,6 +121,8 @@ export default defineComponent({
       },
     });
 
+    const loading = ref(false);
+
     const fetchUser = async () => {
       if (route.params.login) {
         user.data = (await api.get(`/api/admin/users/${route.params.login}`)).data;
@@ -128,6 +132,7 @@ export default defineComponent({
     fetchUser();
 
     const onSubmit = async () => {
+      loading.value = true;
       try {
         await api({
           method: user.data.id ? 'put' : 'post',
@@ -140,6 +145,7 @@ export default defineComponent({
           type: 'negative',
           message: t(e.response.data.message),
         });
+        loading.value = false;
       }
     };
 
@@ -149,6 +155,7 @@ export default defineComponent({
       route,
       availableRoles: ['ROLE_ADMIN', 'ROLE_USER'],
       onSubmit,
+      loading,
     };
   },
 });
