@@ -38,15 +38,26 @@ function writeFiles() {
         cypress: [
             {
                 templates: [
+                    {
+                        file: () => `${QUASAR_PATH}/cypress/integration/_${this.authenticationType}/authentication.spec.js`,
+                        renameTo: () => `${QUASAR_PATH}/cypress/integration/authentication.spec.js`,
+                    },
+                    `${QUASAR_PATH}/cypress/plugins/index.js`,
+                    `${QUASAR_PATH}/cypress/support/index.js`,
+                    {
+                        file: () => `${QUASAR_PATH}/cypress/support/_${this.authenticationType}/commands.js`,
+                        renameTo: () => `${QUASAR_PATH}/cypress/support/commands.js`,
+                    },
+                    `${QUASAR_PATH}/cypress.json`,
+                ],
+            },
+            {
+                condition: generator => generator.authenticationType !== 'oauth2',
+                templates: [
+                    `${QUASAR_PATH}/cypress/integration/users.spec.js`,
                     `${QUASAR_PATH}/cypress/fixtures/usersPage1Size10.json`,
                     `${QUASAR_PATH}/cypress/fixtures/usersPage2Size10.json`,
                     `${QUASAR_PATH}/cypress/fixtures/userView.json`,
-                    `${QUASAR_PATH}/cypress/integration/authentication.spec.js`,
-                    `${QUASAR_PATH}/cypress/integration/users.spec.js`,
-                    `${QUASAR_PATH}/cypress/plugins/index.js`,
-                    `${QUASAR_PATH}/cypress/support/commands.js`,
-                    `${QUASAR_PATH}/cypress/support/index.js`,
-                    `${QUASAR_PATH}/cypress.json`,
                 ],
             },
         ],
