@@ -44,6 +44,10 @@ module.exports = class extends AppGenerator {
                 this.applicationType = this.jhipsterConfig.applicationType = 'monolith';
                 this.info(`Application type set to ${this.blueishBold('monolith')}`);
             },
+            askI18n() {
+                if (this.existingProject) return;
+                this.enableTranslation = this.jhipsterConfig.enableTranslation = true;
+            },
         };
     }
 
