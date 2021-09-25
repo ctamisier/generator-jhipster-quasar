@@ -222,6 +222,10 @@ function addLanguagesInQuasarConf() {
         .join(',');
 
     this.replaceContent(`${QUASAR_PATH}/quasar.conf.js`, /groupBy: \[[\s\S]+?\]/, `groupBy: [ ${i18nMergeEntries} ]`);
+
+    if (this.languages.includes('fa') || this.languages.includes('ar-ly')) {
+        this.replaceContent(`${QUASAR_PATH}/quasar.conf.js`, '// rtl: true', 'rtl: true');
+    }
 }
 
 function addForwardOnRoot() {
