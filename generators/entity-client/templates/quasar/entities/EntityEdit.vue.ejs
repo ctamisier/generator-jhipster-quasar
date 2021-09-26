@@ -278,12 +278,12 @@ export default defineComponent({
         });
         router.back();
       } catch (e) {
+        loading.value = false;
         if (e.response.status !== 400) return;
         $q.notify({
           type: 'negative',
           message: t(e.response.data.message),
         });
-        loading.value = false;
       }
     };
 
