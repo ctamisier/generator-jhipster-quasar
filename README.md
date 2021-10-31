@@ -68,7 +68,7 @@ npx cypress open
 
 ```bash
 git clone https://github.com/ctamisier/generator-jhipster-quasar
-cd generator-quasar-jhipster
+cd generator-jhipster-quasar
 npm link
 ```
 
