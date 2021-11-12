@@ -50,6 +50,10 @@ module.exports = class extends ServerGenerator {
             writeAdditionalFile() {
                 writeFiles.call(this);
             },
+            updatePackageJson() {
+                const packageTemplate = this.fs.read(this.templatePath('package.json'));
+                this.fs.extendJSON(this.destinationPath('package.json'), JSON.parse(packageTemplate));
+            },
         };
     }
 
