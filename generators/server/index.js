@@ -60,12 +60,6 @@ module.exports = class extends ServerGenerator {
     get postWriting() {
         return {
             ...super._postWriting(),
-            packageJsonScripts() {
-                const scriptsStorage = this.packageJson.createStorage('scripts');
-                scriptsStorage.set('webapp:build', 'cd quasar && npm run build');
-                scriptsStorage.set('webapp:prod', 'cd quasar && npm run build');
-                scriptsStorage.set('webapp:test', '');
-            },
         };
     }
 
