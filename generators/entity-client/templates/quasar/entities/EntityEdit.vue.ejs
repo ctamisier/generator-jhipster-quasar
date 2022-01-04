@@ -112,7 +112,7 @@ _%>
             >
               <q-date
                 v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
-                mask="YYYY-MM-DDTHH:mm:ssZ"
+                mask="YYYY-MM-DDTHH:mm:ss[Z]"
               >
                 <div class="row items-center justify-end">
                   <q-btn
@@ -138,7 +138,7 @@ _%>
             >
               <q-time
                 v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
-                mask="YYYY-MM-DDTHH:mm:ssZ"
+                mask="YYYY-MM-DDTHH:mm:ss[Z]"
                 format24h
               >
                 <div class="row items-center justify-end">
