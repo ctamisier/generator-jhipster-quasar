@@ -6,8 +6,7 @@
     "yeoman-generator",
     "quasar",
     "jhipster",
-    "jhipster-blueprint",
-    "jhipster-7.1.0"
+    "jhipster-blueprint"
   ],
   "homepage": "https://github.com/ctamisier/generator-jhipster-quasar",
   "bugs": {
@@ -40,7 +39,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.2",
-    "generator-jhipster": "7.3.1",
+    "generator-jhipster": "7.6.0",
     "lodash": "4.17.21",
     "semver": "^7.3.5"
   },
