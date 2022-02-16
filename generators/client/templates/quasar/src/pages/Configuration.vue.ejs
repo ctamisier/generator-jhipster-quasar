@@ -86,7 +86,7 @@ export default defineComponent({
     const transform = tree => {
       for (const key in tree) {
         const item = tree[key];
-        if (item && !item.properties) {
+        if (item && typeof item === 'object' && !item.properties) {
           transform(item);
         } else {
           if (item) {
