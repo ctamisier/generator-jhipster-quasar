@@ -1,8 +1,8 @@
-/**
+/*
  * THIS FILE IS HIGHLY MODIFIED BY THE BLUEPRINT
  * DO NOT EDIT.
  *
- **/
+ */
 export const languages = ['en', 'fr'];
 
 export const langObjects = Object.entries(languages).map(entry => {

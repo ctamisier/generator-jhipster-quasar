@@ -1,7 +1,7 @@
 {
-    "scripts": {
-        "webapp:build": "cd quasar && npm run build",
-        "webapp:prod": "cd quasar && npm run build",
-        "webapp:test": ""
-    }
+  "scripts": {
+    "webapp:build": "cd quasar && npm run build",
+    "webapp:prod": "cd quasar && npm run build",
+    "webapp:test": ""
+  }
 }

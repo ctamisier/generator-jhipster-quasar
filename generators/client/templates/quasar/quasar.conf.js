@@ -80,6 +80,7 @@ module.exports = configure(function (ctx) {
           {
             output: {
               groupBy: [
+                // prettier-ignore-start
                 { pattern: '../src/main/webapp/i18n/en/*.json', fileName: '../i18n/en.json' },
                 { pattern: '../src/main/webapp/i18n/al/*.json', fileName: '../i18n/al.json' },
                 { pattern: '../src/main/webapp/i18n/ar-ly/*.json', fileName: '../i18n/ar-ly.json' },
@@ -127,6 +128,7 @@ module.exports = configure(function (ctx) {
                 { pattern: '../src/main/webapp/i18n/uz-Cyrl-uz/*.json', fileName: '../i18n/uz-Cyrl-uz.json' },
                 { pattern: '../src/main/webapp/i18n/uz-Latn-uz/*.json', fileName: '../i18n/uz-Latn-uz.json' },
                 { pattern: '../src/main/webapp/i18n/vi/*.json', fileName: '../i18n/vi.json' },
+                // prettier-ignore-end
               ],
             },
           },
@@ -140,7 +142,10 @@ module.exports = configure(function (ctx) {
                 to: '../swagger-ui/',
                 globOptions: { ignore: ['**/index.html'] },
               },
-              { from: './node_modules/axios/dist/axios.min.js', to: '../swagger-ui/' },
+              {
+                from: './node_modules/axios/dist/axios.min.js',
+                to: '../swagger-ui/',
+              },
               { from: '../src/main/webapp/swagger-ui/', to: '../swagger-ui/' },
             ],
           },

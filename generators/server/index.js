@@ -4,66 +4,66 @@ const { writeFiles } = require('./files');
 const blueprintPackageJson = require('../../package.json');
 
 module.exports = class extends ServerGenerator {
-    constructor(args, opts) {
-        super(args, { fromBlueprint: true, ...opts });
+  constructor(args, opts) {
+    super(args, { fromBlueprint: true, ...opts });
 
-        const jhContext = (this.jhipsterContext = this.options.jhipsterContext);
+    const jhContext = (this.jhipsterContext = this.options.jhipsterContext);
 
-        if (!jhContext) {
-            this.error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprint quasar')}`);
-        }
-
-        this.blueprintjs = blueprintPackageJson;
+    if (!jhContext) {
+      this.error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprint quasar')}`);
     }
 
-    get initializing() {
-        return super._initializing();
-    }
+    this.blueprintjs = blueprintPackageJson;
+  }
 
-    get prompting() {
-        return super._prompting();
-    }
+  get initializing() {
+    return super._initializing();
+  }
 
-    get configuring() {
-        return super._configuring();
-    }
+  get prompting() {
+    return super._prompting();
+  }
 
-    get composing() {
-        return super._composing();
-    }
+  get configuring() {
+    return super._configuring();
+  }
 
-    get loading() {
-        return super._loading();
-    }
+  get composing() {
+    return super._composing();
+  }
 
-    get preparing() {
-        return super._preparing();
-    }
+  get loading() {
+    return super._loading();
+  }
 
-    get default() {
-        return super._default();
-    }
+  get preparing() {
+    return super._preparing();
+  }
 
-    get writing() {
-        return {
-            ...super._writing(),
-            writeAdditionalFile() {
-                writeFiles.call(this);
-            },
-            updatePackageJson() {
-                const packageTemplate = this.fs.read(this.templatePath('package.json'));
-                this.fs.extendJSON(this.destinationPath('package.json'), JSON.parse(packageTemplate));
-            },
-        };
-    }
+  get default() {
+    return super._default();
+  }
 
-    get postWriting() {
-        return {
-            ...super._postWriting(),
-        };
-    }
+  get writing() {
+    return {
+      ...super._writing(),
+      writeAdditionalFile() {
+        writeFiles.call(this);
+      },
+      updatePackageJson() {
+        const packageTemplate = this.fs.read(this.templatePath('package.json'));
+        this.fs.extendJSON(this.destinationPath('package.json'), JSON.parse(packageTemplate));
+      },
+    };
+  }
 
-    get end() {
-        return super._end();
-    }
+  get postWriting() {
+    return {
+      ...super._postWriting(),
+    };
+  }
+
+  get end() {
+    return super._end();
+  }
 };

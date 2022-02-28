@@ -5,57 +5,57 @@ const addRoute = require('./files').addRoute;
 const addMenuEntry = require('./files').addMenuEntry;
 
 module.exports = class extends EntityClientGenerator {
-    constructor(args, opts) {
-        super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
+  constructor(args, opts) {
+    super(args, { fromBlueprint: true, ...opts }); // fromBlueprint variable is important
 
-        const jhContext = (this.jhipsterContext = this.options.jhipsterContext);
+    const jhContext = (this.jhipsterContext = this.options.jhipsterContext);
 
-        if (!jhContext) {
-            this.error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprint quasar')}`);
-        }
-
-        this.configOptions = jhContext.configOptions || {};
+    if (!jhContext) {
+      this.error(`This is a JHipster blueprint and should be used only like ${chalk.yellow('jhipster --blueprint quasar')}`);
     }
 
-    get initializing() {
-        return super._initializing();
-    }
+    this.configOptions = jhContext.configOptions || {};
+  }
 
-    get prompting() {
-        return super._prompting();
-    }
+  get initializing() {
+    return super._initializing();
+  }
 
-    get configuring() {
-        return super._configuring();
-    }
+  get prompting() {
+    return super._prompting();
+  }
 
-    get composing() {
-        return super._composing();
-    }
+  get configuring() {
+    return super._configuring();
+  }
 
-    get loading() {
-        return super._loading();
-    }
+  get composing() {
+    return super._composing();
+  }
 
-    get preparing() {
-        return super._preparing();
-    }
+  get loading() {
+    return super._loading();
+  }
 
-    get default() {
-        return super._default();
-    }
+  get preparing() {
+    return super._preparing();
+  }
 
-    get writing() {
-        return {
-            writeAdditionalFile() {
-                writeFiles.call(this);
-                addRoute.call(this);
-                addMenuEntry.call(this);
-            },
-        };
-    }
+  get default() {
+    return super._default();
+  }
 
-    get end() {
-        return super._end();
-    }
+  get writing() {
+    return {
+      writeAdditionalFile() {
+        writeFiles.call(this);
+        addRoute.call(this);
+        addMenuEntry.call(this);
+      },
+    };
+  }
+
+  get end() {
+    return super._end();
+  }
 };

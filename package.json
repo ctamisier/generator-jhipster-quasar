@@ -38,24 +38,23 @@
     "release:major": "npm version major -a -m \"release %s\" && npm run release"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "4.1.2",
     "generator-jhipster": "7.6.0",
     "lodash": "4.17.21",
-    "semver": "^7.3.5"
+    "semver": "7.3.5"
   },
   "devDependencies": {
-    "ejs-lint": "^1.2.1",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.24.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "fs-extra": "^10.0.0",
-    "prettier": "^2.3.2",
-    "yeoman-assert": "^3.1.1",
-    "yeoman-environment": "^3.5.1",
-    "yeoman-generator": "^5.4.1",
-    "yeoman-test": "^6.2.0"
+    "ejs-lint": "1.2.1",
+    "eslint": "8.10.0",
+    "eslint-config-prettier": "8.4.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-import": "2.25.4",
+    "fs-extra": "10.0.1",
+    "prettier": "2.5.1",
+    "yeoman-assert": "3.1.1",
+    "yeoman-environment": "3.9.1",
+    "yeoman-generator": "5.6.1",
+    "yeoman-test": "6.3.0"
   },
   "engines": {
     "node": ">=12.20.0",
