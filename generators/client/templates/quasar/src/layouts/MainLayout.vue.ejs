@@ -43,11 +43,8 @@
         :key="menuItem.to"
         v-for="menuItem in menuItems()"
         :to="menuItem.to"
-        clickable
         v-ripple
-        :active="link === menuItem.to"
         active-class="bg-blue-1 text-blue-10"
-        @click="link = menuItem.to"
       >
         <q-item-section avatar>
           <q-icon :name="menuItem.icon" />
@@ -103,7 +100,6 @@ export default defineComponent({
     const isAuthenticatedGetter = () => store.getters['auth/isAuthenticated'];
     const leftDrawerOpen = isAuthenticatedGetter();
     const data = reactive({ leftDrawerOpen, miniState: true });
-    const link = reactive({});
 
     if (LocalStorage.has('dark-mode')) {
       $q.dark.set(LocalStorage.getItem('dark-mode'));
@@ -120,7 +116,6 @@ export default defineComponent({
 
     return {
       data,
-      link,
       store,
       appVersion: process.env.APP_VERSION,
       menuItems() {
