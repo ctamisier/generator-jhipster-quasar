@@ -49,11 +49,13 @@ export default route(function ({ store /*, ssrContext */ }) {
           path: '/users/:login/edit',
           meta: { public: false },
           component: () => import('pages/UserEdit.vue'),
+          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
         },
         {
           path: '/users/:login/view',
           meta: { public: false },
           component: () => import('pages/UserView.vue'),
+          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
         },
 <%_ } _%>
         {
