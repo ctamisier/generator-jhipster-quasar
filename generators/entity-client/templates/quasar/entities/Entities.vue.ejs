@@ -75,30 +75,32 @@ _%>
           </q-td>
 <%_ } _%>
           <q-td>
-            <router-link
-              :to="`/<%= entityApiUrl %>/${props.row.id}`"
-              v-slot="{ navigate }"
-              custom
-            >
+            <q-btn-group>
+              <router-link
+                :to="`/<%= entityApiUrl %>/${props.row.id}`"
+                v-slot="{ navigate }"
+                custom
+              >
+                <q-btn
+                  icon="visibility"
+                  @click="navigate"
+                />
+              </router-link>
+              <router-link
+                :to="`/<%= entityApiUrl %>/${props.row.id}/edit`"
+                v-slot="{ navigate }"
+                custom
+              >
+                <q-btn
+                  icon="edit"
+                  @click="navigate"
+                />
+              </router-link>
               <q-btn
-                icon="visibility"
-                @click="navigate"
+                icon="delete_forever"
+                @click="delete<%= entityAngularName %>(props.row.id)"
               />
-            </router-link>
-            <router-link
-              :to="`/<%= entityApiUrl %>/${props.row.id}/edit`"
-              v-slot="{ navigate }"
-              custom
-            >
-              <q-btn
-                icon="edit"
-                @click="navigate"
-              />
-            </router-link>
-            <q-btn
-              icon="delete_forever"
-              @click="delete<%= entityAngularName %>(props.row.id)"
-            />
+            </q-btn-group>
           </q-td>
         </q-tr>
       </template>

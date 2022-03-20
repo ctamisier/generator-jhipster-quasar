@@ -74,34 +74,36 @@
             />
           </q-td>
           <q-td>
-            <router-link
-              :to="`/users/${props.row.login}/view`"
-              v-slot="{ navigate }"
-              custom
-            >
+            <q-btn-group>
+              <router-link
+                :to="`/users/${props.row.login}/view`"
+                v-slot="{ navigate }"
+                custom
+              >
+                <q-btn
+                  icon="visibility"
+                  @click="navigate"
+                  data-cy="view"
+                />
+              </router-link>
+              <router-link
+                :to="`/users/${props.row.login}/edit`"
+                v-slot="{ navigate }"
+                custom
+              >
+                <q-btn
+                  icon="edit"
+                  @click="navigate"
+                  data-cy="edit"
+                />
+              </router-link>
               <q-btn
-                icon="visibility"
-                @click="navigate"
-                data-cy="view"
+                v-bind:disable="currentLogin === props.row.login"
+                icon="delete_forever"
+                @click="deleteUser(props.row.login)"
+                data-cy="delete"
               />
-            </router-link>
-            <router-link
-              :to="`/users/${props.row.login}/edit`"
-              v-slot="{ navigate }"
-              custom
-            >
-              <q-btn
-                icon="edit"
-                @click="navigate"
-                data-cy="edit"
-              />
-            </router-link>
-            <q-btn
-              v-bind:disable="currentLogin === props.row.login"
-              icon="delete_forever"
-              @click="deleteUser(props.row.login)"
-              data-cy="delete"
-            />
+            </q-btn-group>
           </q-td>
         </q-tr>
       </template>
