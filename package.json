@@ -1,6 +1,6 @@
 {
   "name": "generator-jhipster-quasar",
-  "version": "0.11.6",
+  "version": "0.11.7",
   "description": "Quasar for JHipster",
   "keywords": [
     "yeoman-generator",
