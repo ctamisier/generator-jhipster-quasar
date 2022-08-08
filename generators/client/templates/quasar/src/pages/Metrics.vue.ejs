@@ -18,10 +18,10 @@
           <q-card-section class="text-center">
             <q-circular-progress
               show-value
-              class="text-light-blue q-ma-md"
+              class="q-ma-md"
               :value="metric.max !== -1 ? percentMetric(metric) : 0"
               size="50px"
-              color="light-blue"
+              color="primary"
             >
               {{ metric.max !== -1 ? `${Math.ceil(percentMetric(metric))}%` : '' }}
             </q-circular-progress>
@@ -51,10 +51,10 @@
           <q-card-section>
             <q-circular-progress
               show-value
-              class="text-light-blue q-ma-md"
+              class="q-ma-md"
               :value="percent(metrics.garbageCollector['jvm.gc.live.data.size'], metrics.garbageCollector['jvm.gc.max.data.size'])"
               size="50px"
-              color="light-blue"
+              color="primary"
             >
               {{ Math.ceil(percent(metrics.garbageCollector['jvm.gc.live.data.size'], metrics.garbageCollector['jvm.gc.max.data.size'])) }}%
             </q-circular-progress>
@@ -69,10 +69,10 @@
           <q-card-section>
             <q-circular-progress
               show-value
-              class="text-light-blue q-ma-md"
+              class="q-ma-md"
               :value="percent(metrics.garbageCollector['jvm.gc.memory.promoted'], metrics.garbageCollector['jvm.gc.memory.allocated'])"
               size="50px"
-              color="light-blue"
+              color="primary"
             >
               {{
                 Math.ceil(percent(metrics.garbageCollector['jvm.gc.memory.promoted'], metrics.garbageCollector['jvm.gc.memory.allocated']))
@@ -196,10 +196,10 @@
             <q-card-section>
               <q-circular-progress
                 show-value
-                class="text-light-blue q-ma-md"
+                class="q-ma-md"
                 :value="metrics['processMetrics']['process.cpu.usage'] * 100"
                 size="50px"
-                color="light-blue"
+                color="primary"
               >
                 {{ Math.ceil(metrics['processMetrics']['process.cpu.usage'] * 100) }}%
               </q-circular-progress>
@@ -210,10 +210,10 @@
             <q-card-section>
               <q-circular-progress
                 show-value
-                class="text-light-blue q-ma-md"
+                class="q-ma-md"
                 :value="metrics['processMetrics']['system.cpu.usage'] * 100"
                 size="50px"
-                color="light-blue"
+                color="primary"
               >
                 {{ Math.ceil(metrics['processMetrics']['system.cpu.usage'] * 100) }}%
               </q-circular-progress>
