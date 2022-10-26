@@ -39,22 +39,21 @@ function writeFiles() {
       {
         templates: [
           {
-            file: () => `${QUASAR_PATH}/cypress/integration/_${this.authenticationType}/authentication.spec.js`,
-            renameTo: () => `${QUASAR_PATH}/cypress/integration/authentication.spec.js`,
+            file: () => `${QUASAR_PATH}/cypress/e2e/_${this.authenticationType}/authentication.cy.js`,
+            renameTo: () => `${QUASAR_PATH}/cypress/e2e/authentication.cy.js`,
           },
-          `${QUASAR_PATH}/cypress/plugins/index.js`,
-          `${QUASAR_PATH}/cypress/support/index.js`,
+          `${QUASAR_PATH}/cypress/support/e2e.js`,
           {
             file: () => `${QUASAR_PATH}/cypress/support/_${this.authenticationType}/commands.js`,
             renameTo: () => `${QUASAR_PATH}/cypress/support/commands.js`,
           },
-          `${QUASAR_PATH}/cypress.json`,
+          `${QUASAR_PATH}/cypress.config.js`,
         ],
       },
       {
         condition: generator => generator.authenticationType !== 'oauth2',
         templates: [
-          `${QUASAR_PATH}/cypress/integration/users.spec.js`,
+          `${QUASAR_PATH}/cypress/e2e/users.cy.js`,
           `${QUASAR_PATH}/cypress/fixtures/usersPage1Size10.json`,
           `${QUASAR_PATH}/cypress/fixtures/usersPage2Size10.json`,
           `${QUASAR_PATH}/cypress/fixtures/userView.json`,

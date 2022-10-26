@@ -4,7 +4,7 @@ import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
 import { datefnsMapping, langObjects, quasarLangMapping } from '../constants/i18nConstants';
 
-const i18n = createI18n();
+const i18n = createI18n({ legacy: false });
 
 export default boot(({ app }) => {
   app.use(i18n);
@@ -15,7 +15,7 @@ const loadTranslation = async langKey => {
   const data = await response.json();
   const mapping = datefnsMapping[langKey];
   window.__localeId__ = mapping || langKey;
-  i18n.global.locale = langKey;
+  i18n.global.locale.value = langKey;
 
   const messages = JSON.parse(JSON.stringify(data).replaceAll('{{ ', '{').replaceAll(' }}', '}'));
   i18n.global.setLocaleMessage(langKey, messages);

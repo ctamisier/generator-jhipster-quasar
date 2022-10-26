@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "eslint-config-prettier": "8.3.0",
-    "prettier": "2.4.1",
-    "prettier-plugin-java": "1.5.0",
-    "prettier-plugin-packagejson": "2.2.14"
+    "eslint-config-prettier": "8.5.0",
+    "prettier": "2.7.1",
+    "prettier-plugin-java": "1.6.2",
+    "prettier-plugin-packagejson": "2.2.18"
   }
 }
