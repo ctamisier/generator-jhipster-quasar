@@ -8,10 +8,6 @@
 <br />
 <img src="https://raw.githubusercontent.com/jhipster/jhipster-artwork/main/logos/JHipster%20RGB-small100x25px.png" width="300">
 
-### Demo
-
-https://jhipster-quasar.herokuapp.com/ (might need to wait a bit before startup)
-
 ### Features
 
 - JHipster 7 with Quasar v2 (Vue.js 3)
