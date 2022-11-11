@@ -1,8 +1,8 @@
 import { route } from 'quasar/wrappers';
 import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
+import { useAuthStore } from 'stores/auth-store';
 import { beforeEachAuth } from '../auth/authentication';
 import { entityRoutes } from './entityRoutes';
-
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation;
@@ -12,7 +12,9 @@ import { entityRoutes } from './entityRoutes';
  * with the Router instance.
  */
 
-export default route(function ({ store /*, ssrContext */ }) {
+export default route(() => {
+  const authStore = useAuthStore();
+
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : process.env.VUE_ROUTER_MODE === 'history'
@@ -37,56 +39,56 @@ export default route(function ({ store /*, ssrContext */ }) {
           path: '/users',
           meta: { public: false },
           component: () => import('pages/Users.vue'),
-          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+          beforeEnter: () => authStore.hasRoleAdmin,
         },
         {
           path: '/users/new',
           meta: { public: false },
           component: () => import('pages/UserEdit.vue'),
-          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+          beforeEnter: () => authStore.hasRoleAdmin,
         },
         {
           path: '/users/:login/edit',
           meta: { public: false },
           component: () => import('pages/UserEdit.vue'),
-          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+          beforeEnter: () => authStore.hasRoleAdmin,
         },
         {
           path: '/users/:login/view',
           meta: { public: false },
           component: () => import('pages/UserView.vue'),
-          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+          beforeEnter: () => authStore.hasRoleAdmin,
         },
 <%_ } _%>
         {
           path: '/configuration',
           meta: { public: false },
           component: () => import('pages/Configuration.vue'),
-          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+          beforeEnter: () => authStore.hasRoleAdmin,
         },
         {
           path: '/health',
           meta: { public: false },
           component: () => import('pages/Health.vue'),
-          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+          beforeEnter: () => authStore.hasRoleAdmin,
         },
         {
           path: '/metrics',
           meta: { public: false },
           component: () => import('pages/Metrics.vue'),
-          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+          beforeEnter: () => authStore.hasRoleAdmin,
         },
         {
           path: '/logs',
           meta: { public: false },
           component: () => import('pages/Logs.vue'),
-          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+          beforeEnter: () => authStore.hasRoleAdmin,
         },
         {
           path: '/docs',
           meta: { public: false },
           component: () => import('pages/Docs.vue'),
-          beforeEnter: () => store.getters['auth/hasRoleAdmin'],
+          beforeEnter: () => authStore.hasRoleAdmin,
         },
         ...entityRoutes,
       ],
@@ -110,7 +112,7 @@ export default route(function ({ store /*, ssrContext */ }) {
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE),
   });
 
-  Router.beforeEach((to, from, next) => beforeEachAuth(to, from, next, store));
+  Router.beforeEach((to, from, next) => beforeEachAuth(to, from, next, authStore));
 
   return Router;
 });

@@ -1,0 +1,22 @@
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
+import { Cookies } from 'quasar';
+
+export const useAuthStore = defineStore('auth', () => {
+  const account = ref();
+
+  const currentLogin = computed(() => account.value?.login);
+
+  const isAuthenticated = computed(() => !!account.value);
+
+  const hasRoleAdmin = computed(() => !!account.value?.authorities?.includes('ROLE_ADMIN'));
+
+  const login = data => (account.value = data);
+
+  const logout = () => {
+    account.value = null;
+    Cookies.remove('XSRF-TOKEN');
+  };
+
+  return { account, currentLogin, isAuthenticated, hasRoleAdmin, login, logout };
+});

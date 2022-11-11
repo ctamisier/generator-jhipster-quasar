@@ -65,7 +65,7 @@
           </q-td>
           <q-td>
             <q-toggle
-              v-bind:disable="currentLogin === props.row.login"
+              v-bind:disable="authStore.currentLogin === props.row.login"
               v-model="props.row.activated"
               checked-icon="check"
               color="green"
@@ -98,7 +98,7 @@
                 />
               </router-link>
               <q-btn
-                v-bind:disable="currentLogin === props.row.login"
+                v-bind:disable="authStore.currentLogin === props.row.login"
                 icon="delete_forever"
                 @click="deleteUser(props.row.login)"
                 data-cy="delete"
@@ -115,19 +115,19 @@
 import { api } from 'boot/axios';
 import { parseISO } from 'date-fns';
 import { useQuasar } from 'quasar';
+import { useAuthStore } from 'stores/auth-store';
 import { defineComponent, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { format } from '../util/format';
 
 export default defineComponent({
   name: 'PageUsers',
 
   setup() {
+    const authStore = useAuthStore();
     const $q = useQuasar();
     const { t } = useI18n();
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
 
@@ -143,8 +143,6 @@ export default defineComponent({
     });
 
     const loadingActivation = ref([]);
-
-    const currentLogin = store.state.auth.account.login;
 
     const columns = [
       { name: 'login', align: 'left', label: t('userManagement.login'), field: 'login', sortable: true },
@@ -200,7 +198,7 @@ export default defineComponent({
     };
 
     const handleActivation = async row => {
-      if (row.login !== currentLogin) {
+      if (row.login !== authStore.currentLogin) {
         loadingActivation.value[row.login] = true;
         try {
           await api.put('/api/admin/users', row);
@@ -212,12 +210,11 @@ export default defineComponent({
     };
 
     return {
-      store,
+      authStore,
       loading,
       pagination,
       columns,
       rows,
-      currentLogin,
       parseISO,
       format,
       loadingActivation,

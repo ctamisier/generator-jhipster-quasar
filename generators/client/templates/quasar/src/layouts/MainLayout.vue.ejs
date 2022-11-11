@@ -3,7 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn
-          v-if="isAuthenticated"
+          v-if="authStore.isAuthenticated"
           flat
           dense
           round
@@ -37,7 +37,7 @@
       :width="250"
       :breakpoint="500"
       bordered
-      v-if="store.state.auth.account"
+      v-if="authStore.isAuthenticated"
     >
       <q-item
         :key="menuItem.to"
@@ -83,22 +83,20 @@
 
 <script>
 import { LocalStorage, useQuasar } from 'quasar';
-import { computed, defineComponent, reactive } from 'vue';
+import { defineComponent, reactive } from 'vue';
+import { useAuthStore } from 'stores/auth-store';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { authLogout } from '../auth/authentication';
 
 export default defineComponent({
   name: 'MainLayout',
 
   setup() {
-    const store = useStore();
+    const authStore = useAuthStore();
     const router = useRouter();
     const $q = useQuasar();
 
-    const isAuthenticatedGetter = () => store.getters['auth/isAuthenticated'];
-    const leftDrawerOpen = isAuthenticatedGetter();
-    const data = reactive({ leftDrawerOpen, miniState: true });
+    const data = reactive({ leftDrawerOpen: false, miniState: true });
 
     if (LocalStorage.has('dark-mode')) {
       $q.dark.set(LocalStorage.getItem('dark-mode'));
@@ -106,33 +104,25 @@ export default defineComponent({
       $q.dark.set($q.dark.mode);
     }
 
-    store.watch(
-      () => isAuthenticatedGetter(),
-      newValue => {
-        data.leftDrawerOpen = newValue;
-      }
-    );
-
     return {
       data,
-      store,
+      authStore,
       appVersion: process.env.APP_VERSION,
       menuItems() {
         return [
 <%_ if (authenticationType !== 'oauth2' ) { _%>
           { to: '/account', icon: 'account_circle', i18nKey: 'global.menu.account.main', enabled: true },
           { to: '/password', icon: 'password', i18nKey: 'global.menu.account.password', enabled: true },
-          { to: '/users', icon: 'people', i18nKey: 'global.menu.admin.userManagement', enabled: store.getters['auth/hasRoleAdmin'] },
+          { to: '/users', icon: 'people', i18nKey: 'global.menu.admin.userManagement', enabled: authStore.hasRoleAdmin },
 <%_ } _%>
-          { to: '/configuration', icon: 'settings', i18nKey: 'global.menu.admin.configuration', enabled: store.getters['auth/hasRoleAdmin'] },
-          { to: '/health', icon: 'health_and_safety', i18nKey: 'global.menu.admin.health', enabled: store.getters['auth/hasRoleAdmin'] },
-          { to: '/metrics', icon: 'analytics', i18nKey: 'global.menu.admin.metrics', enabled: store.getters['auth/hasRoleAdmin'] },
-          { to: '/logs', icon: 'text_snippet', i18nKey: 'global.menu.admin.logs', enabled: store.getters['auth/hasRoleAdmin'] },
-          { to: '/docs', icon: 'menu_book', i18nKey: 'global.menu.admin.apidocs', enabled: store.getters['auth/hasRoleAdmin'] },
+          { to: '/configuration', icon: 'settings', i18nKey: 'global.menu.admin.configuration', enabled: authStore.hasRoleAdmin },
+          { to: '/health', icon: 'health_and_safety', i18nKey: 'global.menu.admin.health', enabled: authStore.hasRoleAdmin },
+          { to: '/metrics', icon: 'analytics', i18nKey: 'global.menu.admin.metrics', enabled: authStore.hasRoleAdmin },
+          { to: '/logs', icon: 'text_snippet', i18nKey: 'global.menu.admin.logs', enabled: authStore.hasRoleAdmin },
+          { to: '/docs', icon: 'menu_book', i18nKey: 'global.menu.admin.apidocs', enabled: authStore.hasRoleAdmin },
           ...[],
         ].filter(item => item.enabled);
       },
-      isAuthenticated: computed(() => isAuthenticatedGetter()),
       toggleLeftDrawer() {
         data.leftDrawerOpen = !data.leftDrawerOpen;
       },
@@ -143,7 +133,7 @@ export default defineComponent({
       logout() {
         data.leftDrawerOpen = false;
         data.miniState = true;
-        authLogout(store, router);
+        authLogout(authStore, router);
       },
     };
   },

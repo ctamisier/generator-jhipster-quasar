@@ -115,22 +115,18 @@ function writeFiles() {
         templates: [`${QUASAR_PATH}/src/router/index.js`, `${QUASAR_PATH}/src/router/entityRoutes.js`],
       },
     ],
-    srcstore: [
+    srcstores: [
       {
-        templates: [`${QUASAR_PATH}/src/store/index.js`, `${QUASAR_PATH}/src/store/store-flag.d.ts`],
+        templates: [`${QUASAR_PATH}/src/stores/index.js`, `${QUASAR_PATH}/src/stores/store-flag.d.ts`],
       },
     ],
-    srcstoreauth: [
+    srcstoresauth: [
       {
         templates: [
           {
-            file: () => `${QUASAR_PATH}/src/store/auth/_${this.authenticationType}/actions.js`,
-            renameTo: () => `${QUASAR_PATH}/src/store/auth/actions.js`,
+            file: () => `${QUASAR_PATH}/src/stores/_${this.authenticationType}/auth-store.js`,
+            renameTo: () => `${QUASAR_PATH}/src/stores/auth-store.js`,
           },
-          `${QUASAR_PATH}/src/store/auth/getters.js`,
-          `${QUASAR_PATH}/src/store/auth/index.js`,
-          `${QUASAR_PATH}/src/store/auth/mutations.js`,
-          `${QUASAR_PATH}/src/store/auth/state.js`,
         ],
       },
     ],

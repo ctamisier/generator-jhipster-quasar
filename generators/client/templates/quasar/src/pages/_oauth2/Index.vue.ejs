@@ -2,7 +2,7 @@
   <q-page class="q-pa-md flex flex-center">
     <div
       class="responsive-width flex column"
-      v-if="!isAuthenticated"
+      v-if="!authStore.isAuthenticated"
     >
       <q-btn
         color="primary"
@@ -10,7 +10,7 @@
         @click="authLogin()"
       />
     </div>
-    <div v-if="isAuthenticated">
+    <div v-if="authStore.isAuthenticated">
 <%- include('../partials/logos.ejs') _%>
     </div>
   </q-page>
@@ -18,17 +18,17 @@
 
 <script>
 import { computed, defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { useAuthStore } from 'stores/auth-store';
 import { authLogin } from '../auth/authentication';
 
 export default defineComponent({
   name: 'PageIndex',
 
   setup() {
-    const store = useStore();
+    const authStore = useAuthStore();
 
     return {
-      isAuthenticated: computed(() => store.getters['auth/isAuthenticated']),
+      authStore,
       authLogin,
     };
   },

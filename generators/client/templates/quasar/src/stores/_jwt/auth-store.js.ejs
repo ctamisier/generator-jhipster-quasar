@@ -1,0 +1,23 @@
+import { defineStore } from 'pinia';
+import { LocalStorage, SessionStorage } from 'quasar';
+import { computed, ref } from 'vue';
+
+export const useAuthStore = defineStore('auth', () => {
+  const account = ref();
+
+  const currentLogin = computed(() => account.value?.login);
+
+  const isAuthenticated = computed(() => !!account.value);
+
+  const hasRoleAdmin = computed(() => !!account.value?.authorities?.includes('ROLE_ADMIN'));
+
+  const login = data => (account.value = data);
+
+  const logout = () => {
+    account.value = null;
+    SessionStorage.remove('jhi-authenticationToken');
+    LocalStorage.remove('jhi-authenticationToken');
+  };
+
+  return { account, currentLogin, isAuthenticated, hasRoleAdmin, login, logout };
+});

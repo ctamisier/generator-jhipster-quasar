@@ -117,7 +117,6 @@ import { useQuasar } from 'quasar';
 import { defineComponent, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 <%_ if (hasInstant(fields)) { _%>
 import { format } from '../../../util/format';
 <%_ } _%>
@@ -128,7 +127,6 @@ export default defineComponent({
   setup() {
     const $q = useQuasar();
     const { t } = useI18n();
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
 
@@ -185,7 +183,6 @@ export default defineComponent({
     onMounted(() => onRequest({ pagination: pagination.value }));
 
     return {
-      store,
       loading,
       pagination,
       columns,

@@ -2,13 +2,13 @@ import { api } from 'boot/axios';
 import { loadTranslation } from 'boot/i18n';
 import { Cookies } from 'quasar';
 
-export const beforeEachAuth = async (to, from, next, store) => {
+export const beforeEachAuth = async (to, from, next, authStore) => {
   const hasXsrfToken = Cookies.has('XSRF-TOKEN');
 
-  if (hasXsrfToken && !store.getters['auth/isAuthenticated']) {
+  if (hasXsrfToken && !authStore.isAuthenticated) {
     try {
       const accountResponse = await api.get('/api/account');
-      store.dispatch('auth/login', accountResponse.data);
+      authStore.login(accountResponse.data);
       loadTranslation(accountResponse.data.langKey);
       next();
     } catch (e) {
@@ -28,10 +28,10 @@ export const authLogin = () => {
   window.location.href = '/oauth2/authorization/oidc';
 };
 
-export const authLogout = async (store, router) => {
+export const authLogout = async (authStore, router) => {
   try {
     await api.post('/api/logout');
-    store.dispatch('auth/logout');
+    authStore.logout();
   } finally {
     router.push('/');
   }

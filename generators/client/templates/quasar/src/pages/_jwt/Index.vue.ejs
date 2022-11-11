@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md flex flex-center">
     <q-form
-      v-if="!isAuthenticated"
+      v-if="!authStore.isAuthenticated"
       @submit="onSubmit"
       class="responsive-width q-gutter-md"
       greedy
@@ -58,7 +58,7 @@
         </div>
       </div>
     </q-form>
-    <div v-if="isAuthenticated">
+    <div v-if="authStore.isAuthenticated">
 <%- include('../partials/logos.ejs') _%>
     </div>
   </q-page>
@@ -66,17 +66,17 @@
 
 <script>
 import { useQuasar } from 'quasar';
-import { computed, defineComponent, reactive, ref } from 'vue';
+import { useAuthStore } from 'stores/auth-store';
+import { defineComponent, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { authLogin } from '../auth/authentication';
 
 export default defineComponent({
   name: 'PageIndex',
 
   setup() {
+    const authStore = useAuthStore();
     const $q = useQuasar();
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
 
@@ -91,9 +91,9 @@ export default defineComponent({
     const onSubmit = async () => {
       loading.value = true;
       try {
-        await authLogin(store, router, route, credentials);
+        await authLogin(authStore, router, route, credentials);
       } catch (e) {
-        store.dispatch('auth/logout');
+        authStore.logout();
         $q.notify({
           type: 'negative',
           message: 'Operation failed',
@@ -103,11 +103,9 @@ export default defineComponent({
       }
     };
 
-    const isAuthenticated = computed(() => store.getters['auth/isAuthenticated']);
-
     return {
       credentials,
-      isAuthenticated,
+      authStore,
       onSubmit,
       loading,
     };
