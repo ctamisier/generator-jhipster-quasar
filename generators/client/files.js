@@ -145,7 +145,7 @@ function writeFiles() {
   this.copy(`${QUASAR_PATH}/src/assets/jhipster.svg`, `${QUASAR_PATH}/src/assets/jhipster.svg`);
   this.copy(`${QUASAR_PATH}/src/assets/quasar-logo-vertical.svg`, `${QUASAR_PATH}/src/assets/quasar-logo-vertical.svg`);
   this.copy(`${QUASAR_PATH}/src/assets/quasar-logo-vertical-dark.svg`, `${QUASAR_PATH}/src/assets/quasar-logo-vertical-dark.svg`);
-  this.copy(`${QUASAR_PATH}/quasar.conf.js`, `${QUASAR_PATH}/quasar.conf.js`);
+  this.copy(`${QUASAR_PATH}/quasar.config.js`, `${QUASAR_PATH}/quasar.config.js`);
   this.copy(`${QUASAR_PATH}/src/auth/_${this.authenticationType}/authentication.js`, `${QUASAR_PATH}/src/auth/authentication.js`);
 }
 
@@ -223,10 +223,10 @@ function addLanguagesInQuasarConf() {
     .map(language => `{ pattern: '../src/main/webapp/i18n/${language}/*.json', fileName: '../i18n/${language}.json' }`)
     .join(',');
 
-  this.replaceContent(`${QUASAR_PATH}/quasar.conf.js`, /groupBy: \[[\s\S]+?\]/, `groupBy: [ ${i18nMergeEntries} ]`);
+  this.replaceContent(`${QUASAR_PATH}/quasar.config.js`, /groupBy: \[[\s\S]+?\]/, `groupBy: [ ${i18nMergeEntries} ]`);
 
   if (this.languages.includes('fa') || this.languages.includes('ar-ly')) {
-    this.replaceContent(`${QUASAR_PATH}/quasar.conf.js`, '// rtl: true', 'rtl: true');
+    this.replaceContent(`${QUASAR_PATH}/quasar.config.js`, '// rtl: true', 'rtl: true');
   }
 }
 
