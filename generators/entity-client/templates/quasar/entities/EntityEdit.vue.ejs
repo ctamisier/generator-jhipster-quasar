@@ -65,6 +65,9 @@ _%>
       <q-input
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
+<%_ if (field.fieldValidate) { _%>
+        :rules="[<%- applyValidators(field.fieldType, field.fieldValidateRules) _%>]"
+<%_ } _%>
         @keydown.enter.prevent
       >
         <template v-slot:append>
@@ -99,6 +102,9 @@ _%>
       <q-input
         v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
         :label="$t('<%= i18nKeyPrefix %>.<%= field.fieldName %>')"
+<%_ if (field.fieldValidate) { _%>
+        :rules="[<%- applyValidators(field.fieldType, field.fieldValidateRules) _%>]"
+<%_ } _%>
         @keydown.enter.prevent
       >
         <template v-slot:prepend>
