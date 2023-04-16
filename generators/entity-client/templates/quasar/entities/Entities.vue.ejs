@@ -12,29 +12,21 @@ _%>
 <template>
   <div class="q-pa-md">
     <q-table
+      v-model:pagination="pagination"
       :title="$t('<%= i18nKeyPrefix %>.home.title')"
       :rows="rows"
       :columns="columns"
       row-key="id"
-      v-model:pagination="pagination"
       :loading="loading"
-      @request="onRequest"
       binary-state-sort
+      @request="onRequest"
     >
-      <template v-slot:top-right>
-        <router-link
-          to="/<%= entityApiUrl %>/new"
-          v-slot="{ navigate }"
-          custom
-        >
-          <q-btn
-            color="primary"
-            :label="$t('<%= i18nKeyPrefix %>.home.createLabel')"
-            @click="navigate"
-          />
+      <template #top-right>
+        <router-link v-slot="{ navigate }" to="/<%= entityApiUrl %>/new" custom>
+          <q-btn color="primary" :label="$t('<%= i18nKeyPrefix %>.home.createLabel')" @click="navigate" />
         </router-link>
       </template>
-      <template v-slot:body="props">
+      <template #body="props">
         <q-tr>
 <%_ for (field of fields) { _%>
           <q-td>
@@ -63,8 +55,8 @@ _%>
             <div>
               <q-list dense>
                 <q-item
-                  :key="<%= relationship.relationshipName %>.id"
                   v-for="<%= relationship.relationshipName %> in props.row.<%= relationship.relationshipNamePlural %>"
+                  :key="<%= relationship.relationshipName %>.id"
                 >
                   <q-item-section>
                     {{ <%= relationship.relationshipName %>.<%= relationship.otherEntityField %> }}
@@ -76,30 +68,13 @@ _%>
 <%_ } _%>
           <q-td>
             <q-btn-group>
-              <router-link
-                :to="`/<%= entityApiUrl %>/${props.row.id}`"
-                v-slot="{ navigate }"
-                custom
-              >
-                <q-btn
-                  icon="visibility"
-                  @click="navigate"
-                />
+              <router-link v-slot="{ navigate }" :to="`/<%= entityApiUrl %>/${props.row.id}`" custom>
+                <q-btn icon="visibility" @click="navigate" />
               </router-link>
-              <router-link
-                :to="`/<%= entityApiUrl %>/${props.row.id}/edit`"
-                v-slot="{ navigate }"
-                custom
-              >
-                <q-btn
-                  icon="edit"
-                  @click="navigate"
-                />
+              <router-link v-slot="{ navigate }" :to="`/<%= entityApiUrl %>/${props.row.id}/edit`" custom>
+                <q-btn icon="edit" @click="navigate" />
               </router-link>
-              <q-btn
-                icon="delete_forever"
-                @click="delete<%= entityAngularName %>(props.row.id)"
-              />
+              <q-btn icon="delete_forever" @click="delete<%= entityAngularName %>(props.row.id)" />
             </q-btn-group>
           </q-td>
         </q-tr>
@@ -108,101 +83,83 @@ _%>
   </div>
 </template>
 
-<script>
+<script setup>
 import { api } from 'boot/axios';
 <%_ if (hasInstant(fields)) { _%>
 import { parseISO } from 'date-fns';
 <%_ } _%>
 import { useQuasar } from 'quasar';
-import { defineComponent, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 <%_ if (hasInstant(fields)) { _%>
 import { format } from '../../../util/format';
 <%_ } _%>
 
-export default defineComponent({
-  name: 'Page<%= entityAngularNamePlural %>',
+const $q = useQuasar();
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
 
-  setup() {
-    const $q = useQuasar();
-    const { t } = useI18n();
-    const route = useRoute();
-    const router = useRouter();
+const rows = ref([]);
+const loading = ref(false);
 
-    const rows = ref([]);
-    const loading = ref(false);
+const pagination = ref({
+  sortBy: route.query.sortBy || 'id',
+  descending: route.query.descending === 'true',
+  page: Number.parseInt(route.query.page || 1),
+  rowsPerPage: Number.parseInt(route.query.rowsPerPage) || 10,
+  rowsNumber: 10,
+});
 
-    const pagination = ref({
-      sortBy: route.query.sortBy || 'id',
-      descending: route.query.descending === 'true',
-      page: Number.parseInt(route.query.page || 1),
-      rowsPerPage: Number.parseInt(route.query.rowsPerPage) || 10,
-      rowsNumber: 10,
-    });
-
-    const columns = [
+const columns = [
 <%_ for (field of fields) { _%>
-      { name: '<%= field.fieldName %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= field.fieldName %>'), field: '<%= field.fieldName %>', sortable: true },
+  { name: '<%= field.fieldName %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= field.fieldName %>'), field: '<%= field.fieldName %>', sortable: true },
 <%_ } _%>
 <%_ for (relationship of relationshipsToOneOwner) { _%>
-      { name: '<%= relationship.relationshipName %>.<%= relationship.otherEntityField %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>'), field: '<%= relationship.relationshipName %>', sortable: true },
+  { name: '<%= relationship.relationshipName %>.<%= relationship.otherEntityField %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>'), field: '<%= relationship.relationshipName %>', sortable: true },
 <%_ } _%>
 <%_ for (relationship of relationshipsToManyOwner) { _%>
-      { name: '<%= relationship.relationshipNamePlural %>.<%= relationship.otherEntityField %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>'), field: '<%= relationship.relationshipNamePlural %>', sortable: false },
+  { name: '<%= relationship.relationshipNamePlural %>.<%= relationship.otherEntityField %>', align: 'left', label: t('<%= i18nKeyPrefix %>.<%= relationship.relationshipName %>'), field: '<%= relationship.relationshipNamePlural %>', sortable: false },
 <%_} _%>
-    ];
+];
 
-    const onRequest = async props => {
-      const { page, rowsPerPage, sortBy, descending } = props.pagination;
+async function onRequest(props) {
+  const { page, rowsPerPage, sortBy, descending } = props.pagination;
 
-      loading.value = true;
+  loading.value = true;
 
-      try {
-        const response = await api.get('/api/<%= entityApiUrl %>', {
-          params: {
-            page: page - 1,
-            size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
-            sort: `${sortBy},${descending ? 'desc' : 'asc'}`,
-          },
-        });
-        pagination.value.rowsNumber = response.headers['x-total-count'];
-        rows.value = response.data;
-      } finally {
-        loading.value = false;
-      }
-
-      pagination.value.page = page;
-      pagination.value.rowsPerPage = rowsPerPage;
-      pagination.value.sortBy = sortBy;
-      pagination.value.descending = descending;
-
-      router.replace({ query: { page, sortBy, descending, rowsPerPage } });
-    };
-
-    onMounted(() => onRequest({ pagination: pagination.value }));
-
-    return {
-      loading,
-      pagination,
-      columns,
-      rows,
-<%_ if (hasInstant(fields)) { _%>
-      parseISO,
-      format,
-<%_ } _%>
-      onRequest,
-      delete<%= entityAngularName %>: id => {
-        $q.dialog({
-          message: t('<%= i18nKeyPrefix %>.delete.question', { id: id }),
-          cancel: true,
-        }).onOk(() => {
-          api.delete(`/api/<%= entityApiUrl %>/${id}`).then(() => {
-            onRequest({ pagination: pagination.value });
-          });
-        });
+  try {
+    const response = await api.get('/api/<%= entityApiUrl %>', {
+      params: {
+        page: page - 1,
+        size: rowsPerPage === 0 ? pagination.value.rowsNumber : rowsPerPage,
+        sort: `${sortBy},${descending ? 'desc' : 'asc'}`,
       },
-    };
-  },
-});
+    });
+    pagination.value.rowsNumber = response.headers['x-total-count'];
+    rows.value = response.data;
+  } finally {
+    loading.value = false;
+  }
+
+  pagination.value.page = page;
+  pagination.value.rowsPerPage = rowsPerPage;
+  pagination.value.sortBy = sortBy;
+  pagination.value.descending = descending;
+
+  router.replace({ query: { page, sortBy, descending, rowsPerPage } });
+}
+
+onMounted(() => onRequest({ pagination: pagination.value }));
+
+async function delete<%= entityAngularName %>(id) {
+  $q.dialog({
+    message: t('<%= i18nKeyPrefix %>.delete.question', { id: id }),
+    cancel: true,
+  }).onOk(async () => {
+    await api.delete(`/api/<%= entityApiUrl %>/${id}`);
+    onRequest({ pagination: pagination.value });
+  });
+}
 </script>

@@ -2,49 +2,31 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          v-if="authStore.isAuthenticated"
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn v-if="authStore.isAuthenticated" flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
         <q-toolbar-title>
           <div class="q-gutter-x-sm">
             <span class="text-uppercase"><%= baseName %></span>
             <small>{{ appVersion }}</small>
           </div>
         </q-toolbar-title>
-        <q-btn
-          flat
-          round
-          @click="changeTheme()"
-          :icon="$q.dark.isActive ? 'dark_mode' : 'light_mode'"
-        />
+        <q-btn flat round :icon="$q.dark.isActive ? 'dark_mode' : 'light_mode'" @click="changeTheme()" />
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
     <q-drawer
+      v-if="authStore.isAuthenticated"
       v-model="data.leftDrawerOpen"
       show-if-above
       :mini="data.miniState"
-      @mouseover="data.miniState = false"
-      @mouseout="data.miniState = true"
       mini-to-overlay
       :width="250"
       :breakpoint="500"
       bordered
-      v-if="authStore.isAuthenticated"
+      @mouseover="data.miniState = false"
+      @mouseout="data.miniState = true"
     >
-      <q-item
-        :key="menuItem.to"
-        v-for="menuItem in menuItems()"
-        :to="menuItem.to"
-        v-ripple
-      >
+      <q-item v-for="menuItem in menuItems()" :key="menuItem.to" v-ripple :to="menuItem.to">
         <q-item-section avatar>
           <q-icon :name="menuItem.icon" />
         </q-item-section>
@@ -52,11 +34,7 @@
           {{ $t(menuItem.i18nKey) }}
         </q-item-section>
       </q-item>
-      <q-item
-        clickable
-        v-ripple
-        @click="logout"
-      >
+      <q-item v-ripple clickable @click="logout">
         <q-item-section avatar>
           <q-icon name="logout" />
         </q-item-section>
@@ -68,12 +46,7 @@
 
     <q-page-container>
       <router-view v-slot="{ Component }">
-        <transition
-          enter-active-class="animated fadeIn"
-          leave-active-class="animated fadeOut"
-          duration="150"
-          mode="out-in"
-        >
+        <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" duration="150" mode="out-in">
           <component :is="Component" />
         </transition>
       </router-view>
@@ -81,61 +54,55 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
 import { LocalStorage, useQuasar } from 'quasar';
-import { defineComponent, reactive } from 'vue';
 import { useAuthStore } from 'stores/auth-store';
+import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { authLogout } from '../auth/authentication';
 
-export default defineComponent({
-  name: 'MainLayout',
+const authStore = useAuthStore();
+const router = useRouter();
+const $q = useQuasar();
 
-  setup() {
-    const authStore = useAuthStore();
-    const router = useRouter();
-    const $q = useQuasar();
+const appVersion = process.env.APP_VERSION;
 
-    const data = reactive({ leftDrawerOpen: false, miniState: true });
+const data = reactive({ leftDrawerOpen: false, miniState: true });
 
-    if (LocalStorage.has('dark-mode')) {
-      $q.dark.set(LocalStorage.getItem('dark-mode'));
-    } else {
-      $q.dark.set($q.dark.mode);
-    }
+if (LocalStorage.has('dark-mode')) {
+  $q.dark.set(LocalStorage.getItem('dark-mode'));
+} else {
+  $q.dark.set($q.dark.mode);
+}
 
-    return {
-      data,
-      authStore,
-      appVersion: process.env.APP_VERSION,
-      menuItems() {
-        return [
+function menuItems() {
+  return [
 <%_ if (authenticationType !== 'oauth2' ) { _%>
-          { to: '/account', icon: 'account_circle', i18nKey: 'global.menu.account.main', enabled: true },
-          { to: '/password', icon: 'password', i18nKey: 'global.menu.account.password', enabled: true },
-          { to: '/users', icon: 'people', i18nKey: 'global.menu.admin.userManagement', enabled: authStore.hasRoleAdmin },
+    { to: '/account', icon: 'account_circle', i18nKey: 'global.menu.account.main', enabled: true },
+    { to: '/password', icon: 'password', i18nKey: 'global.menu.account.password', enabled: true },
+    { to: '/users', icon: 'people', i18nKey: 'global.menu.admin.userManagement', enabled: authStore.hasRoleAdmin },
 <%_ } _%>
-          { to: '/configuration', icon: 'settings', i18nKey: 'global.menu.admin.configuration', enabled: authStore.hasRoleAdmin },
-          { to: '/health', icon: 'health_and_safety', i18nKey: 'global.menu.admin.health', enabled: authStore.hasRoleAdmin },
-          { to: '/metrics', icon: 'analytics', i18nKey: 'global.menu.admin.metrics', enabled: authStore.hasRoleAdmin },
-          { to: '/logs', icon: 'text_snippet', i18nKey: 'global.menu.admin.logs', enabled: authStore.hasRoleAdmin },
-          { to: '/docs', icon: 'menu_book', i18nKey: 'global.menu.admin.apidocs', enabled: authStore.hasRoleAdmin },
-          ...[],
-        ].filter(item => item.enabled);
-      },
-      toggleLeftDrawer() {
-        data.leftDrawerOpen = !data.leftDrawerOpen;
-      },
-      changeTheme() {
-        $q.dark.toggle();
-        LocalStorage.set('dark-mode', $q.dark.mode);
-      },
-      logout() {
-        data.leftDrawerOpen = false;
-        data.miniState = true;
-        authLogout(authStore, router);
-      },
-    };
-  },
-});
+    { to: '/configuration', icon: 'settings', i18nKey: 'global.menu.admin.configuration', enabled: authStore.hasRoleAdmin },
+    { to: '/health', icon: 'health_and_safety', i18nKey: 'global.menu.admin.health', enabled: authStore.hasRoleAdmin },
+    { to: '/metrics', icon: 'analytics', i18nKey: 'global.menu.admin.metrics', enabled: authStore.hasRoleAdmin },
+    { to: '/logs', icon: 'text_snippet', i18nKey: 'global.menu.admin.logs', enabled: authStore.hasRoleAdmin },
+    { to: '/docs', icon: 'menu_book', i18nKey: 'global.menu.admin.apidocs', enabled: authStore.hasRoleAdmin },
+    ...[],
+  ].filter(item => item.enabled);
+}
+
+function toggleLeftDrawer() {
+  data.leftDrawerOpen = !data.leftDrawerOpen;
+}
+
+function changeTheme() {
+  $q.dark.toggle();
+  LocalStorage.set('dark-mode', $q.dark.mode);
+}
+
+function logout() {
+  data.leftDrawerOpen = false;
+  data.miniState = true;
+  authLogout(authStore, router);
+}
 </script>

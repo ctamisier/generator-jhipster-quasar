@@ -1,3 +1,6 @@
+<template>
+  <iframe src="/swagger-ui/index.html" width="100%" height="900" target="_top" title="Swagger UI"></iframe>
+</template>
 <style scoped>
 iframe {
   background-color: transparent;
@@ -6,19 +9,3 @@ iframe {
   overflow: hidden;
 }
 </style>
-<template>
-  <iframe
-    src="/swagger-ui/index.html"
-    width="100%"
-    height="900"
-    target="_top"
-    title="Swagger UI"
-  ></iframe>
-</template>
-<script>
-  import { defineComponent } from 'vue';
-
-  export default defineComponent({
-    name: 'PageDocs',
-  });
-</script>

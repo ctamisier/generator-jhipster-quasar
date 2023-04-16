@@ -21,7 +21,7 @@
               stack-label
               style="width: 100px"
             >
-              <template v-slot:control>
+              <template #control>
                 {{ humanStorageSize(health.components.diskSpace.details[item]) }}
               </template>
             </q-field>
@@ -46,16 +46,13 @@
               stack-label
               style="width: 100px"
             >
-              <template v-slot:control>
+              <template #control>
                 {{ health.components.db.details[item] }}
               </template>
             </q-field>
           </q-card-section>
         </q-card>
-        <q-card
-          :key="item"
-          v-for="item in ['ping', 'livenessState', 'readinessState']"
-        >
+        <q-card v-for="item in ['ping', 'livenessState', 'readinessState']" :key="item">
           <q-card-section class="text-center">
             {{ $t(`health.indicator.${item}`) }}
           </q-card-section>
@@ -70,29 +67,25 @@
   </q-page>
 </template>
 
-<script>
+<script setup>
 import { api } from 'boot/axios';
 import { format } from 'quasar';
-import { defineComponent, ref } from 'vue';
+import { ref } from 'vue';
 
-export default defineComponent({
-  name: 'PageHealth',
+const { humanStorageSize } = format;
+const health = ref();
 
-  setup() {
-    const { humanStorageSize } = format;
-    const health = ref();
+async function fetchHealth() {
+  health.value = (await api.get('/management/health')).data;
+}
 
-    const fetchHealth = async () => {
-      health.value = (await api.get('/management/health')).data;
-    };
+fetchHealth();
 
-    fetchHealth();
-
-    return {
-      health,
-      humanStorageSize,
-      badgeColor: value => (value === 'UP' ? 'green' : 'red'),
-    };
-  },
-});
+function badgeColor(value) {
+  if (value === 'UP') {
+    return 'green';
+  } else {
+    return 'red';
+  }
+}
 </script>

@@ -1,10 +1,6 @@
 <template>
   <q-page class="q-pa-md flex flex-center">
-    <q-form
-      @submit="onSubmit"
-      class="responsive-width q-gutter-md"
-      greedy
-    >
+    <q-form class="responsive-width q-gutter-md" greedy @submit="onSubmit">
       <q-input
         v-model="account.data.login"
         :label="$t('global.form[\'username.label\']')"
@@ -29,8 +25,8 @@
         @keydown.enter.prevent
       />
       <q-input
-        autocomplete="new-password"
         v-model="account.data.password2"
+        autocomplete="new-password"
         type="password"
         :label="$t('global.form[\'confirmpassword.label\']')"
         lazy-rules
@@ -38,64 +34,46 @@
         @keydown.enter.prevent
       />
       <div class="flex justify-between">
-        <q-btn
-          type="submit"
-          color="primary"
-          :label="$t('register.form.button')"
-          :loading="loading"
-          :disable="loading"
-        />
+        <q-btn type="submit" color="primary" :label="$t('register.form.button')" :loading="loading" :disable="loading" />
       </div>
     </q-form>
   </q-page>
 </template>
 
-<script>
+<script setup>
 import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
-import { defineComponent, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-export default defineComponent({
-  name: 'PageRegister',
+const { t } = useI18n();
+const $q = useQuasar();
+const router = useRouter();
 
-  setup() {
-    const { t } = useI18n();
-    const $q = useQuasar();
-    const router = useRouter();
-
-    const account = reactive({
-      data: {
-        login: null,
-        email: null,
-        password: null,
-        password2: null,
-        langKey: 'en',
-      },
-    });
-
-    const loading = ref(false);
-
-    const onSubmit = async () => {
-      loading.value = true;
-      try {
-        await api.post('/api/register', account.data);
-        router.push('/');
-      } catch (e) {
-        $q.notify({
-          type: 'negative',
-          message: t(e.response.data.message),
-        });
-        loading.value = false;
-      }
-    };
-
-    return {
-      account,
-      onSubmit,
-      loading,
-    };
+const account = reactive({
+  data: {
+    login: null,
+    email: null,
+    password: null,
+    password2: null,
+    langKey: 'en',
   },
 });
+
+const loading = ref(false);
+
+async function onSubmit() {
+  loading.value = true;
+  try {
+    await api.post('/api/register', account.data);
+    router.push('/');
+  } catch (e) {
+    $q.notify({
+      type: 'negative',
+      message: t(e.response.data.message),
+    });
+    loading.value = false;
+  }
+}
 </script>

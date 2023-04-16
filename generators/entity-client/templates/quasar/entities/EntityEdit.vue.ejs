@@ -38,11 +38,7 @@ const relationshipsToManyOwner = (relationships || [])
 _%>
 <template>
   <q-page class="q-pa-md flex flex-center">
-    <q-form
-      @submit="onSubmit"
-      class="responsive-width q-gutter-md"
-      greedy
-    >
+    <q-form class="responsive-width q-gutter-md" greedy @submit="onSubmit">
 <%_ for (field of fields.filter(field => !field.id)) { _%>
 <%_ if (field.fieldIsEnum) { _%>
       <q-select
@@ -70,26 +66,12 @@ _%>
 <%_ } _%>
         @keydown.enter.prevent
       >
-        <template v-slot:append>
-          <q-icon
-            name="event"
-            class="cursor-pointer"
-          >
-            <q-popup-proxy
-              ref="qDateProxy"
-              transition-show="scale"
-              transition-hide="scale"
-            >
-              <q-date
-                v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
-                mask="YYYY-MM-DD"
-              >
+        <template #append>
+          <q-icon name="event" class="cursor-pointer" >
+            <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale" >
+              <q-date v-model="<%= entityInstance %>.data.<%= field.fieldName %>" mask="YYYY-MM-DD" >
                 <div class="row items-center justify-end">
-                  <q-btn
-                    v-close-popup
-                    color="primary"
-                    flat
-                  >
+                  <q-btn v-close-popup color="primary" flat >
                     <q-icon name="done" />
                   </q-btn>
                 </div>
@@ -107,25 +89,12 @@ _%>
 <%_ } _%>
         @keydown.enter.prevent
       >
-        <template v-slot:prepend>
-          <q-icon
-            name="event"
-            class="cursor-pointer"
-          >
-            <q-popup-proxy
-              transition-show="scale"
-              transition-hide="scale"
-            >
-              <q-date
-                v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
-                mask="YYYY-MM-DDTHH:mm:ss[Z]"
-              >
+        <template #prepend>
+          <q-icon name="event" class="cursor-pointer" >
+            <q-popup-proxy transition-show="scale" transition-hide="scale" >
+              <q-date v-model="<%= entityInstance %>.data.<%= field.fieldName %>" mask="YYYY-MM-DDTHH:mm:ss[Z]">
                 <div class="row items-center justify-end">
-                  <q-btn
-                    v-close-popup
-                    color="primary"
-                    flat
-                  >
+                  <q-btn v-close-popup color="primary" flat >
                     <q-icon name="done" />
                   </q-btn>
                 </div>
@@ -133,26 +102,12 @@ _%>
             </q-popup-proxy>
           </q-icon>
         </template>
-        <template v-slot:append>
-          <q-icon
-            name="access_time"
-            class="cursor-pointer"
-          >
-            <q-popup-proxy
-              transition-show="scale"
-              transition-hide="scale"
-            >
-              <q-time
-                v-model="<%= entityInstance %>.data.<%= field.fieldName %>"
-                mask="YYYY-MM-DDTHH:mm:ss[Z]"
-                format24h
-              >
+        <template #append>
+          <q-icon name="access_time" class="cursor-pointer" >
+            <q-popup-proxy transition-show="scale" transition-hide="scale" >
+              <q-time v-model="<%= entityInstance %>.data.<%= field.fieldName %>" mask="YYYY-MM-DDTHH:mm:ss[Z]" format24h>
                 <div class="row items-center justify-end">
-                  <q-btn
-                    v-close-popup
-                    color="primary"
-                    flat
-                  >
+                  <q-btn v-close-popup color="primary" flat>
                     <q-icon name="done" />
                   </q-btn>
                 </div>
@@ -197,110 +152,90 @@ _%>
 <%_ } _%>
         multiple
       >
-        <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+        <template #option="{ itemProps, opt, selected, toggleOption }">
           <q-item v-bind="itemProps">
             <q-item-section>
               <q-item-label>{{ opt.<%= relationship.otherEntityField %> }}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-toggle
-                :model-value="selected"
-                @update:model-value="toggleOption(opt)"
-              />
+              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
             </q-item-section>
           </q-item>
         </template>
       </q-select>
 <%_ } _%>
       <div class="flex justify-between">
-        <q-btn
-          type="submit"
-          color="primary"
-          :label="$t('entity.action.save')"
-          :loading="loading"
-          :disable="loading"
-        />
+        <q-btn type="submit" color="primary" :label="$t('entity.action.save')" :loading="loading" :disable="loading" />
       </div>
     </q-form>
   </q-page>
 </template>
 
-<script>
+<script setup>
 import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
-import { defineComponent, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
-export default defineComponent({
-  name: 'Page<%= entityAngularName %>Edit',
+const { t } = useI18n();
+const $q = useQuasar();
+const router = useRouter();
+const route = useRoute();
 
-  setup() {
-    const { t } = useI18n();
-    const $q = useQuasar();
-    const router = useRouter();
-    const route = useRoute();
-
-    const <%= entityInstance %> = reactive({
-      data: {
+const <%= entityInstance %> = reactive({
+  data: {
 <%_ for(field of fields) { _%>
 <%_ if (field.fieldType === 'Boolean') { _%>
-        <%= field.fieldName %>: false,
+    <%= field.fieldName %>: false,
 <%_} else {_%>
-        <%= field.fieldName %>: null,
+    <%= field.fieldName %>: null,
 <%_} _%>
 <%_} _%>
 <%_ for (relationship of relationshipsToOneOwner) { _%>
-        <%= relationship.relationshipName %>: null,
+    <%= relationship.relationshipName %>: null,
 <%_} _%>
 <%_ for (relationship of relationshipsToManyOwner) { _%>
-        <%= relationship.relationshipNamePlural %>: null,
+    <%= relationship.relationshipNamePlural %>: null,
 <%_} _%>
-      },
-    });
-
-    const loading = ref(false);
-
-    (async function fetch<%= entityAngularName %>() {
-      if (route.params.id) {
-        <%= entityInstance %>.data = (await api.get(`/api/<%= entityApiUrl %>/${route.params.id}`)).data;
-      }
-    })();
-
-<%_ for (relationship of relationshipsToOneOwner.concat(relationshipsToManyOwner)) { _%>
-    const <%= relationship.otherEntityNamePlural %> = ref([]);
-    (async function fetch<%= capitalizeFirstLetter(relationship.otherEntityNamePlural) %>() {
-      <%= relationship.otherEntityNamePlural %>.value = (await api.get(`/api/<%= relationship.otherEntityNamePlural %>`)).data;
-    })();
-
-<%_} _%>
-    const onSubmit = async () => {
-      loading.value = true;
-      try {
-        await api({
-          method: <%= entityInstance %>.data.id ? 'put' : 'post',
-          url: `/api/<%= entityApiUrl %>/${<%= entityInstance %>.data.id ? <%= entityInstance %>.data.id : ''}`,
-          data: <%= entityInstance %>.data,
-        });
-        router.back();
-      } catch (e) {
-        loading.value = false;
-        if (e.response.status !== 400) return;
-        $q.notify({
-          type: 'negative',
-          message: t(e.response.data.message),
-        });
-      }
-    };
-
-    return {
-      <%= entityInstance %>,
-<%_ for (relationship of relationshipsToOneOwner.concat(relationshipsToManyOwner)) { _%>
-      <%= relationship.otherEntityNamePlural %>,
-<%_} _%>
-      onSubmit,
-      loading,
-    };
   },
 });
+
+const loading = ref(false);
+
+async function fetch<%= entityAngularName %>() {
+  if (route.params.id) {
+    <%= entityInstance %>.data = (await api.get(`/api/<%= entityApiUrl %>/${route.params.id}`)).data;
+  }
+}
+
+fetch<%= entityAngularName %>();
+
+<%_ for (relationship of relationshipsToOneOwner.concat(relationshipsToManyOwner)) { _%>
+const <%= relationship.otherEntityNamePlural %> = ref([]);
+async function fetch<%= capitalizeFirstLetter(relationship.otherEntityNamePlural) %>() {
+  <%= relationship.otherEntityNamePlural %>.value = (await api.get(`/api/<%= relationship.otherEntityNamePlural %>`)).data;
+}
+
+fetch<%= capitalizeFirstLetter(relationship.otherEntityNamePlural) %>()
+
+<%_} _%>
+async function onSubmit() {
+  loading.value = true;
+  try {
+    await api({
+      method: <%= entityInstance %>.data.id ? 'put' : 'post',
+      url: `/api/<%= entityApiUrl %>/${<%= entityInstance %>.data.id ? <%= entityInstance %>.data.id : ''}`,
+      data: <%= entityInstance %>.data,
+    });
+    router.back();
+  } catch (e) {
+    loading.value = false;
+    if (e.response.status !== 400) return;
+    $q.notify({
+      type: 'negative',
+      message: t(e.response.data.message),
+    });
+  }
+}
 </script>

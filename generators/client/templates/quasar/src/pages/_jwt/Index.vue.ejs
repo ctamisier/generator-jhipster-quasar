@@ -1,60 +1,34 @@
 <template>
   <q-page class="q-pa-md flex flex-center">
-    <q-form
-      v-if="!authStore.isAuthenticated"
-      @submit="onSubmit"
-      class="responsive-width q-gutter-md"
-      greedy
-    >
+    <q-form v-if="!authStore.isAuthenticated" class="responsive-width q-gutter-md" greedy @submit="onSubmit">
       <q-input
-        autocomplete="on"
         v-model="credentials.username"
+        autocomplete="on"
         :label="$t('global.form[\'username.label\']')"
         lazy-rules
         :rules="[$rules.required(), $rules.minLength(4)]"
         data-cy="username"
       />
       <q-input
-        autocomplete="current-password"
         v-model="credentials.password"
+        autocomplete="current-password"
         type="password"
         :label="$t('login.form.password')"
         lazy-rules
         :rules="[$rules.required(), $rules.minLength(4)]"
         data-cy="password"
       />
-      <q-checkbox
-        v-model="credentials.rememberMe"
-        :label="$t('login.form.rememberme')"
-        data-cy="rememberme"
-      />
+      <q-checkbox v-model="credentials.rememberMe" :label="$t('login.form.rememberme')" data-cy="rememberme" />
       <div class="flex column">
-        <q-btn
-          type="submit"
-          color="primary"
-          :label="$t('login.form.button')"
-          :loading="loading"
-          :disable="loading"
-          data-cy="submit"
-        />
-        <q-btn
-          to="/account/reset/init"
-          flat
-          color="primary"
-          :label="$t('login.password.forgot')"
-        />
+        <q-btn type="submit" color="primary" :label="$t('login.form.button')" :loading="loading" :disable="loading" data-cy="submit" />
+        <q-btn to="/account/reset/init" flat color="primary" :label="$t('login.password.forgot')" />
       </div>
       <div class="q-pt-xl column items-center">
         <div class="col">
           {{ $t('global.messages.info.register.noaccount') }}
         </div>
         <div class="col">
-          <q-btn
-            to="/register"
-            flat
-            color="primary"
-            :label="$t('global.menu.account.register')"
-          />
+          <q-btn to="/register" flat color="primary" :label="$t('global.menu.account.register')" />
         </div>
       </div>
     </q-form>
@@ -64,51 +38,38 @@
   </q-page>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar';
 import { useAuthStore } from 'stores/auth-store';
-import { defineComponent, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { authLogin } from '../auth/authentication';
 
-export default defineComponent({
-  name: 'PageIndex',
+const authStore = useAuthStore();
+const $q = useQuasar();
+const route = useRoute();
+const router = useRouter();
 
-  setup() {
-    const authStore = useAuthStore();
-    const $q = useQuasar();
-    const route = useRoute();
-    const router = useRouter();
-
-    const credentials = reactive({
-      username: '',
-      password: '',
-      rememberMe: false,
-    });
-
-    const loading = ref(false);
-
-    const onSubmit = async () => {
-      loading.value = true;
-      try {
-        await authLogin(authStore, router, route, credentials);
-      } catch (e) {
-        authStore.logout();
-        $q.notify({
-          type: 'negative',
-          message: 'Operation failed',
-        });
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    return {
-      credentials,
-      authStore,
-      onSubmit,
-      loading,
-    };
-  },
+const credentials = reactive({
+  username: '',
+  password: '',
+  rememberMe: false,
 });
+
+const loading = ref(false);
+
+async function onSubmit() {
+  loading.value = true;
+  try {
+    await authLogin(authStore, router, route, credentials);
+  } catch (e) {
+    authStore.logout();
+    $q.notify({
+      type: 'negative',
+      message: 'Operation failed',
+    });
+  } finally {
+    loading.value = false;
+  }
+}
 </script>

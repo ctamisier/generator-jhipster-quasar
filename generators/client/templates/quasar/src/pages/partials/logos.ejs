@@ -1,24 +1,7 @@
       <div class="column">
-        <transition
-          appear
-          enter-active-class="animated rubberBand"
-        >
-          <img
-            alt="Quasar logo"
-            src="~assets/jhipster.svg"
-            :style="{ width: '200px', height: '100px', 'animation-duration': '1s' }"
-          />
+        <transition appear enter-active-class="animated rubberBand">
+          <img alt="Quasar logo" src="~assets/jhipster.svg" :style="{ width: '200px', height: '100px', 'animation-duration': '1s' }" />
         </transition>
-        <img
-          v-if="!$q.dark.isActive"
-          alt="Quasar logo"
-          src="~assets/quasar-logo-vertical.svg"
-          style="width: 200px; height: 200px"
-        />
-        <img
-          v-if="$q.dark.isActive"
-          alt="Quasar logo"
-          src="~assets/quasar-logo-vertical-dark.svg"
-          style="width: 200px; height: 200px"
-        />
+        <img v-if="!$q.dark.isActive" alt="Quasar logo" src="~assets/quasar-logo-vertical.svg" style="width: 200px; height: 200px" />
+        <img v-if="$q.dark.isActive" alt="Quasar logo" src="~assets/quasar-logo-vertical-dark.svg" style="width: 200px; height: 200px" />
       </div>

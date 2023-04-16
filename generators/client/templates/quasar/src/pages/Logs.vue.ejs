@@ -1,12 +1,8 @@
 <template>
   <div class="q-pa-md">
     <div class="q-pa-md flex flex-left">
-      <q-input
-        v-model="filterValue"
-        style="width: 300px"
-        @keyup="filter(filterValue)"
-      >
-        <template v-slot:prepend>
+      <q-input v-model="filterValue" style="width: 300px" @keyup="filter(filterValue)">
+        <template #prepend>
           <q-icon name="search" />
         </template>
       </q-input>
@@ -19,7 +15,7 @@
       :virtual-scroll-sticky-size-end="32"
       :items="loggers"
     >
-      <template v-slot:before>
+      <template #before>
         <thead class="text-left">
           <tr>
             <th scope="col">
@@ -31,18 +27,13 @@
           </tr>
         </thead>
       </template>
-      <template v-slot="{ item: row, index }">
+      <template #default="{ item: row, index }">
         <tr :key="index">
           <td>
             {{ row.logger }}
           </td>
           <td>
-            <q-btn-toggle
-              v-model="model[row.logger]"
-              toggle-color="primary"
-              :options="levels"
-              @click="toggle(row, model[row.logger])"
-            />
+            <q-btn-toggle v-model="model[row.logger]" toggle-color="primary" :options="levels" @click="toggle(row, model[row.logger])" />
           </td>
         </tr>
       </template>
@@ -50,55 +41,42 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { api } from 'boot/axios';
-import { defineComponent, ref } from 'vue';
+import { ref } from 'vue';
 
-export default defineComponent({
-  name: 'PageLogs',
+const loggers = ref([]);
+const levels = ref([]);
+const model = ref([]);
+const filterValue = ref('');
+let initialLoggers = [];
 
-  setup() {
-    const loggers = ref([]);
-    const levels = ref([]);
-    const model = ref([]);
-    const filterValue = ref('');
-    let initialLoggers = [];
+async function fetchLoggers(filterInputValue) {
+  initialLoggers = [];
+  const response = await api.get('/management/loggers');
+  const data = response.data;
+  const entries = Object.entries(data.loggers);
 
-    const filter = filterInputValue => {
-      loggers.value = Object.values(initialLoggers).filter(log => log.logger.toLowerCase().includes(filterInputValue.toLowerCase()));
-    };
+  for (const [key, value] of entries) {
+    model.value[key] = value.effectiveLevel;
+    initialLoggers.push({ logger: key, level: value.effectiveLevel });
+  }
 
-    const fetchLoggers = async filterInputValue => {
-      initialLoggers = [];
-      const response = await api.get('/management/loggers');
-      const data = response.data;
-      const entries = Object.entries(data.loggers);
+  levels.value = data.levels.map(level => {
+    return { label: level, value: level };
+  });
 
-      for (const [key, value] of entries) {
-        model.value[key] = value.effectiveLevel;
-        initialLoggers.push({ logger: key, level: value.effectiveLevel });
-      }
+  filter(filterInputValue);
+}
 
-      levels.value = data.levels.map(level => {
-        return { label: level, value: level };
-      });
+function filter(filterInputValue) {
+  loggers.value = Object.values(initialLoggers).filter(log => log.logger.toLowerCase().includes(filterInputValue.toLowerCase()));
+}
 
-      filter(filterInputValue);
-    };
+async function toggle(row, level) {
+  await api.post(`/management/loggers/${row.logger}`, { configuredLevel: level });
+  fetchLoggers(filterValue.value);
+}
 
-    fetchLoggers(filterValue.value);
-
-    return {
-      loggers,
-      levels,
-      model,
-      filterValue,
-      filter,
-      toggle: async (row, level) => {
-        await api.post(`/management/loggers/${row.logger}`, { configuredLevel: level });
-        fetchLoggers(filterValue.value);
-      },
-    };
-  },
-});
+fetchLoggers(filterValue.value);
 </script>

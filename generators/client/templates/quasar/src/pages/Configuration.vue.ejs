@@ -21,7 +21,7 @@
           row-key="prefix"
           :rows-per-page-options="[0]"
         >
-          <template v-slot:body="props">
+          <template #body="props">
             <q-tr>
               <q-td>
                 {{ props.row.prefix }}
@@ -33,17 +33,11 @@
           </template>
         </q-table>
       </div>
-      <div
-        :key="props.name"
-        v-for="props in env['propertySources']"
-      >
+      <div v-for="props in env['propertySources']" :key="props.name">
         <h6 class="q-my-md q-ml-md">{{ props.name }}</h6>
         <q-markup-table>
           <tbody>
-            <tr
-              :key="prop"
-              v-for="(prop, key) in props.properties"
-            >
+            <tr v-for="(prop, key) in props.properties" :key="prop">
               <td style="width: 400px">
                 {{ key }}
               </td>
@@ -58,70 +52,51 @@
   </q-page>
 </template>
 
-<script>
+<script setup>
 import { api } from 'boot/axios';
-import { defineComponent, ref } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-export default defineComponent({
-  name: 'PageConfiguration',
+const { t } = useI18n();
 
-  setup() {
-    const { t } = useI18n();
+const configProps = ref([]);
+const env = ref({});
+const info = ref({});
 
-    const configProps = ref([]);
-    const env = ref({});
-    const info = ref({});
+const configPropsColumns = [
+  { name: 'prefix', label: t('configuration.table.prefix'), align: 'left' },
+  { name: 'properties', label: t('configuration.table.properties'), align: 'left' },
+];
 
-    const configPropsColumns = [
-      { name: 'prefix', label: t('configuration.table.prefix'), align: 'left' },
-      { name: 'properties', label: t('configuration.table.properties'), align: 'left' },
-    ];
-
-    const envColumns = [
-      { name: 'name', label: 'Name', align: 'left' },
-      { name: 'properties', label: 'Properties', align: 'left' },
-    ];
-
-    const transform = tree => {
-      for (const key in tree) {
-        const item = tree[key];
-        if (item && typeof item === 'object' && !item.properties) {
-          transform(item);
-        } else {
-          if (item) {
-            configProps.value.push({
-              prefix: item.prefix,
-              properties: item.properties,
-            });
-          }
-        }
+const transform = tree => {
+  for (const key in tree) {
+    const item = tree[key];
+    if (item && typeof item === 'object' && !item.properties) {
+      transform(item);
+    } else {
+      if (item) {
+        configProps.value.push({
+          prefix: item.prefix,
+          properties: item.properties,
+        });
       }
-    };
+    }
+  }
+};
 
-    const fetchConfigProps = async () => {
-      transform((await api.get('/management/configprops')).data);
-    };
+async function fetchConfigProps() {
+  transform((await api.get('/management/configprops')).data);
+}
 
-    const fetchEnv = async () => {
-      env.value = (await api.get('/management/env')).data;
-    };
+async function fetchEnv() {
+  env.value = (await api.get('/management/env')).data;
+}
 
-    const fetchInfo = async () => {
-      info.value = (await api.get('/management/info')).data;
-    };
+async function fetchInfo() {
+  info.value = (await api.get('/management/info')).data;
+}
 
-    fetchConfigProps();
-    fetchEnv();
-    fetchInfo();
-
-    return {
-      configPropsColumns,
-      configProps,
-      envColumns,
-      env,
-      info,
-    };
-  },
-});
+fetchConfigProps();
+fetchEnv();
+fetchInfo();
 </script>

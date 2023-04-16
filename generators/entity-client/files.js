@@ -62,5 +62,5 @@ function addMenuEntry() {
     return;
   }
 
-  this.replaceContent(`${QUASAR_PATH}/src/layouts/MainLayout.vue`, '...[]', `${entry},\n          ...[]`);
+  this.replaceContent(`${QUASAR_PATH}/src/layouts/MainLayout.vue`, '...[]', `${entry},\n    ...[]`);
 }
