@@ -67,11 +67,11 @@ _%>
         @keydown.enter.prevent
       >
         <template #append>
-          <q-icon name="event" class="cursor-pointer" >
-            <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale" >
-              <q-date v-model="<%= entityInstance %>.data.<%= field.fieldName %>" mask="YYYY-MM-DD" >
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+              <q-date v-model="<%= entityInstance %>.data.<%= field.fieldName %>" mask="YYYY-MM-DD">
                 <div class="row items-center justify-end">
-                  <q-btn v-close-popup color="primary" flat >
+                  <q-btn v-close-popup color="primary" flat>
                     <q-icon name="done" />
                   </q-btn>
                 </div>
@@ -90,11 +90,11 @@ _%>
         @keydown.enter.prevent
       >
         <template #prepend>
-          <q-icon name="event" class="cursor-pointer" >
-            <q-popup-proxy transition-show="scale" transition-hide="scale" >
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy transition-show="scale" transition-hide="scale">
               <q-date v-model="<%= entityInstance %>.data.<%= field.fieldName %>" mask="YYYY-MM-DDTHH:mm:ss[Z]">
                 <div class="row items-center justify-end">
-                  <q-btn v-close-popup color="primary" flat >
+                  <q-btn v-close-popup color="primary" flat>
                     <q-icon name="done" />
                   </q-btn>
                 </div>
@@ -103,8 +103,8 @@ _%>
           </q-icon>
         </template>
         <template #append>
-          <q-icon name="access_time" class="cursor-pointer" >
-            <q-popup-proxy transition-show="scale" transition-hide="scale" >
+          <q-icon name="access_time" class="cursor-pointer">
+            <q-popup-proxy transition-show="scale" transition-hide="scale">
               <q-time v-model="<%= entityInstance %>.data.<%= field.fieldName %>" mask="YYYY-MM-DDTHH:mm:ss[Z]" format24h>
                 <div class="row items-center justify-end">
                   <q-btn v-close-popup color="primary" flat>
@@ -217,7 +217,7 @@ async function fetch<%= capitalizeFirstLetter(relationship.otherEntityNamePlural
   <%= relationship.otherEntityNamePlural %>.value = (await api.get(`/api/<%= relationship.otherEntityNamePlural %>`)).data;
 }
 
-fetch<%= capitalizeFirstLetter(relationship.otherEntityNamePlural) %>()
+fetch<%= capitalizeFirstLetter(relationship.otherEntityNamePlural) %>();
 
 <%_} _%>
 async function onSubmit() {

@@ -25,7 +25,9 @@ _%>
 <%_ if (field.fieldType === 'Instant') { _%>
           <div>
             <div>{{ <%= entityInstance %>.data.<%= field.fieldName %> && format(parseISO(<%= entityInstance %>.data.<%= field.fieldName %>)) }}</div>
-            <div><small>{{ <%= entityInstance %>.data.<%= field.fieldName %> }}</small></div>
+            <div>
+              <small>{{ <%= entityInstance %>.data.<%= field.fieldName %> }}</small>
+            </div>
           </div>
 <%_ } else { _%>
           {{ <%= entityInstance %>.data.<%= field.fieldName %> }}
