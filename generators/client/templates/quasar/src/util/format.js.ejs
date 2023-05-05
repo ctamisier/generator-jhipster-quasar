@@ -1,5 +1,5 @@
 import { format as format_, formatDistanceStrict as formatDistanceStrict_ } from 'date-fns';
-import { importLocale } from '../constants/i18nConstants';
+import { importLocale } from 'app/src/constants/i18nConstants';
 
 export function format(date, formatStr = 'PPpp') {
   return format_(date, formatStr, { locale: importLocale().default });

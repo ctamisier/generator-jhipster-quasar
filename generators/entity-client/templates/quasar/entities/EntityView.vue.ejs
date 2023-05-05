@@ -75,7 +75,7 @@ import { parseISO } from 'date-fns';
 import { reactive } from 'vue';
 import { useRoute } from 'vue-router';
 <%_ if (hasInstant(fields)) { _%>
-import { format } from '../../../util/format';
+import { format } from 'app/src/util/format';
 <%_ } _%>
 
 const route = useRoute();

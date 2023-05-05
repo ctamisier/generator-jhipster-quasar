@@ -93,7 +93,7 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 <%_ if (hasInstant(fields)) { _%>
-import { format } from '../../../util/format';
+import { format } from 'app/src/util/format';
 <%_ } _%>
 
 const $q = useQuasar();
