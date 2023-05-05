@@ -165,9 +165,12 @@ _%>
       </q-select>
 <%_ } _%>
       <div class="flex justify-between">
-        <q-btn type="submit" color="primary" :label="$t('entity.action.save')" :loading="loading" :disable="loading" />
+        <q-btn type="submit" color="primary" :label="$t('entity.action.save')" :loading="loadingSubmit" :disable="loadingSubmit" />
       </div>
     </q-form>
+    <q-inner-loading :showing="loadingFetch">
+      <q-spinner size="50px" />
+    </q-inner-loading>
   </q-page>
 </template>
 
@@ -201,11 +204,17 @@ const <%= entityInstance %> = reactive({
   },
 });
 
-const loading = ref(false);
+const loadingSubmit = ref(false);
+const loadingFetch = ref(false);
 
 async function fetch<%= entityAngularName %>() {
   if (route.params.id) {
-    <%= entityInstance %>.data = (await api.get(`/api/<%= entityApiUrl %>/${route.params.id}`)).data;
+    loadingFetch.value = true;
+    try {
+      <%= entityInstance %>.data = (await api.get(`/api/<%= entityApiUrl %>/${route.params.id}`)).data;
+    } finally {
+      loadingFetch.value = false;
+    }
   }
 }
 
@@ -221,7 +230,7 @@ fetch<%= capitalizeFirstLetter(relationship.otherEntityNamePlural) %>();
 
 <%_} _%>
 async function onSubmit() {
-  loading.value = true;
+  loadingSubmit.value = true;
   try {
     await api({
       method: <%= entityInstance %>.data.id ? 'put' : 'post',
@@ -230,12 +239,13 @@ async function onSubmit() {
     });
     router.back();
   } catch (e) {
-    loading.value = false;
     if (e.response.status !== 400) return;
     $q.notify({
       type: 'negative',
       message: t(e.response.data.message),
     });
+  } finally {
+    loadingSubmit.value = false;
   }
 }
 </script>
