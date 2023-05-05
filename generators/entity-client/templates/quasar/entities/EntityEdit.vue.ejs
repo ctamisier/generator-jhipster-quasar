@@ -223,7 +223,7 @@ fetch<%= entityAngularName %>();
 <%_ for (relationship of relationshipsToOneOwner.concat(relationshipsToManyOwner)) { _%>
 const <%= relationship.otherEntityNamePlural %> = ref([]);
 async function fetch<%= capitalizeFirstLetter(relationship.otherEntityNamePlural) %>() {
-  <%= relationship.otherEntityNamePlural %>.value = (await api.get(`/api/<%= relationship.otherEntityNamePlural %>`)).data;
+  <%= relationship.otherEntityNamePlural %>.value = (await api.get(`/api/<%= relationship.otherEntityPath %>s`)).data;
 }
 
 fetch<%= capitalizeFirstLetter(relationship.otherEntityNamePlural) %>();
