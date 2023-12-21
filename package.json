@@ -1,12 +1,12 @@
 {
   "name": "generator-jhipster-quasar",
-  "version": "0.14.3",
-  "description": "Quasar for JHipster",
+  "version": "0.15.0",
+  "description": "",
   "keywords": [
     "yeoman-generator",
-    "quasar",
-    "jhipster",
-    "jhipster-blueprint"
+    "jhipster-blueprint",
+    "jhipster-8",
+    "quasar"
   ],
   "homepage": "https://github.com/ctamisier/generator-jhipster-quasar",
   "bugs": {
@@ -22,42 +22,37 @@
     "email": "clement.tamisier@gmail.com",
     "url": "https://github.com/ctamisier"
   },
-  "main": "generators/app/index.js",
+  "type": "module",
   "bin": {
-    "jhipster-quasar": "./cli/jhipster-quasar.js"
+    "jhipster-quasar": "cli/cli.cjs"
   },
   "files": [
+    "cli",
     "generators"
   ],
   "scripts": {
+    "ejslint": "ejslint generators/**/*.ejs",
     "lint": "eslint .",
-    "lint-fix": "npm run lint -- --fix",
-    "release": "git push && git push --tags && npm publish",
-    "release:patch": "npm version patch -a -m \"release %s\" && npm run release",
-    "release:minor": "npm version minor -a -m \"release %s\" && npm run release",
-    "release:major": "npm version major -a -m \"release %s\" && npm run release"
+    "lint-fix": "npm run ejslint && npm run lint -- --fix",
+    "prettier-check": "prettier --check \"{,**/}*.{md,json,yml,html,js,ts,tsx,css,scss,vue,java}\"",
+    "prettier-format": "prettier --write \"{,**/}*.{md,json,yml,html,js,ts,tsx,css,scss,vue,java}\"",
+    "pretest": "npm run prettier-check && npm run lint"
   },
   "dependencies": {
-    "chalk": "4.1.2",
-    "generator-jhipster": "7.9.3",
+    "chalk": "5.3.0",
+    "generator-jhipster": "8.1.0",
     "lodash": "4.17.21",
     "semver": "7.3.5"
   },
   "devDependencies": {
-    "ejs-lint": "1.2.1",
-    "eslint": "8.10.0",
-    "eslint-config-prettier": "8.4.0",
-    "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-import": "2.25.4",
-    "fs-extra": "10.0.1",
-    "prettier": "2.5.1",
-    "yeoman-assert": "3.1.1",
-    "yeoman-environment": "3.9.1",
-    "yeoman-generator": "5.6.1",
-    "yeoman-test": "6.3.0"
+    "ejs-lint": "2.0.0",
+    "eslint": "8.55.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-import": "2.29.0",
+    "eslint-plugin-prettier": "5.0.1",
+    "prettier": "3.1.0"
   },
   "engines": {
-    "node": ">=12.20.0",
-    "npm": ">=6.14.4"
+    "node": "^18.13.0 || >= 20.2.0"
   }
 }

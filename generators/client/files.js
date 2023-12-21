@@ -1,18 +1,9 @@
-const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
+import { JAVA_MAIN_SOURCES_DIR } from 'generator-jhipster/generators/index.js';
 
+console.log(JAVA_MAIN_SOURCES_DIR);
 const QUASAR_PATH = 'quasar';
 
-module.exports = {
-  writeFiles,
-  addLanguages,
-  addLanguagesInQuasarConf,
-  addForwardOnRoot,
-  addMavenCopyResources,
-  addGradleTask,
-  addSwagger,
-};
-
-function writeFiles() {
+export function writeFiles() {
   const files = {
     root: [
       {
@@ -26,29 +17,29 @@ function writeFiles() {
           `${QUASAR_PATH}/jsconfig.json`,
           `${QUASAR_PATH}/package.json`,
           `${QUASAR_PATH}/quasar.extensions.json`,
-          `${QUASAR_PATH}/README.md`,
-        ],
-      },
+          `${QUASAR_PATH}/README.md`
+        ]
+      }
     ],
     vscode: [
       {
-        templates: [`${QUASAR_PATH}/.vscode/extensions.json`, `${QUASAR_PATH}/.vscode/settings.json`],
-      },
+        templates: [`${QUASAR_PATH}/.vscode/extensions.json`, `${QUASAR_PATH}/.vscode/settings.json`]
+      }
     ],
     cypress: [
       {
         templates: [
           {
             file: () => `${QUASAR_PATH}/cypress/e2e/_${this.authenticationType}/authentication.cy.js`,
-            renameTo: () => `${QUASAR_PATH}/cypress/e2e/authentication.cy.js`,
+            renameTo: () => `${QUASAR_PATH}/cypress/e2e/authentication.cy.js`
           },
           `${QUASAR_PATH}/cypress/support/e2e.js`,
           {
             file: () => `${QUASAR_PATH}/cypress/support/_${this.authenticationType}/commands.js`,
-            renameTo: () => `${QUASAR_PATH}/cypress/support/commands.js`,
+            renameTo: () => `${QUASAR_PATH}/cypress/support/commands.js`
           },
-          `${QUASAR_PATH}/cypress.config.js`,
-        ],
+          `${QUASAR_PATH}/cypress.config.js`
+        ]
       },
       {
         condition: generator => generator.authenticationType !== 'oauth2',
@@ -56,29 +47,29 @@ function writeFiles() {
           `${QUASAR_PATH}/cypress/e2e/users.cy.js`,
           `${QUASAR_PATH}/cypress/fixtures/usersPage1Size10.json`,
           `${QUASAR_PATH}/cypress/fixtures/usersPage2Size10.json`,
-          `${QUASAR_PATH}/cypress/fixtures/userView.json`,
-        ],
-      },
+          `${QUASAR_PATH}/cypress/fixtures/userView.json`
+        ]
+      }
     ],
     src: [
       {
-        templates: [`${QUASAR_PATH}/src/App.vue`],
-      },
+        templates: [`${QUASAR_PATH}/src/App.vue`]
+      }
     ],
     srcboot: [
       {
-        templates: [`${QUASAR_PATH}/src/boot/axios.js`, `${QUASAR_PATH}/src/boot/i18n.js`],
-      },
+        templates: [`${QUASAR_PATH}/src/boot/axios.js`, `${QUASAR_PATH}/src/boot/i18n.js`]
+      }
     ],
     srccss: [
       {
-        templates: [`${QUASAR_PATH}/src/css/app.scss`, `${QUASAR_PATH}/src/css/quasar.variables.scss`],
-      },
+        templates: [`${QUASAR_PATH}/src/css/app.scss`, `${QUASAR_PATH}/src/css/quasar.variables.scss`]
+      }
     ],
     srclayout: [
       {
-        templates: [`${QUASAR_PATH}/src/layouts/MainLayout.vue`],
-      },
+        templates: [`${QUASAR_PATH}/src/layouts/MainLayout.vue`]
+      }
     ],
     srcpages: [
       {
@@ -92,8 +83,8 @@ function writeFiles() {
           `${QUASAR_PATH}/src/pages/ResetPassword.vue`,
           `${QUASAR_PATH}/src/pages/UserEdit.vue`,
           `${QUASAR_PATH}/src/pages/Users.vue`,
-          `${QUASAR_PATH}/src/pages/UserView.vue`,
-        ],
+          `${QUASAR_PATH}/src/pages/UserView.vue`
+        ]
       },
       {
         templates: [
@@ -103,38 +94,38 @@ function writeFiles() {
           `${QUASAR_PATH}/src/pages/Health.vue`,
           {
             file: () => `${QUASAR_PATH}/src/pages/_${this.authenticationType}/Index.vue`,
-            renameTo: () => `${QUASAR_PATH}/src/pages/Index.vue`,
+            renameTo: () => `${QUASAR_PATH}/src/pages/Index.vue`
           },
           `${QUASAR_PATH}/src/pages/Logs.vue`,
-          `${QUASAR_PATH}/src/pages/Metrics.vue`,
-        ],
-      },
+          `${QUASAR_PATH}/src/pages/Metrics.vue`
+        ]
+      }
     ],
     srcrouter: [
       {
-        templates: [`${QUASAR_PATH}/src/router/index.js`, `${QUASAR_PATH}/src/router/entityRoutes.js`],
-      },
+        templates: [`${QUASAR_PATH}/src/router/index.js`, `${QUASAR_PATH}/src/router/entityRoutes.js`]
+      }
     ],
     srcstores: [
       {
-        templates: [`${QUASAR_PATH}/src/stores/index.js`, `${QUASAR_PATH}/src/stores/store-flag.d.ts`],
-      },
+        templates: [`${QUASAR_PATH}/src/stores/index.js`, `${QUASAR_PATH}/src/stores/store-flag.d.ts`]
+      }
     ],
     srcstoresauth: [
       {
         templates: [
           {
             file: () => `${QUASAR_PATH}/src/stores/_${this.authenticationType}/auth-store.js`,
-            renameTo: () => `${QUASAR_PATH}/src/stores/auth-store.js`,
-          },
-        ],
-      },
+            renameTo: () => `${QUASAR_PATH}/src/stores/auth-store.js`
+          }
+        ]
+      }
     ],
     srcutil: [
       {
-        templates: [`${QUASAR_PATH}/src/util/format.js`],
-      },
-    ],
+        templates: [`${QUASAR_PATH}/src/util/format.js`]
+      }
+    ]
   };
 
   this.writeFilesToDisk(files, '.');
@@ -149,7 +140,7 @@ function writeFiles() {
   this.copy(`${QUASAR_PATH}/src/auth/_${this.authenticationType}/authentication.js`, `${QUASAR_PATH}/src/auth/authentication.js`);
 }
 
-function addLanguages() {
+export function addLanguages() {
   const i18nMapping = {
     en: { localeId: 'enUS', localeImport: 'en-US', quasarLang: 'en-US' },
     al: { localeId: 'sq', localeImport: 'sq', quasarLang: '' },
@@ -167,7 +158,7 @@ function addLanguages() {
     'uz-Cyrl-uz': { localeId: '', localeImport: '', quasarLang: '' },
     'uz-Latn-uz': { localeId: 'uz', localeImport: 'uz', quasarLang: '' },
     'zh-cn': { localeId: 'zhCN', localeImport: 'zh-CN', quasarLang: 'zh-CN' },
-    'zh-tw': { localeId: 'zhTW', localeImport: 'zh-TW', quasarLang: 'zh-TW' },
+    'zh-tw': { localeId: 'zhTW', localeImport: 'zh-TW', quasarLang: 'zh-TW' }
   };
 
   const datefnsMapping = Object.keys(i18nMapping)
@@ -197,7 +188,7 @@ function addLanguages() {
     .map(language => {
       const mapping = i18nMapping[language] || {
         localeId: language,
-        localeImport: language,
+        localeImport: language
       };
       return `case '${mapping.localeId}': return require('date-fns/locale/${mapping.localeImport}');`;
     })
@@ -218,7 +209,7 @@ function addLanguages() {
   );
 }
 
-function addLanguagesInQuasarConf() {
+export function addLanguagesInQuasarConf() {
   const i18nMergeEntries = this.languages
     .map(language => `{ pattern: '../src/main/webapp/i18n/${language}/*.json', fileName: '../i18n/${language}.json' }`)
     .join(',');
@@ -230,9 +221,9 @@ function addLanguagesInQuasarConf() {
   }
 }
 
-function addForwardOnRoot() {
+export function addForwardOnRoot() {
   this.replaceContent(
-    `${jhipsterConstants.SERVER_MAIN_SRC_DIR}${this.packageFolder}/web/rest/ClientForwardController.java`,
+    `${SERVER_MAIN_SRC_DIR}${this.packageFolder}/web/rest/ClientForwardController.java`,
     'public class ClientForwardController {',
     `public class ClientForwardController {
          @GetMapping(value = "/")
@@ -242,7 +233,7 @@ function addForwardOnRoot() {
   );
 }
 
-function addMavenCopyResources() {
+export function addMavenCopyResources() {
   this.replaceContent(
     'pom.xml',
     /<plugin>[\s]*<groupId>org.apache.maven.plugins<\/groupId>[\s]*<artifactId>maven-resources-plugin<\/artifactId>[\s]*<version>\${maven-resources-plugin.version}<\/version>[\s]*<executions>/g,
@@ -270,7 +261,7 @@ function addMavenCopyResources() {
   );
 }
 
-function addGradleTask() {
+export function addGradleTask() {
   this.replaceContent(
     'gradle/profile_dev.gradle',
     'task webapp(type: NpmTask) {',
@@ -288,16 +279,14 @@ task webapp(type: NpmTask) {`
   );
 }
 
-function addSwagger() {
-  const { CLIENT_MAIN_SRC_DIR } = jhipsterConstants;
-
+export function addSwagger() {
   const files = {
     swagger: [
       {
         path: CLIENT_MAIN_SRC_DIR,
-        templates: ['swagger-ui/index.html', { file: 'swagger-ui/dist/images/throbber.gif', method: 'copy' }],
-      },
-    ],
+        templates: ['swagger-ui/index.html', { file: 'swagger-ui/dist/images/throbber.gif', method: 'copy' }]
+      }
+    ]
   };
   return this.writeFilesToDisk(files, 'common');
 }
